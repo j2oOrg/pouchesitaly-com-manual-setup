@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { LocalizedLink } from "@/components/LocalizedLink";
 import { ArrowRight } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { Footer } from "@/components/Footer";
@@ -14,7 +14,7 @@ export default function SnusVsNicotinePouchesPage() {
       {/* Breadcrumb */}
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
+          <LocalizedLink to="/" className="hover:text-foreground transition-colors">Home</LocalizedLink>
           <span>/</span>
           <span className="text-foreground font-medium">Snus vs Nicotine Pouches</span>
         </div>
@@ -122,7 +122,7 @@ export default function SnusVsNicotinePouchesPage() {
             <div className="bg-primary/20 rounded-lg p-6 mt-8">
               <h3 className="text-xl font-heading font-bold text-foreground mb-2">Scopri le Nicotine Pouches</h3>
               <p className="text-foreground">
-                Esplora la nostra selezione di <Link to="/snus-brands" className="underline font-semibold">nicotine pouches premium</Link> e trova il prodotto perfetto per te. Consulta anche la nostra <Link to="/tobacco-free" className="underline font-semibold">guida tobacco-free</Link>.
+                Esplora la nostra selezione di <LocalizedLink to="/snus-brands" className="underline font-semibold">nicotine pouches premium</LocalizedLink> e trova il prodotto perfetto per te. Consulta anche la nostra <LocalizedLink to="/tobacco-free" className="underline font-semibold">guida tobacco-free</LocalizedLink>.
               </p>
             </div>
           </div>
@@ -135,13 +135,13 @@ export default function SnusVsNicotinePouchesPage() {
             <p className="text-primary-foreground/80 mb-6">
               L'alternativa moderna e tobacco-free
             </p>
-            <Link
+            <LocalizedLink
               to="/#products"
               className="inline-flex items-center gap-2 bg-card text-foreground px-6 py-3 rounded-full font-bold hover:bg-card/90 transition-colors"
             >
               Acquista Ora
               <ArrowRight className="w-4 h-4" />
-            </Link>
+            </LocalizedLink>
           </div>
         </div>
 
@@ -151,7 +151,7 @@ export default function SnusVsNicotinePouchesPage() {
             Articoli Correlati
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Link to="/snus-cose" className="bg-card rounded-xl p-6 text-left transition-all group block hover:shadow-lg border border-border">
+            <LocalizedLink to="/snus-cose" className="bg-card rounded-xl p-6 text-left transition-all group block hover:shadow-lg border border-border">
               <p className="text-sm text-muted-foreground mb-3 uppercase tracking-wide font-normal">Informazioni</p>
               <h4 className="text-2xl font-heading font-bold text-foreground mb-3">
                 Snus: cos'è
@@ -164,9 +164,9 @@ export default function SnusVsNicotinePouchesPage() {
                   <ArrowRight className="w-6 h-6 text-background group-hover:text-primary-foreground transition-colors" />
                 </div>
               </div>
-            </Link>
+            </LocalizedLink>
 
-            <Link to="/snus-brands" className="bg-card rounded-xl p-6 text-left transition-all group block hover:shadow-lg border border-border">
+            <LocalizedLink to="/snus-brands" className="bg-card rounded-xl p-6 text-left transition-all group block hover:shadow-lg border border-border">
               <p className="text-sm text-muted-foreground mb-3 uppercase tracking-wide font-normal">Marchi</p>
               <h4 className="text-2xl font-heading font-bold text-foreground mb-3">
                 Marchi di Snus: ZYN e VELO
@@ -179,9 +179,9 @@ export default function SnusVsNicotinePouchesPage() {
                   <ArrowRight className="w-6 h-6 text-background group-hover:text-primary-foreground transition-colors" />
                 </div>
               </div>
-            </Link>
+            </LocalizedLink>
 
-            <Link to="/guida-intensita-gusti" className="bg-card rounded-xl p-6 text-left transition-all group block hover:shadow-lg border border-border">
+            <LocalizedLink to="/guida-intensita-gusti" className="bg-card rounded-xl p-6 text-left transition-all group block hover:shadow-lg border border-border">
               <p className="text-sm text-muted-foreground mb-3 uppercase tracking-wide font-normal">Guida</p>
               <h4 className="text-2xl font-heading font-bold text-foreground mb-3">
                 Guida alle intensità e ai gusti
@@ -194,7 +194,7 @@ export default function SnusVsNicotinePouchesPage() {
                   <ArrowRight className="w-6 h-6 text-background group-hover:text-primary-foreground transition-colors" />
                 </div>
               </div>
-            </Link>
+            </LocalizedLink>
           </div>
         </section>
       </main>
@@ -203,4 +203,5 @@ export default function SnusVsNicotinePouchesPage() {
     </div>
   );
 }
+
 

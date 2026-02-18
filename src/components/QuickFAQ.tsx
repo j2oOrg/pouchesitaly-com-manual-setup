@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { LocalizedLink } from "@/components/LocalizedLink";
 import { ArrowRight } from "lucide-react";
 import {
   Accordion,
@@ -52,16 +52,17 @@ export function QuickFAQ() {
           </Accordion>
 
           <div className="text-center">
-            <Link
+            <LocalizedLink
               to="/faq"
               className="inline-flex items-center gap-2 text-primary hover:underline font-medium"
             >
               {t("viewAllFaqs")}
               <ArrowRight className="w-4 h-4" />
-            </Link>
+            </LocalizedLink>
           </div>
         </div>
       </div>
     </section>
   );
 }
+

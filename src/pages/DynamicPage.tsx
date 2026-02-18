@@ -24,14 +24,21 @@ export default function DynamicPage() {
 
   if (pageError || !page) {
     return (
-      <div className="min-h-screen bg-transparent">
-        <PageHeader />
-        <main className="container mx-auto px-4 py-16 text-center">
-          <h1 className="text-4xl font-heading font-bold text-foreground mb-4">Page Not Found</h1>
-          <p className="text-muted-foreground">The page you're looking for doesn't exist.</p>
-        </main>
-        <Footer />
-      </div>
+      <>
+        <SEOHead
+          noindex
+          defaultTitle="Pouchesitaly - Page Not Found"
+          defaultDescription="The requested content page does not exist."
+        />
+        <div className="min-h-screen bg-transparent">
+          <PageHeader />
+          <main className="container mx-auto px-4 py-16 text-center">
+            <h1 className="text-4xl font-heading font-bold text-foreground mb-4">Page Not Found</h1>
+            <p className="text-muted-foreground">The page you're looking for doesn't exist.</p>
+          </main>
+          <Footer />
+        </div>
+      </>
     );
   }
 

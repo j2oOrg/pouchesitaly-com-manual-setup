@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { LocalizedLink } from "@/components/LocalizedLink";
 import { PageHeader } from "@/components/PageHeader";
 import { Footer } from "@/components/Footer";
 import { SEOHead } from "@/components/SEOHead";
@@ -138,9 +138,9 @@ export default function PrivacyPolicyPage() {
 
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Link to="/" className="hover:text-foreground transition-colors">
+          <LocalizedLink to="/" className="hover:text-foreground transition-colors">
             Home
-          </Link>
+          </LocalizedLink>
           <span>/</span>
           <span className="text-foreground font-medium">{copy.title}</span>
         </div>
@@ -187,4 +187,5 @@ export default function PrivacyPolicyPage() {
     </div>
   );
 }
+
 

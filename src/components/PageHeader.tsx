@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ShoppingCart, Menu, X, Globe, ChevronDown } from "lucide-react";
-import { Link } from "react-router-dom";
+import { LocalizedLink } from "@/components/LocalizedLink";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -38,13 +38,51 @@ export function PageHeader({ cart = [], onCartClick }: PageHeaderProps) {
   ];
 
   // Get URL for a menu item
-  const getMenuItemUrl = (item: MenuItem): string => {
+  const getMenuItemUrl = (item: MenuItem): string | null => {
     if (item.url) return item.url;
     if (item.page_id) {
       const page = pages.find(p => p.id === item.page_id);
       if (page) return `/p/${page.slug}`;
     }
-    return '#';
+    return null;
+  };
+
+  const isExternalUrl = (url: string) => /^(https?:|mailto:)/i.test(url);
+
+  const renderMenuLink = (
+    url: string,
+    label: string,
+    key: string,
+    className: string,
+    onClick?: () => void,
+    target?: string
+  ) => {
+    if (isExternalUrl(url)) {
+      const linkTarget = target || "_blank";
+      return (
+        <a
+          key={key}
+          href={url}
+          target={linkTarget}
+          rel={linkTarget === "_blank" ? "noopener noreferrer" : undefined}
+          className={className}
+          onClick={onClick}
+        >
+          {label}
+        </a>
+      );
+    }
+
+    return (
+      <LocalizedLink
+        key={key}
+        to={url}
+        className={className}
+        onClick={onClick}
+      >
+        {label}
+      </LocalizedLink>
+    );
   };
 
   const renderMenuItem = (item: MenuItem, isMobile = false) => {
@@ -85,20 +123,21 @@ export function PageHeader({ cart = [], onCartClick }: PageHeaderProps) {
             }`}>
               {item.children?.map(child => {
                 const childUrl = getMenuItemUrl(child);
+                if (!childUrl) return null;
                 return (
-                  <Link
-                    key={child.id}
-                    to={childUrl}
-                    target={child.target}
-                    className={`block ${
-                      isMobile 
-                        ? 'py-2 text-muted-foreground hover:text-foreground transition-colors' 
+                  <div key={child.id}>
+                    {renderMenuLink(
+                      childUrl,
+                      child.title,
+                      child.id,
+                      `block ${isMobile
+                        ? 'py-2 text-muted-foreground hover:text-foreground transition-colors'
                         : 'px-4 py-2 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors'
-                    }`}
-                    onClick={() => isMobile && setIsMobileMenuOpen(false)}
-                  >
-                    {child.title}
-                  </Link>
+                      }`,
+                      () => isMobile && setIsMobileMenuOpen(false),
+                      child.target
+                    )}
+                  </div>
                 );
               })}
             </div>
@@ -107,20 +146,22 @@ export function PageHeader({ cart = [], onCartClick }: PageHeaderProps) {
       );
     }
 
+    if (!url) return null;
+
     return (
-      <Link
-        key={item.id}
-        to={url}
-        target={item.target}
-        className={`${
-          isMobile 
-            ? 'block py-3 text-muted-foreground hover:text-foreground transition-colors font-medium' 
-            : 'text-muted-foreground hover:text-foreground transition-colors font-medium'
-        }`}
-        onClick={() => isMobile && setIsMobileMenuOpen(false)}
-      >
-        {item.title}
-      </Link>
+      <div key={item.id}>
+      {renderMenuLink(
+        url,
+        item.title,
+        item.id,
+        `${isMobile
+          ? 'block py-3 text-muted-foreground hover:text-foreground transition-colors font-medium'
+          : 'text-muted-foreground hover:text-foreground transition-colors font-medium'
+        }`,
+        () => isMobile && setIsMobileMenuOpen(false),
+        item.target
+      )}
+      </div>
     );
   };
 
@@ -131,13 +172,13 @@ export function PageHeader({ cart = [], onCartClick }: PageHeaderProps) {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
+          <LocalizedLink to="/" className="flex items-center gap-2">
             <img
               src={logoImage}
               alt="Pouchesitaly"
               className="h-10 md:h-12 w-auto object-contain"
             />
-          </Link>
+          </LocalizedLink>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-8">
@@ -145,13 +186,13 @@ export function PageHeader({ cart = [], onCartClick }: PageHeaderProps) {
               navItems.map(item => renderMenuItem(item))
             ) : (
               fallbackLinks.map((link) => (
-                <Link
+                <LocalizedLink
                   key={link.to}
                   to={link.to}
                   className="text-muted-foreground hover:text-foreground transition-colors font-medium"
                 >
                   {link.label}
-                </Link>
+                </LocalizedLink>
               ))
             )}
           </nav>
@@ -221,14 +262,14 @@ export function PageHeader({ cart = [], onCartClick }: PageHeaderProps) {
               navItems.map(item => renderMenuItem(item, true))
             ) : (
               fallbackLinks.map((link) => (
-                <Link
+                <LocalizedLink
                   key={link.to}
                   to={link.to}
                   className="block py-3 text-muted-foreground hover:text-foreground transition-colors font-medium"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {link.label}
-                </Link>
+                </LocalizedLink>
               ))
             )}
           </nav>
@@ -237,4 +278,5 @@ export function PageHeader({ cart = [], onCartClick }: PageHeaderProps) {
     </header>
   );
 }
+
 

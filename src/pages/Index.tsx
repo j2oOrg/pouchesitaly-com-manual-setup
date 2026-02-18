@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Truck, Package, Zap, MapPin, ChevronDown, ArrowRight, Loader2, SlidersHorizontal } from "lucide-react";
-import { Link } from "react-router-dom";
+import { LocalizedLink } from "@/components/LocalizedLink";
 import { PageHeader } from "@/components/PageHeader";
 import { Footer } from "@/components/Footer";
 import { QuickFAQ } from "@/components/QuickFAQ";
@@ -470,7 +470,7 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {learnMoreCards.map((card) => (
-              <Link
+              <LocalizedLink
                 key={card.to}
                 to={card.to}
                 className="bg-card rounded-xl p-6 text-left transition-all group block hover:shadow-lg border border-border"
@@ -489,7 +489,7 @@ export default function HomePage() {
                     <ArrowRight className="w-6 h-6 text-background group-hover:text-primary-foreground transition-colors" />
                   </div>
                 </div>
-              </Link>
+              </LocalizedLink>
             ))}
           </div>
         </div>
@@ -522,4 +522,5 @@ export default function HomePage() {
     </div>
   );
 }
+
 

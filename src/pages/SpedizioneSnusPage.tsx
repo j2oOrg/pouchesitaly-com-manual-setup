@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { LocalizedLink } from "@/components/LocalizedLink";
 import { ArrowRight } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { Footer } from "@/components/Footer";
@@ -14,7 +14,7 @@ export default function SpedizioneSnusPage() {
       {/* Breadcrumb */}
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
+          <LocalizedLink to="/" className="hover:text-foreground transition-colors">Home</LocalizedLink>
           <span>/</span>
           <span className="text-foreground font-medium">Spedizione Snus</span>
         </div>
@@ -111,13 +111,13 @@ export default function SpedizioneSnusPage() {
             <p className="text-primary-foreground/80 mb-6">
               Consegna veloce e discreta in tutto il mondo
             </p>
-            <Link
+            <LocalizedLink
               to="/#products"
               className="inline-flex items-center gap-2 bg-card text-foreground px-6 py-3 rounded-full font-bold hover:bg-card/90 transition-colors"
             >
               Acquista Ora
               <ArrowRight className="w-4 h-4" />
-            </Link>
+            </LocalizedLink>
           </div>
         </div>
 
@@ -127,7 +127,7 @@ export default function SpedizioneSnusPage() {
             Articoli Correlati
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Link to="/perche-scegliere-pouchesitaly" className="bg-card rounded-xl p-6 text-left transition-all group block hover:shadow-lg border border-border">
+            <LocalizedLink to="/perche-scegliere-pouchesitaly" className="bg-card rounded-xl p-6 text-left transition-all group block hover:shadow-lg border border-border">
               <p className="text-sm text-muted-foreground mb-3 uppercase tracking-wide font-normal">Chi Siamo</p>
               <h4 className="text-2xl font-heading font-bold text-foreground mb-3">
                 Perché scegliere Pouchesitaly
@@ -140,9 +140,9 @@ export default function SpedizioneSnusPage() {
                   <ArrowRight className="w-6 h-6 text-background group-hover:text-primary-foreground transition-colors" />
                 </div>
               </div>
-            </Link>
+            </LocalizedLink>
 
-            <Link to="/domande-frequenti-snus" className="bg-card rounded-xl p-6 text-left transition-all group block hover:shadow-lg border border-border">
+            <LocalizedLink to="/domande-frequenti-snus" className="bg-card rounded-xl p-6 text-left transition-all group block hover:shadow-lg border border-border">
               <p className="text-sm text-muted-foreground mb-3 uppercase tracking-wide font-normal">Supporto</p>
               <h4 className="text-2xl font-heading font-bold text-foreground mb-3">
                 Domande frequenti
@@ -155,9 +155,9 @@ export default function SpedizioneSnusPage() {
                   <ArrowRight className="w-6 h-6 text-background group-hover:text-primary-foreground transition-colors" />
                 </div>
               </div>
-            </Link>
+            </LocalizedLink>
 
-            <Link to="/snus-cose" className="bg-card rounded-xl p-6 text-left transition-all group block hover:shadow-lg border border-border">
+            <LocalizedLink to="/snus-cose" className="bg-card rounded-xl p-6 text-left transition-all group block hover:shadow-lg border border-border">
               <p className="text-sm text-muted-foreground mb-3 uppercase tracking-wide font-normal">Informazioni</p>
               <h4 className="text-2xl font-heading font-bold text-foreground mb-3">
                 Snus: cos'è
@@ -170,7 +170,7 @@ export default function SpedizioneSnusPage() {
                   <ArrowRight className="w-6 h-6 text-background group-hover:text-primary-foreground transition-colors" />
                 </div>
               </div>
-            </Link>
+            </LocalizedLink>
           </div>
         </section>
       </main>
@@ -179,4 +179,5 @@ export default function SpedizioneSnusPage() {
     </div>
   );
 }
+
 

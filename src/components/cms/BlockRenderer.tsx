@@ -97,7 +97,7 @@ function ImageBlock({ content, isEditing }: { content: ImageContent; isEditing?:
     <figure className={`${widthClass} mx-auto`}>
       <img
         src={content.src}
-        alt={content.alt || ''}
+        alt={(content.alt || content.caption || 'Promotional product image').trim()}
         className="w-full rounded-lg"
       />
       {content.caption && (
@@ -149,7 +149,11 @@ function CardsBlock({ content, isEditing }: { content: CardsContent; isEditing?:
         {(content.items || []).map((item, index) => (
           <div key={index} className="bg-card border border-border rounded-xl p-4">
             {item.image && (
-              <img src={item.image} alt="" className="w-full aspect-video object-cover rounded-lg mb-3" />
+              <img
+                src={item.image}
+                alt={(item.title || item.description || 'Product highlight image').trim()}
+                className="w-full aspect-video object-cover rounded-lg mb-3"
+              />
             )}
             <h3 className="font-medium text-foreground">{item.title}</h3>
             {item.description && (
@@ -243,8 +247,12 @@ function TestimonialBlock({ content, isEditing }: { content: TestimonialContent;
         "{content.quote}"
       </blockquote>
       <div className="mt-4 flex items-center justify-center gap-3">
-        {content.image && (
-          <img src={content.image} alt="" className="w-12 h-12 rounded-full object-cover" />
+            {content.image && (
+          <img
+            src={content.image}
+            alt={(content.author ? `${content.author} photo` : 'Customer testimonial photo').trim()}
+            className="w-12 h-12 rounded-full object-cover"
+          />
         )}
         <div>
           <p className="font-medium text-foreground">{content.author}</p>

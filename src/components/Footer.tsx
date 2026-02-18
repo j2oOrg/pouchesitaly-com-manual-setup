@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { LocalizedLink } from "@/components/LocalizedLink";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useMenuTree } from "@/hooks/useMenuItems";
 import { usePages } from "@/hooks/usePages";
@@ -11,14 +11,16 @@ export function Footer() {
   const { data: pages = [] } = usePages();
 
   // Get URL for a menu item
-  const getMenuItemUrl = (item: MenuItem): string => {
+  const getMenuItemUrl = (item: MenuItem): string | null => {
     if (item.url) return item.url;
     if (item.page_id) {
       const page = pages.find(p => p.id === item.page_id);
       if (page) return `/p/${page.slug}`;
     }
-    return '#';
+    return null;
   };
+
+  const isExternalUrl = (url: string) => /^(https?:|mailto:)/i.test(url);
 
   // Fallback links for Quick Links section
   const defaultQuickLinks = [
@@ -60,7 +62,8 @@ export function Footer() {
                 <ul className="space-y-2">
                   {section.children?.map(child => {
                     const url = getMenuItemUrl(child);
-                    const isExternal = url.startsWith('http') || url.startsWith('mailto:');
+                    if (!url) return null;
+                    const isExternal = isExternalUrl(url);
                     
                     return (
                       <li key={child.id}>
@@ -68,17 +71,18 @@ export function Footer() {
                           <a 
                             href={url} 
                             target={child.target}
+                            rel={child.target === "_blank" ? "noopener noreferrer" : undefined}
                             className="text-background/70 hover:text-background transition-colors text-sm"
                           >
                             {child.title}
                           </a>
                         ) : (
-                          <Link 
+                          <LocalizedLink 
                             to={url} 
                             className="text-background/70 hover:text-background transition-colors text-sm"
                           >
                             {child.title}
-                          </Link>
+                          </LocalizedLink>
                         )}
                       </li>
                     );
@@ -94,9 +98,9 @@ export function Footer() {
                 <ul className="space-y-2">
                   {defaultQuickLinks.map(link => (
                     <li key={link.to}>
-                      <Link to={link.to} className="text-background/70 hover:text-background transition-colors text-sm">
+                      <LocalizedLink to={link.to} className="text-background/70 hover:text-background transition-colors text-sm">
                         {link.label}
-                      </Link>
+                      </LocalizedLink>
                     </li>
                   ))}
                 </ul>
@@ -113,9 +117,9 @@ export function Footer() {
                           {link.label}
                         </a>
                       ) : (
-                        <Link to={link.to} className="text-background/70 hover:text-background transition-colors text-sm">
+                        <LocalizedLink to={link.to} className="text-background/70 hover:text-background transition-colors text-sm">
                           {link.label}
-                        </Link>
+                        </LocalizedLink>
                       )}
                     </li>
                   ))}
@@ -127,14 +131,14 @@ export function Footer() {
                 <h4 className="font-heading font-bold text-lg mb-4">{t("legal")}</h4>
                 <ul className="space-y-2">
                   <li>
-                    <Link to="/privacy" className="text-background/70 hover:text-background transition-colors text-sm">
+                    <LocalizedLink to="/privacy" className="text-background/70 hover:text-background transition-colors text-sm">
                       {t("privacyPolicy")}
-                    </Link>
+                    </LocalizedLink>
                   </li>
                   <li>
-                    <Link to="/terms" className="text-background/70 hover:text-background transition-colors text-sm">
+                    <LocalizedLink to="/terms" className="text-background/70 hover:text-background transition-colors text-sm">
                       {t("termsConditions")}
-                    </Link>
+                    </LocalizedLink>
                   </li>
                 </ul>
               </div>
@@ -157,3 +161,4 @@ export function Footer() {
     </footer>
   );
 }
+

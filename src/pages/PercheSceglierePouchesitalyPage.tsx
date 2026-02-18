@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { LocalizedLink } from "@/components/LocalizedLink";
 import { ArrowRight, Shield, Zap, Package } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { Footer } from "@/components/Footer";
@@ -14,7 +14,7 @@ export default function PercheSceglierePouchesitalyPage() {
       {/* Breadcrumb */}
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
+          <LocalizedLink to="/" className="hover:text-foreground transition-colors">Home</LocalizedLink>
           <span>/</span>
           <span className="text-foreground font-medium">Perché scegliere Pouchesitaly</span>
         </div>
@@ -116,13 +116,13 @@ export default function PercheSceglierePouchesitalyPage() {
             <p className="text-primary-foreground/80 mb-6">
               Prezzi competitivi, spedizione gratuita, nessun account richiesto
             </p>
-            <Link
+            <LocalizedLink
               to="/#products"
               className="inline-flex items-center gap-2 bg-card text-foreground px-6 py-3 rounded-full font-bold hover:bg-card/90 transition-colors"
             >
               Acquista Ora
               <ArrowRight className="w-4 h-4" />
-            </Link>
+            </LocalizedLink>
           </div>
         </div>
       </main>
@@ -132,4 +132,5 @@ export default function PercheSceglierePouchesitalyPage() {
     </div>
   );
 }
+
 
