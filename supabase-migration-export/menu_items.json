@@ -1,0 +1,80 @@
+[
+  {
+    "id": "87a108a4-3436-47fe-af17-0370127104cb",
+    "parent_id": null,
+    "menu_location": "learn_more",
+    "title": "{\"en\":\"Premium Nicotine Brands\",\"it\":\"Marchi Premium di Nicotina\",\"description_en\":\"Discover our selection of leading nicotine pouch brands including ZYN, VELO, and LYFT.\",\"description_it\":\"Scopri la nostra selezione dei principali marchi di nicotine pouches tra cui ZYN, VELO e LYFT.\"}",
+    "url": "/premium-brands",
+    "page_id": null,
+    "target": "_self",
+    "position": 0,
+    "is_active": true,
+    "created_at": "2026-02-02T21:56:25.812373+01:00",
+    "updated_at": "2026-02-02T21:56:25.812373+01:00"
+  },
+  {
+    "id": "800996fa-33f8-4964-a1bc-55133f565cf4",
+    "parent_id": null,
+    "menu_location": "learn_more",
+    "title": "{\"en\":\"Worldwide Shipping Info\",\"it\":\"Info Spedizione Mondiale\",\"description_en\":\"Free worldwide delivery on all orders. Fast, discreet shipping to your door.\",\"description_it\":\"Consegna gratuita in tutto il mondo su tutti gli ordini. Spedizione veloce e discreta.\"}",
+    "url": "/shipping-info",
+    "page_id": null,
+    "target": "_self",
+    "position": 1,
+    "is_active": true,
+    "created_at": "2026-02-02T21:56:25.812373+01:00",
+    "updated_at": "2026-02-02T21:56:25.812373+01:00"
+  },
+  {
+    "id": "8f7b95f8-37a2-4178-be8e-29fc6b35e3c4",
+    "parent_id": null,
+    "menu_location": "learn_more",
+    "title": "{\"en\":\"Nicotine Strengths Guide\",\"it\":\"Guida alle Intensità\",\"description_en\":\"From regular to extra strong - find the perfect nicotine level for you.\",\"description_it\":\"Da regular a extra strong - trova il livello di nicotina perfetto per te.\"}",
+    "url": "/strengths-guide",
+    "page_id": null,
+    "target": "_self",
+    "position": 3,
+    "is_active": true,
+    "created_at": "2026-02-02T21:56:25.812373+01:00",
+    "updated_at": "2026-02-02T21:56:25.812373+01:00"
+  },
+  {
+    "id": "7b262771-d76e-43ab-b532-4899a0f11d18",
+    "parent_id": null,
+    "menu_location": "learn_more",
+    "title": "{\"en\":\"Tobacco-Free Products\",\"it\":\"Prodotti Senza Tabacco\",\"description_en\":\"All our nicotine pouches are 100% tobacco-free for a cleaner experience.\",\"description_it\":\"Tutte le nostre nicotine pouches sono 100% senza tabacco per un'esperienza più pulita.\"}",
+    "url": "/tobacco-free",
+    "page_id": null,
+    "target": "_self",
+    "position": 4,
+    "is_active": true,
+    "created_at": "2026-02-02T21:56:25.812373+01:00",
+    "updated_at": "2026-02-02T21:56:25.812373+01:00"
+  },
+  {
+    "id": "a4d7bf51-3be5-47cf-8d6d-8b8ae28a37e3",
+    "parent_id": null,
+    "menu_location": "learn_more",
+    "title": "{\"en\":\"Frequently Asked Questions\",\"it\":\"Domande Frequenti\",\"description_en\":\"Get answers to common questions about ordering, shipping, and products.\",\"description_it\":\"Risposte alle domande comuni su ordini, spedizione e prodotti.\"}",
+    "url": "/faq",
+    "page_id": null,
+    "target": "_self",
+    "position": 5,
+    "is_active": true,
+    "created_at": "2026-02-02T21:56:25.812373+01:00",
+    "updated_at": "2026-02-02T21:56:25.812373+01:00"
+  },
+  {
+    "id": "304302ee-f568-44d6-86f0-7d16517e45a2",
+    "parent_id": null,
+    "menu_location": "learn_more",
+    "title": "{\"en\":\"Why Choose NicoXpress\",\"it\":\"Perché Scegliere NicoXpress\",\"description_en\":\"No sign-up required. Fast checkout. Premium brands at competitive prices.\",\"description_it\":\"Nessuna registrazione richiesta. Checkout veloce. Marchi premium a prezzi competitivi.\"}",
+    "url": "/why-choose-us",
+    "page_id": null,
+    "target": "_self",
+    "position": 2,
+    "is_active": true,
+    "created_at": "2026-02-02T21:56:25.812373+01:00",
+    "updated_at": "2026-02-02T21:58:31.1252+01:00"
+  }
+]

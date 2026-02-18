@@ -1,0 +1,32 @@
+[
+  {
+    "id": "5cedac43-5a72-4d28-b813-ef39c749a78c",
+    "slug": "testpage",
+    "title": "TestPage",
+    "status": "published",
+    "language": "en",
+    "created_at": "2026-02-02T20:41:52.233107+01:00",
+    "updated_at": "2026-02-02T20:41:52.233107+01:00",
+    "published_at": null
+  },
+  {
+    "id": "289a5cf1-9886-436e-9fbf-8bc503844f21",
+    "slug": "testpage-it",
+    "title": "Pagina di Test",
+    "status": "published",
+    "language": "it",
+    "created_at": "2026-02-02T20:49:08.278191+01:00",
+    "updated_at": "2026-02-02T20:49:08.278191+01:00",
+    "published_at": null
+  },
+  {
+    "id": "77740bdf-a1ef-4b43-8b4f-2ee6f2c9de9b",
+    "slug": "sdfdsfdsf",
+    "title": "sdfdsfdsf",
+    "status": "draft",
+    "language": "en",
+    "created_at": "2026-02-11T15:48:00.394655+01:00",
+    "updated_at": "2026-02-11T15:48:00.394655+01:00",
+    "published_at": null
+  }
+]

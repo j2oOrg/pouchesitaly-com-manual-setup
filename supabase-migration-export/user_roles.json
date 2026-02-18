@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1b98afa8-3ae4-4b80-9c0b-785ef75b7f0d",
+    "user_id": "6ecd6391-5c43-49a2-91e0-1d6491bbddab",
+    "role": "admin",
+    "created_at": "2026-02-02T17:11:49.971891+01:00"
+  },
+  {
+    "id": "9ff6f414-9ba9-434f-806c-5740cb2a4e4c",
+    "user_id": "92df9bba-d3b7-42c1-94d4-1027e14d7fa1",
+    "role": "admin",
+    "created_at": "2026-02-02T22:45:09.796573+01:00"
+  },
+  {
+    "id": "8cdc6b8c-8f92-49d1-a752-acbb37ba72ba",
+    "user_id": "f15c9d89-b54f-4a23-8a70-6cedb848331d",
+    "role": "admin",
+    "created_at": "2026-02-02T22:46:08.53952+01:00"
+  }
+]

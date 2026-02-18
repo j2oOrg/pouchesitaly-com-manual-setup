@@ -1,0 +1,23 @@
+[
+  {
+    "id": "6ecd6391-5c43-49a2-91e0-1d6491bbddab",
+    "email": "staudt@gmail.com",
+    "full_name": "Conrad",
+    "created_at": "2026-02-02T17:11:07.318215+01:00",
+    "updated_at": "2026-02-02T17:11:07.318215+01:00"
+  },
+  {
+    "id": "92df9bba-d3b7-42c1-94d4-1027e14d7fa1",
+    "email": "magnus.bergsten@blnkspc.com",
+    "full_name": "Magnus",
+    "created_at": "2026-02-02T22:45:09.645981+01:00",
+    "updated_at": "2026-02-02T22:45:09.645981+01:00"
+  },
+  {
+    "id": "f15c9d89-b54f-4a23-8a70-6cedb848331d",
+    "email": "sammi.ekdahl@gmail.com",
+    "full_name": "Sammi",
+    "created_at": "2026-02-02T22:46:08.458098+01:00",
+    "updated_at": "2026-02-02T22:46:08.458098+01:00"
+  }
+]
