@@ -127,7 +127,7 @@ export function PageHeader({ cart = [], onCartClick }: PageHeaderProps) {
   const navItems = menuItems.length > 0 ? menuItems : null;
 
   return (
-    <header className="sticky top-0 z-50 bg-card border-b border-border">
+    <header className="sticky top-0 z-50 bg-card/90 backdrop-blur-sm border-b border-border/80 shadow-sm">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}

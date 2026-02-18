@@ -42,7 +42,7 @@ export default function GuidaIntensitaGustiPage() {
               </h2>
               
               <div className="space-y-6">
-                <div className="p-6 bg-green-50 border-l-4 border-green-500 rounded-r-xl">
+                <div className="p-6 bg-primary/12 border-l-4 border-primary rounded-r-xl">
                   <h3 className="text-xl font-heading font-bold text-foreground mb-2">
                     Regular (Leggero) - 3-6 mg di nicotina
                   </h3>
@@ -51,7 +51,7 @@ export default function GuidaIntensitaGustiPage() {
                   </p>
                 </div>
 
-                <div className="p-6 bg-orange-50 border-l-4 border-orange-500 rounded-r-xl">
+                <div className="p-6 bg-accent/12 border-l-4 border-accent rounded-r-xl">
                   <h3 className="text-xl font-heading font-bold text-foreground mb-2">
                     Strong (Medio-Forte) - 8-11 mg di nicotina
                   </h3>
@@ -60,7 +60,7 @@ export default function GuidaIntensitaGustiPage() {
                   </p>
                 </div>
 
-                <div className="p-6 bg-red-50 border-l-4 border-red-500 rounded-r-xl">
+                <div className="p-6 bg-destructive/12 border-l-4 border-destructive rounded-r-xl">
                   <h3 className="text-xl font-heading font-bold text-foreground mb-2">
                     Extra Strong (Molto Forte) - 12-15+ mg di nicotina
                   </h3>

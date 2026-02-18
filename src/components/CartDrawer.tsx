@@ -58,12 +58,13 @@ export function CartDrawer({
                     key={`${item.id}-${item.packSize}`}
                     className="flex gap-4 p-4 bg-muted rounded-xl"
                   >
-                    <div className="w-16 h-16 bg-card rounded-lg overflow-hidden">
+                    <div className="relative w-16 h-16 bg-muted rounded-[14px] overflow-hidden flex items-center justify-center border border-border/30">
                       <img
                         src={item.image}
                         alt={item.name}
-                        className="w-full h-full object-contain"
+                        className="relative z-10 w-14 h-14 object-contain rounded-[10px]"
                       />
+                      <div className="pointer-events-none absolute inset-0 rounded-[14px] border border-background/8" />
                     </div>
                     <div className="flex-1">
                       <h4 className="font-heading font-semibold text-sm">

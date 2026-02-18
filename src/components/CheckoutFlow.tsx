@@ -176,8 +176,8 @@ export function CheckoutFlow({ cart, onComplete, onClose }: CheckoutFlowProps) {
           </form>
         ) : (
           <div className="p-6 text-center">
-            <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <Check className="w-10 h-10 text-green-600" />
+            <div className="w-20 h-20 bg-primary/12 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Check className="w-10 h-10 text-primary" />
             </div>
             <h3 className="font-heading font-bold text-2xl mb-2">
               {t("orderComplete")}

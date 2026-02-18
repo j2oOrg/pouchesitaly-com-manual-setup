@@ -38,7 +38,7 @@ export default function StrengthsGuidePage() {
               </h2>
               
               <div className="space-y-6">
-                <div className="p-6 bg-green-50 border border-green-200 rounded-xl">
+                <div className="p-6 bg-primary/12 border border-primary/30 rounded-xl">
                   <h3 className="text-xl font-heading font-bold text-foreground mb-2">
                     Regular (3-6mg) - Light
                   </h3>
@@ -50,7 +50,7 @@ export default function StrengthsGuidePage() {
                   </p>
                 </div>
 
-                <div className="p-6 bg-orange-50 border border-orange-200 rounded-xl">
+                <div className="p-6 bg-accent/12 border border-accent/30 rounded-xl">
                   <h3 className="text-xl font-heading font-bold text-foreground mb-2">
                     Strong (8-11mg) - Medium
                   </h3>
@@ -62,7 +62,7 @@ export default function StrengthsGuidePage() {
                   </p>
                 </div>
 
-                <div className="p-6 bg-red-50 border border-red-200 rounded-xl">
+                <div className="p-6 bg-destructive/12 border border-destructive/30 rounded-xl">
                   <h3 className="text-xl font-heading font-bold text-foreground mb-2">
                     Extra Strong (12-15mg+) - Intense
                   </h3>

@@ -11,43 +11,43 @@
 
 @layer base {
   :root {
-    --background: 48 32% 97%;
-    --foreground: 223 22% 14%;
+    --background: 40 28% 96%;
+    --foreground: 220 18% 16%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 223 22% 14%;
+    --card: 0 0% 99.5%;
+    --card-foreground: 220 18% 16%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 223 22% 14%;
+    --popover: 0 0% 99.5%;
+    --popover-foreground: 220 18% 16%;
 
     /* Brand tricolor */
-    --primary: 142 66% 36%;
+    --primary: 154 32% 40%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 40 28% 94%;
-    --secondary-foreground: 223 22% 14%;
+    --secondary: 36 22% 93%;
+    --secondary-foreground: 220 18% 16%;
 
-    --muted: 40 26% 93%;
-    --muted-foreground: 223 18% 36%;
+    --muted: 36 20% 93%;
+    --muted-foreground: 220 16% 36%;
 
-    --accent: 0 72% 50%;
+    --accent: 14 52% 58%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 75% 44%;
+    --destructive: 358 58% 50%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 39 40% 88%;
-    --input: 39 40% 88%;
-    --ring: 142 66% 36%;
+    --border: 35 18% 90%;
+    --input: 35 18% 90%;
+    --ring: 154 32% 40%;
 
     --radius: 0.75rem;
 
     /* Custom tokens */
-    --brand-green: 142 66% 36%;
-    --brand-green-hover: 142 66% 30%;
-    --brand-red: 0 72% 50%;
-    --brand-red-hover: 0 72% 44%;
-    --hero-bg: 356 70% 18%;
+    --brand-green: 154 32% 40%;
+    --brand-green-hover: 154 32% 34%;
+    --brand-red: 14 52% 58%;
+    --brand-red-hover: 14 52% 52%;
+    --hero-bg: 352 36% 20%;
     --hero-text: 0 0% 100%;
     
     --sidebar-background: 0 0% 98%;
@@ -61,39 +61,39 @@
   }
 
   .dark {
-    --background: 224 24% 8%;
-    --foreground: 39 28% 94%;
+    --background: 228 22% 10%;
+    --foreground: 35 20% 93%;
 
-    --card: 222 24% 10%;
-    --card-foreground: 39 28% 94%;
+    --card: 228 22% 11%;
+    --card-foreground: 35 20% 93%;
 
-    --popover: 222.2 47.4% 8%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 228 22% 11%;
+    --popover-foreground: 35 20% 93%;
 
-    --primary: 142 58% 44%;
+    --primary: 154 32% 44%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 223 24% 18%;
-    --secondary-foreground: 39 28% 94%;
+    --secondary: 228 22% 17%;
+    --secondary-foreground: 35 20% 93%;
 
-    --muted: 223 24% 16%;
-    --muted-foreground: 39 20% 72%;
+    --muted: 228 22% 18%;
+    --muted-foreground: 35 16% 78%;
 
-    --accent: 0 72% 52%;
-    --accent-foreground: 39 28% 94%;
+    --accent: 14 52% 56%;
+    --accent-foreground: 35 20% 93%;
 
-    --destructive: 0 66% 46%;
-    --destructive-foreground: 39 28% 94%;
+    --destructive: 358 52% 50%;
+    --destructive-foreground: 35 20% 93%;
 
-    --border: 223 24% 18%;
-    --input: 223 24% 18%;
-    --ring: 142 58% 44%;
+    --border: 228 22% 22%;
+    --input: 228 22% 22%;
+    --ring: 154 32% 44%;
 
-    --brand-green: 142 58% 44%;
-    --brand-green-hover: 142 58% 38%;
-    --brand-red: 0 66% 46%;
-    --brand-red-hover: 0 66% 40%;
-    --hero-bg: 355 55% 24%;
+    --brand-green: 154 28% 42%;
+    --brand-green-hover: 154 28% 36%;
+    --brand-red: 14 45% 56%;
+    --brand-red-hover: 14 45% 50%;
+    --hero-bg: 350 42% 24%;
     --hero-text: 0 0% 100%;
     
     --sidebar-background: 240 5.9% 10%;
@@ -117,18 +117,23 @@
     font-family: "Inter", sans-serif;
     background-color: transparent;
     background-image:
-      radial-gradient(circle at 8% 12%, hsl(var(--brand-green) / 0.28), transparent 40%),
-      radial-gradient(circle at 88% 8%, hsl(var(--brand-red) / 0.24), transparent 38%),
-      radial-gradient(circle at 50% 88%, hsl(42 28% 95% / 0.55), transparent 44%),
+      radial-gradient(circle at 8% 12%, hsl(var(--brand-green) / 0.20), transparent 42%),
+      radial-gradient(circle at 92% 8%, hsl(var(--brand-red) / 0.16), transparent 40%),
+      radial-gradient(circle at 50% 88%, hsl(40 26% 95% / 0.45), transparent 44%),
       linear-gradient(
-        125deg,
-        hsl(145 30% 84%) 0%,
-        hsl(42 34% 92%) 32%,
-        hsl(0 18% 95%) 62%,
-        hsl(145 28% 94%) 100%
+        130deg,
+        hsl(142 24% 94%) 0%,
+        hsl(36 24% 95%) 28%,
+        hsl(24 16% 96%) 58%,
+        hsl(148 20% 93%) 100%
       );
     background-attachment: fixed;
     letter-spacing: 0.01em;
+  }
+
+  #root {
+    min-height: 100vh;
+    background-color: transparent;
   }
 
   h1, h2, h3, h4, h5, h6 {
