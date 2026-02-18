@@ -34,6 +34,8 @@ import PercheSceglierePouchesitalyPage from "./pages/PercheSceglierePouchesitaly
 import GuidaIntensitaGustiPage from "./pages/GuidaIntensitaGustiPage";
 import SnusVsNicotinePouchesPage from "./pages/SnusVsNicotinePouchesPage";
 import DomandeFrequentiSnusPage from "./pages/DomandeFrequentiSnusPage";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage";
+import TermsConditionsPage from "./pages/TermsConditionsPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -107,6 +109,8 @@ const App = () => (
               <Route path="/strengths-guide" element={<StrengthsGuidePage />} />
               <Route path="/tobacco-free" element={<TobaccoFreePage />} />
               <Route path="/faq" element={<FAQPage />} />
+              <Route path="/privacy" element={<PrivacyPolicyPage />} />
+              <Route path="/terms" element={<TermsConditionsPage />} />
               {/* Italian Pages */}
               <Route path="/snus-brands" element={<SnusBrandsPage />} />
               <Route path="/snus-cose" element={<SnusCoSeItPage />} />

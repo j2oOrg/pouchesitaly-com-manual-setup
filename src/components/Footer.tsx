@@ -3,6 +3,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { useMenuTree } from "@/hooks/useMenuItems";
 import { usePages } from "@/hooks/usePages";
 import { MenuItem } from "@/types/cms";
+import logodarkmode from "../../logodarkmode.png";
 
 export function Footer() {
   const { t } = useTranslation();
@@ -44,10 +45,7 @@ export function Footer() {
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
-                <span className="text-primary-foreground font-heading font-bold text-lg">N</span>
-              </div>
-              <span className="font-heading font-bold text-xl">Pouchesitaly</span>
+              <img src={logodarkmode} alt="Pouchesitaly" className="h-10 w-auto" />
             </div>
             <p className="text-background/70 text-sm">
               {t("aboutUsDesc")}
