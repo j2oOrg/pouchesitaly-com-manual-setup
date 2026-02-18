@@ -13,7 +13,7 @@ substitutions:
   _AR_LOCATION: europe-north1
   _AR_REPOSITORY: ourimages
   _HOSTNAME:  pouchesitaly.com
-  _ALT_HOSTNAME: www. pouchesitaly.com
+  _ALT_HOSTNAME: www.pouchesitaly.com
   # optional DNS automation, fill only if you want it
 
 steps:
