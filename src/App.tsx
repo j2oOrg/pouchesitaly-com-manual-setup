@@ -68,7 +68,7 @@ const LocaleShell = ({ locale }: { locale: Locale }) => {
   return <Outlet />;
 };
 
-const AppRoutes = () => (
+const AppRoutes = (
   <>
     <Route index element={<Index />} />
     {/* Auth */}
@@ -193,19 +193,19 @@ const App = () => (
                   path="/"
                   element={<LocaleShell locale="it" />}
                 >
-                  <AppRoutes />
+                  {AppRoutes}
                 </Route>
                 <Route
                   path="/en"
                   element={<LocaleShell locale="en" />}
                 >
-                  <AppRoutes />
+                  {AppRoutes}
                 </Route>
                 <Route
                   path="/it"
                   element={<LocaleShell locale="it" />}
                 >
-                  <AppRoutes />
+                  {AppRoutes}
                 </Route>
               </Routes>
             </TooltipProvider>
