@@ -7,7 +7,7 @@ import { SEOHead } from "@/components/SEOHead";
 
 export default function GuidaIntensitaGustiPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent">
       <SEOHead />
       <PageHeader />
 

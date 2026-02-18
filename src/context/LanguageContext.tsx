@@ -66,7 +66,7 @@ const translations: Record<Language, Record<string, string>> = {
     premiumNicotineBrandsDesc: 'Discover our selection of leading nicotine pouch brands including ZYN, VELO, and LYFT.',
     worldwideShippingInfo: 'Worldwide Shipping Info',
     worldwideShippingDesc: 'Free worldwide delivery on all orders. Fast, discreet shipping to your door.',
-    whyChooseUs: 'Why Choose NicoXpress',
+    whyChooseUs: 'Why Choose Pouchesitaly',
     whyChooseUsDesc: 'No sign-up required. Fast checkout. Premium brands at competitive prices.',
     strengthsGuide: 'Nicotine Strengths Guide',
     strengthsGuideDesc: 'From regular to extra strong - find the perfect nicotine level for you.',
@@ -132,7 +132,7 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Footer
     aboutUs: 'About Us',
-    aboutUsDesc: 'NicoXpress is your trusted source for premium nicotine pouches from leading brands worldwide.',
+    aboutUsDesc: 'Pouchesitaly is your trusted source for premium nicotine pouches from leading brands worldwide.',
     quickLinks: 'Quick Links',
     customerService: 'Customer Service',
     contactUs: 'Contact Us',
@@ -221,7 +221,7 @@ const translations: Record<Language, Record<string, string>> = {
     premiumNicotineBrandsDesc: 'Scopri la nostra selezione dei principali marchi di nicotine pouches tra cui ZYN, VELO e LYFT.',
     worldwideShippingInfo: 'Info Spedizione Mondiale',
     worldwideShippingDesc: 'Consegna gratuita in tutto il mondo su tutti gli ordini. Spedizione veloce e discreta.',
-    whyChooseUs: 'Perché Scegliere NicoXpress',
+    whyChooseUs: 'Perché Scegliere Pouchesitaly',
     whyChooseUsDesc: 'Nessuna registrazione richiesta. Checkout veloce. Marchi premium a prezzi competitivi.',
     strengthsGuide: 'Guida alle Intensità',
     strengthsGuideDesc: 'Da regular a extra strong - trova il livello di nicotina perfetto per te.',
@@ -287,7 +287,7 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Footer
     aboutUs: 'Chi Siamo',
-    aboutUsDesc: 'NicoXpress è la tua fonte affidabile per nicotine pouches premium dai principali marchi mondiali.',
+    aboutUsDesc: 'Pouchesitaly è la tua fonte affidabile per nicotine pouches premium dai principali marchi mondiali.',
     quickLinks: 'Link Rapidi',
     customerService: 'Servizio Clienti',
     legal: 'Legale',

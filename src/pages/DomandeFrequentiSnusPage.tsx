@@ -90,7 +90,7 @@ const faqCategories = [
 
 export default function DomandeFrequentiSnusPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent">
       <SEOHead />
       <PageHeader />
 
@@ -151,7 +151,7 @@ export default function DomandeFrequentiSnusPage() {
               Il nostro team di supporto è qui per aiutarti
             </p>
             <a
-              href="mailto:support@nicoxpress.com"
+              href="mailto:support@pouchesitaly.com"
               className="inline-flex items-center gap-2 bg-card text-foreground px-6 py-3 rounded-full font-bold hover:bg-card/90 transition-colors"
             >
               Contatta il Supporto
@@ -165,3 +165,4 @@ export default function DomandeFrequentiSnusPage() {
     </div>
   );
 }
+

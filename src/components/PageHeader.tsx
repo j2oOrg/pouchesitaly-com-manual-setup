@@ -9,6 +9,7 @@ import { useMenuTree } from "@/hooks/useMenuItems";
 import { usePages } from "@/hooks/usePages";
 import { MenuItem } from "@/types/cms";
 import type { CartItem } from "@/types/product";
+import logoImage from "../../logo.png";
 
 interface PageHeaderProps {
   cart?: CartItem[];
@@ -131,10 +132,11 @@ export function PageHeader({ cart = [], onCartClick }: PageHeaderProps) {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
-              <span className="text-primary-foreground font-heading font-bold text-lg">N</span>
-            </div>
-            <span className="font-heading font-bold text-xl text-foreground">NicoXpress</span>
+            <img
+              src={logoImage}
+              alt="Pouchesitaly"
+              className="h-10 md:h-12 w-auto object-contain"
+            />
           </Link>
 
           {/* Desktop Navigation */}
@@ -235,3 +237,4 @@ export function PageHeader({ cart = [], onCartClick }: PageHeaderProps) {
     </header>
   );
 }
+

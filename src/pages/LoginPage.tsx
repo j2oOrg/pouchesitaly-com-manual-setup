@@ -40,7 +40,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+    <div className="min-h-screen bg-transparent flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Back to Home */}
         <Link
@@ -121,7 +121,7 @@ export default function LoginPage() {
         {/* Footer */}
         <p className="text-center text-sm text-muted-foreground mt-6">
           Need admin access?{' '}
-          <a href="mailto:admin@nicoxpress.com" className="text-primary hover:underline">
+          <a href="mailto:admin@pouchesitaly.com" className="text-primary hover:underline">
             Contact support
           </a>
         </p>

@@ -40,7 +40,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
               <span className="text-primary-foreground font-heading font-bold text-lg">N</span>
             </div>
             <div>
-              <span className="font-heading font-bold text-foreground">NicoXpress</span>
+              <span className="font-heading font-bold text-foreground">Pouchesitaly</span>
               <span className="block text-xs text-muted-foreground">Admin Panel</span>
             </div>
           </Link>
@@ -106,3 +106,4 @@ export function AdminLayout({ children }: AdminLayoutProps) {
     </div>
   );
 }
+

@@ -30,7 +30,7 @@ export function Footer() {
   // Fallback links for Customer Service section
   const defaultServiceLinks = [
     { to: "/faq", label: t("faqTitle") },
-    { to: "mailto:support@nicoxpress.com", label: t("contactUs"), isEmail: true },
+    { to: "mailto:support@pouchesitaly.com", label: t("contactUs"), isEmail: true },
     { to: "/shipping-info", label: t("returns") },
   ];
 
@@ -47,7 +47,7 @@ export function Footer() {
               <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
                 <span className="text-primary-foreground font-heading font-bold text-lg">N</span>
               </div>
-              <span className="font-heading font-bold text-xl">NicoXpress</span>
+              <span className="font-heading font-bold text-xl">Pouchesitaly</span>
             </div>
             <p className="text-background/70 text-sm">
               {t("aboutUsDesc")}
@@ -148,7 +148,7 @@ export function Footer() {
         <div className="border-t border-background/20 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-background/60 text-sm">
-              © {new Date().getFullYear()} NicoXpress. {t("allRightsReserved")}
+              © {new Date().getFullYear()} Pouchesitaly. {t("allRightsReserved")}
             </p>
             <p className="text-background/60 text-xs">
               {t("ageDisclaimer")}

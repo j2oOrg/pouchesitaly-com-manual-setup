@@ -7,7 +7,7 @@ import { SEOHead } from "@/components/SEOHead";
 
 export default function WhyChooseUsPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent">
       <SEOHead />
       <PageHeader />
 
@@ -24,12 +24,12 @@ export default function WhyChooseUsPage() {
       <main className="container mx-auto px-4 pb-12">
         <div className="bg-card rounded-2xl p-8 md:p-12">
           <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
-            Why Choose NicoXpress
+            Why Choose Pouchesitaly
           </h1>
           
           <div className="prose max-w-none">
             <p className="text-lg text-muted-foreground mb-8">
-              At NicoXpress, we make buying nicotine pouches simple, fast, and hassle-free. Here's why thousands of customers choose us.
+              At Pouchesitaly, we make buying nicotine pouches simple, fast, and hassle-free. Here's why thousands of customers choose us.
             </p>
 
             {/* Benefits */}
@@ -117,3 +117,4 @@ export default function WhyChooseUsPage() {
     </div>
   );
 }
+

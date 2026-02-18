@@ -10,7 +10,7 @@ export default function ShippingInfoPage() {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent">
       <SEOHead />
       <PageHeader />
 
@@ -142,3 +142,4 @@ export default function ShippingInfoPage() {
     </div>
   );
 }
+

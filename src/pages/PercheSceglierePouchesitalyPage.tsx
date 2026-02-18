@@ -5,9 +5,9 @@ import { Footer } from "@/components/Footer";
 import { QuickFAQ } from "@/components/QuickFAQ";
 import { SEOHead } from "@/components/SEOHead";
 
-export default function PercheScegliereNicoXpressPage() {
+export default function PercheSceglierePouchesitalyPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent">
       <SEOHead />
       <PageHeader />
 
@@ -16,7 +16,7 @@ export default function PercheScegliereNicoXpressPage() {
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
           <span>/</span>
-          <span className="text-foreground font-medium">Perché scegliere NicoXpress</span>
+          <span className="text-foreground font-medium">Perché scegliere Pouchesitaly</span>
         </div>
       </div>
 
@@ -24,12 +24,12 @@ export default function PercheScegliereNicoXpressPage() {
       <main className="container mx-auto px-4 pb-12">
         <div className="bg-card rounded-2xl p-8 md:p-12">
           <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
-            Perché scegliere NicoXpress
+            Perché scegliere Pouchesitaly
           </h1>
           
           <div className="prose max-w-none">
             <p className="text-lg text-muted-foreground mb-8">
-              Su NicoXpress puoi acquistare snus online in modo semplice e sicuro. Non è richiesta alcuna registrazione e il checkout è rapido.
+              Su Pouchesitaly puoi acquistare snus online in modo semplice e sicuro. Non è richiesta alcuna registrazione e il checkout è rapido.
             </p>
 
             <p className="text-lg text-muted-foreground mb-8">
@@ -132,3 +132,4 @@ export default function PercheScegliereNicoXpressPage() {
     </div>
   );
 }
+

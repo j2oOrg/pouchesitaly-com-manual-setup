@@ -16,7 +16,7 @@ export default function DynamicPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
+      <div className="min-h-screen bg-transparent flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
       </div>
     );
@@ -24,7 +24,7 @@ export default function DynamicPage() {
 
   if (pageError || !page) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen bg-transparent">
         <PageHeader />
         <main className="container mx-auto px-4 py-16 text-center">
           <h1 className="text-4xl font-heading font-bold text-foreground mb-4">Page Not Found</h1>
@@ -38,7 +38,7 @@ export default function DynamicPage() {
   const visibleBlocks = blocks.filter(b => b.is_visible);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent">
       <SEOHead />
       <PageHeader />
       

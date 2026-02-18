@@ -1,101 +1,109 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /*  Pouchesitaly Design System
-   - Primary brand color: Yellow (#FDD835)
-   - Dark hero sections
-   - Clean, modern e-commerce aesthetic
+   - Italian inspired palette (green, white, red)
+   - Clean, premium storefront
 */
 
 @layer base {
   :root {
-    --background: 210 20% 96%;
-    --foreground: 222.2 47.4% 11.2%;
+    --background: 48 32% 97%;
+    --foreground: 223 22% 14%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 47.4% 11.2%;
+    --card-foreground: 223 22% 14%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 47.4% 11.2%;
+    --popover-foreground: 223 22% 14%;
 
-    /* Brand Yellow */
-    --primary: 48 98% 60%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    /* Brand tricolor */
+    --primary: 142 66% 36%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 40 28% 94%;
+    --secondary-foreground: 223 22% 14%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 40 26% 93%;
+    --muted-foreground: 223 18% 36%;
 
-    --accent: 48 98% 60%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 0 72% 50%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 75% 44%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 48 98% 60%;
+    --border: 39 40% 88%;
+    --input: 39 40% 88%;
+    --ring: 142 66% 36%;
 
     --radius: 0.75rem;
 
     /* Custom tokens */
-    --brand-yellow: 48 98% 60%;
-    --brand-yellow-hover: 48 98% 55%;
-    --hero-bg: 220 26% 10%;
+    --brand-green: 142 66% 36%;
+    --brand-green-hover: 142 66% 30%;
+    --brand-red: 0 72% 50%;
+    --brand-red-hover: 0 72% 44%;
+    --hero-bg: 356 70% 18%;
     --hero-text: 0 0% 100%;
     
     --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-foreground: 223 22% 14%;
+    --sidebar-primary: 223 22% 14%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 142 66% 93%;
+    --sidebar-accent-foreground: 223 22% 14%;
+    --sidebar-border: 39 40% 88%;
+    --sidebar-ring: 142 66% 36%;
   }
 
   .dark {
-    --background: 222.2 47.4% 6%;
-    --foreground: 210 40% 98%;
+    --background: 224 24% 8%;
+    --foreground: 39 28% 94%;
 
-    --card: 222.2 47.4% 8%;
-    --card-foreground: 210 40% 98%;
+    --card: 222 24% 10%;
+    --card-foreground: 39 28% 94%;
 
     --popover: 222.2 47.4% 8%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 48 98% 60%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 142 58% 44%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 223 24% 18%;
+    --secondary-foreground: 39 28% 94%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 223 24% 16%;
+    --muted-foreground: 39 20% 72%;
 
-    --accent: 48 98% 60%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 0 72% 52%;
+    --accent-foreground: 39 28% 94%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 66% 46%;
+    --destructive-foreground: 39 28% 94%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 48 98% 60%;
+    --border: 223 24% 18%;
+    --input: 223 24% 18%;
+    --ring: 142 58% 44%;
+
+    --brand-green: 142 58% 44%;
+    --brand-green-hover: 142 58% 38%;
+    --brand-red: 0 66% 46%;
+    --brand-red-hover: 0 66% 40%;
+    --hero-bg: 355 55% 24%;
+    --hero-text: 0 0% 100%;
     
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary: 224 24% 14%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 223 24% 16%;
+    --sidebar-accent-foreground: 39 28% 94%;
+    --sidebar-border: 223 24% 16%;
+    --sidebar-ring: 142 58% 44%;
   }
 }
 
@@ -106,20 +114,36 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
+    background-color: transparent;
+    background-image:
+      radial-gradient(circle at 8% 12%, hsl(var(--brand-green) / 0.28), transparent 40%),
+      radial-gradient(circle at 88% 8%, hsl(var(--brand-red) / 0.24), transparent 38%),
+      radial-gradient(circle at 50% 88%, hsl(42 28% 95% / 0.55), transparent 44%),
+      linear-gradient(
+        125deg,
+        hsl(145 30% 84%) 0%,
+        hsl(42 34% 92%) 32%,
+        hsl(0 18% 95%) 62%,
+        hsl(145 28% 94%) 100%
+      );
+    background-attachment: fixed;
+    letter-spacing: 0.01em;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Montserrat", sans-serif;
+    letter-spacing: 0.02em;
   }
 }
 
 @layer utilities {
   .font-heading {
-    font-family: 'Poppins', sans-serif;
+    font-family: "Montserrat", sans-serif;
+    letter-spacing: 0.02em;
   }
   
   .font-body {
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
   }
 }

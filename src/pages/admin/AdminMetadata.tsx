@@ -24,7 +24,7 @@ const PAGE_LABELS: Record<string, string> = {
   '/snus-brands': 'Marchi Snus',
   '/snus-cose': 'Cos\'è lo Snus',
   '/spedizione-snus': 'Spedizione Snus',
-  '/perche-scegliere-nicoxpress': 'Perché NicoXpress',
+  '/perche-scegliere-pouchesitaly': 'Perché Pouchesitaly',
   '/guida-intensita-gusti': 'Guida Intensità',
   '/snus-vs-nicotine-pouches': 'Snus vs Pouches',
   '/domande-frequenti-snus': 'Domande Frequenti',
@@ -230,3 +230,4 @@ export default function AdminMetadata() {
     </AdminLayout>
   );
 }
+

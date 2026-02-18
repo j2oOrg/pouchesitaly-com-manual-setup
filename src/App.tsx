@@ -30,7 +30,7 @@ import DynamicPage from "./pages/DynamicPage";
 import SnusBrandsPage from "./pages/SnusBrandsPage";
 import SnusCoSeItPage from "./pages/SnusCoSeItPage";
 import SpedizioneSnusPage from "./pages/SpedizioneSnusPage";
-import PercheScegliereNicoXpressPage from "./pages/PercheScegliereNicoXpressPage";
+import PercheSceglierePouchesitalyPage from "./pages/PercheSceglierePouchesitalyPage";
 import GuidaIntensitaGustiPage from "./pages/GuidaIntensitaGustiPage";
 import SnusVsNicotinePouchesPage from "./pages/SnusVsNicotinePouchesPage";
 import DomandeFrequentiSnusPage from "./pages/DomandeFrequentiSnusPage";
@@ -111,7 +111,7 @@ const App = () => (
               <Route path="/snus-brands" element={<SnusBrandsPage />} />
               <Route path="/snus-cose" element={<SnusCoSeItPage />} />
               <Route path="/spedizione-snus" element={<SpedizioneSnusPage />} />
-              <Route path="/perche-scegliere-nicoxpress" element={<PercheScegliereNicoXpressPage />} />
+              <Route path="/perche-scegliere-pouchesitaly" element={<PercheSceglierePouchesitalyPage />} />
               <Route path="/guida-intensita-gusti" element={<GuidaIntensitaGustiPage />} />
               <Route path="/snus-vs-nicotine-pouches" element={<SnusVsNicotinePouchesPage />} />
                 <Route path="/domande-frequenti-snus" element={<DomandeFrequentiSnusPage />} />

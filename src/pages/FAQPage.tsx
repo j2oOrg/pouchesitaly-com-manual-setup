@@ -95,7 +95,7 @@ const faqCategories = [
 
 export default function FAQPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent">
       <SEOHead />
       <PageHeader />
 
@@ -152,7 +152,7 @@ export default function FAQPage() {
               Our customer support team is here to help
             </p>
             <a
-              href="mailto:support@nicoxpress.com"
+              href="mailto:support@pouchesitaly.com"
               className="inline-flex items-center gap-2 bg-card text-foreground px-6 py-3 rounded-full font-bold hover:bg-card/90 transition-colors"
             >
               Contact Support
@@ -166,3 +166,4 @@ export default function FAQPage() {
     </div>
   );
 }
+

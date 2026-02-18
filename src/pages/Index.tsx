@@ -13,6 +13,7 @@ import { useProducts, toFrontendProduct } from "@/hooks/useProducts";
 import { trackCartEvent } from "@/hooks/useAnalyticsTracking";
 import type { Product, CartItem } from "@/types/product";
 import productImage from "@/assets/product-can.png";
+import heroBackground from "../../herobackground.jpg";
 
 const packOptions = [
   { size: 5, discount: 0.05 },
@@ -188,10 +189,10 @@ export default function HomePage() {
       description: "Offriamo spedizione internazionale di snus verso l'Italia e molti altri paesi.",
     },
     {
-      to: "/perche-scegliere-nicoxpress",
+      to: "/perche-scegliere-pouchesitaly",
       category: "Chi Siamo",
-      title: "Perché scegliere NicoXpress",
-      description: "Su NicoXpress puoi acquistare snus online in modo semplice e sicuro.",
+      title: "Perché scegliere Pouchesitaly",
+      description: "Su Pouchesitaly puoi acquistare snus online in modo semplice e sicuro.",
     },
     {
       to: "/guida-intensita-gusti",
@@ -214,29 +215,20 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent">
       <SEOHead />
       <PageHeader cart={cart} onCartClick={() => setIsCartOpen(true)} />
 
       {/* Hero Banner */}
       <section className="py-8">
         <div className="container mx-auto px-4">
-          <div className="relative overflow-hidden rounded-2xl bg-hero-bg">
-            <div className="relative z-10 py-20 md:py-32 px-6 md:px-12 text-center">
-              <h1 className="text-5xl md:text-7xl lg:text-8xl font-heading font-extrabold text-hero-text mb-8">
-                {t("qualityBrands")}
-                <br />
-                {t("competitivePrices")}
-              </h1>
-              <p className="text-2xl md:text-3xl lg:text-4xl font-heading text-hero-text">
-                {t("fastCheckout")}
-              </p>
-            </div>
-            {/* Decorative circles */}
-            <div className="absolute top-0 left-0 w-40 h-40 bg-red-500 rounded-full opacity-70 -translate-x-1/2 -translate-y-1/2" />
-            <div className="absolute bottom-0 right-0 w-48 h-48 bg-red-500 rounded-full opacity-70 translate-x-1/3 translate-y-1/3" />
-            <div className="absolute top-1/2 right-1/4 w-32 h-32 bg-primary rounded-full opacity-80" />
-            <div className="absolute top-1/4 left-1/4 w-36 h-36 bg-pink-400 rounded-full opacity-70" />
+          <div
+            className="relative overflow-hidden rounded-2xl bg-hero-bg bg-cover bg-center bg-no-repeat min-h-[320px] md:min-h-[420px]"
+            style={{
+              backgroundImage: `linear-gradient(180deg, hsl(0 0% 0% / 0.20), hsl(0 0% 0% / 0.18)), url(${heroBackground})`,
+            }}
+          >
+            <div className="absolute inset-0 bg-gradient-to-b from-black/5 to-black/10" />
           </div>
         </div>
       </section>
@@ -491,3 +483,4 @@ export default function HomePage() {
     </div>
   );
 }
+

@@ -7,7 +7,7 @@ import { SEOHead } from "@/components/SEOHead";
 
 export default function SpedizioneSnusPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent">
       <SEOHead />
       <PageHeader />
 
@@ -127,13 +127,13 @@ export default function SpedizioneSnusPage() {
             Articoli Correlati
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Link to="/perche-scegliere-nicoxpress" className="bg-card rounded-xl p-6 text-left transition-all group block hover:shadow-lg border border-border">
+            <Link to="/perche-scegliere-pouchesitaly" className="bg-card rounded-xl p-6 text-left transition-all group block hover:shadow-lg border border-border">
               <p className="text-sm text-muted-foreground mb-3 uppercase tracking-wide font-normal">Chi Siamo</p>
               <h4 className="text-2xl font-heading font-bold text-foreground mb-3">
-                Perché scegliere NicoXpress
+                Perché scegliere Pouchesitaly
               </h4>
               <p className="text-muted-foreground text-sm mb-12 font-normal">
-                Scopri perché scegliere NicoXpress.
+                Scopri perché scegliere Pouchesitaly.
               </p>
               <div className="flex items-center justify-end">
                 <div className="w-14 h-14 rounded-full bg-foreground flex items-center justify-center group-hover:bg-primary transition-colors">
@@ -179,3 +179,4 @@ export default function SpedizioneSnusPage() {
     </div>
   );
 }
+

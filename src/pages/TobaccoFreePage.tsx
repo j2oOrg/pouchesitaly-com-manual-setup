@@ -7,7 +7,7 @@ import { SEOHead } from "@/components/SEOHead";
 
 export default function TobaccoFreePage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-transparent">
       <SEOHead />
       <PageHeader />
 
@@ -29,7 +29,7 @@ export default function TobaccoFreePage() {
           
           <div className="prose max-w-none">
             <p className="text-lg text-muted-foreground mb-8">
-              All products sold at NicoXpress are completely tobacco-free. Experience nicotine satisfaction without the drawbacks of traditional tobacco products.
+              All products sold at Pouchesitaly are completely tobacco-free. Experience nicotine satisfaction without the drawbacks of traditional tobacco products.
             </p>
 
             {/* Benefits */}
@@ -111,3 +111,4 @@ export default function TobaccoFreePage() {
     </div>
   );
 }
+

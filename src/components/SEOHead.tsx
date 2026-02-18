@@ -16,7 +16,7 @@ export function SEOHead({ defaultTitle, defaultDescription }: SEOHeadProps) {
 
   useEffect(() => {
     // Title
-    const title = metadata?.title || defaultTitle || 'NicoXpress';
+    const title = metadata?.title || defaultTitle || 'Pouchesitaly';
     document.title = title;
 
     // Helper to set or remove meta tags
@@ -74,3 +74,4 @@ export function SEOHead({ defaultTitle, defaultDescription }: SEOHeadProps) {
 
   return null;
 }
+
