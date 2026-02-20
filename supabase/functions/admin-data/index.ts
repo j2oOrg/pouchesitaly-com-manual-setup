@@ -3,12 +3,24 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Max-Age': '86400',
+}
+
+const getCorsHeaders = (req: Request) => {
+  const origin = req.headers.get('Origin') || '*'
+  const requestedHeaders = req.headers.get('Access-Control-Request-Headers')
+  return requestedHeaders
+    ? { ...corsHeaders, 'Access-Control-Allow-Origin': origin, 'Access-Control-Allow-Headers': requestedHeaders, Vary: 'Origin' }
+    : { ...corsHeaders, 'Access-Control-Allow-Origin': origin, Vary: 'Origin' }
 }
 
 Deno.serve(async (req) => {
+  const responseCorsHeaders = getCorsHeaders(req)
+
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders })
+    return new Response(null, { status: 200, headers: responseCorsHeaders })
   }
 
   try {
@@ -24,7 +36,7 @@ Deno.serve(async (req) => {
     if (!operation) {
       return new Response(
         JSON.stringify({ error: 'Missing operation' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        { status: 400, headers: { ...responseCorsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
@@ -33,7 +45,7 @@ Deno.serve(async (req) => {
     if (operation !== 'rpc' && (!table || !allowedTables.includes(table))) {
       return new Response(
         JSON.stringify({ error: `Table '${table}' is not allowed or missing` }),
-        { status: 403, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        { status: 403, headers: { ...responseCorsHeaders, 'Content-Type': 'application/json' } }
       )
     }
 
@@ -44,7 +56,7 @@ Deno.serve(async (req) => {
         if (!data) {
           return new Response(
             JSON.stringify({ error: 'Missing data for insert' }),
-            { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+            { status: 400, headers: { ...responseCorsHeaders, 'Content-Type': 'application/json' } }
           )
         }
         const { data: insertedData, error } = await supabaseAdmin
@@ -61,7 +73,7 @@ Deno.serve(async (req) => {
         if (!data || !match) {
           return new Response(
             JSON.stringify({ error: 'Missing data or match criteria for update' }),
-            { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+            { status: 400, headers: { ...responseCorsHeaders, 'Content-Type': 'application/json' } }
           )
         }
         let query = supabaseAdmin.from(table).update(data)
@@ -81,7 +93,7 @@ Deno.serve(async (req) => {
         if (!match) {
           return new Response(
             JSON.stringify({ error: 'Missing match criteria for delete' }),
-            { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+            { status: 400, headers: { ...responseCorsHeaders, 'Content-Type': 'application/json' } }
           )
         }
         let query = supabaseAdmin.from(table).delete()
@@ -131,7 +143,7 @@ Deno.serve(async (req) => {
           if (!user) {
             return new Response(
               JSON.stringify({ error: `User with email '${data.email}' not found` }),
-              { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+              { status: 404, headers: { ...responseCorsHeaders, 'Content-Type': 'application/json' } }
             )
           }
           // Insert admin role
@@ -200,7 +212,7 @@ Deno.serve(async (req) => {
         } else {
           return new Response(
             JSON.stringify({ error: 'Unknown RPC function' }),
-            { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+            { status: 400, headers: { ...responseCorsHeaders, 'Content-Type': 'application/json' } }
           )
         }
         break
@@ -209,13 +221,13 @@ Deno.serve(async (req) => {
       default:
         return new Response(
           JSON.stringify({ error: `Unknown operation: ${operation}` }),
-          { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          { status: 400, headers: { ...responseCorsHeaders, 'Content-Type': 'application/json' } }
         )
     }
 
     return new Response(
       JSON.stringify({ success: true, data: result }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      { headers: { ...responseCorsHeaders, 'Content-Type': 'application/json' } }
     )
 
   } catch (error) {
@@ -223,7 +235,7 @@ Deno.serve(async (req) => {
     const message = error instanceof Error ? error.message : 'Unknown error'
     return new Response(
       JSON.stringify({ error: message }),
-      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      { status: 500, headers: { ...responseCorsHeaders, 'Content-Type': 'application/json' } }
     )
   }
 })

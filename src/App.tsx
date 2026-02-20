@@ -11,6 +11,7 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { AnalyticsProvider } from "@/components/AnalyticsProvider";
 import { AgeGate } from "@/components/AgeGate";
 import Index from "./pages/Index";
+import CheckoutPage from "./pages/CheckoutPage";
 import PremiumBrandsPage from "./pages/PremiumBrandsPage";
 import ShippingInfoPage from "./pages/ShippingInfoPage";
 import WhyChooseUsPage from "./pages/WhyChooseUsPage";
@@ -24,6 +25,7 @@ import AdminMetadata from "./pages/admin/AdminMetadata";
 import AdminMenus from "./pages/admin/AdminMenus";
 import AdminPages from "./pages/admin/AdminPages";
 import AdminLearnMore from "./pages/admin/AdminLearnMore";
+import AdminOrders from "./pages/admin/AdminOrders";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminCarts from "./pages/admin/AdminCarts";
 import PageEditor from "./pages/admin/PageEditor";
@@ -71,6 +73,7 @@ const LocaleShell = ({ locale }: { locale: Locale }) => {
 const AppRoutes = (
   <>
     <Route index element={<Index />} />
+    <Route path="checkout" element={<CheckoutPage />} />
     {/* Auth */}
     <Route
       path="login"
@@ -136,7 +139,7 @@ const AppRoutes = (
     <Route path="admin/orders" element={
       <NonIndexRoute title="Pouchesitaly - Admin Orders" description="Private admin orders view. Not indexed for SEO.">
         <ProtectedRoute requireAdmin>
-          <AdminCarts />
+          <AdminOrders />
         </ProtectedRoute>
       </NonIndexRoute>
     } />

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Truck, Package, Zap, MapPin, ChevronDown, ArrowRight, Loader2, SlidersHorizontal } from "lucide-react";
 import { LocalizedLink } from "@/components/LocalizedLink";
 import { PageHeader } from "@/components/PageHeader";
@@ -6,7 +7,6 @@ import { Footer } from "@/components/Footer";
 import { QuickFAQ } from "@/components/QuickFAQ";
 import { ProductCardRounded } from "@/components/ProductCardRounded";
 import { CartDrawer } from "@/components/CartDrawer";
-import { CheckoutFlow } from "@/components/CheckoutFlow";
 import { SEOHead } from "@/components/SEOHead";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useProducts, toFrontendProduct } from "@/hooks/useProducts";
@@ -20,8 +20,10 @@ const packOptions = [
   { size: 10, discount: 0.12 },
   { size: 20, discount: 0.20 },
 ];
+const CHECKOUT_CART_STORAGE_KEY = "checkout_cart_v1";
 
 export default function HomePage() {
+  const navigate = useNavigate();
   const { data: dbProducts, isLoading: productsLoading } = useProducts();
   const { t, language } = useTranslation();
   
@@ -32,7 +34,6 @@ export default function HomePage() {
   })) || [];
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedStrengths, setSelectedStrengths] = useState<number[]>([]);
@@ -123,13 +124,10 @@ export default function HomePage() {
 
   const handleCheckoutStart = () => {
     trackCartEvent('checkout_start');
-    setIsCheckoutOpen(true);
-  };
-
-  const handleOrderComplete = () => {
-    trackCartEvent('checkout_complete');
-    setCart([]);
-    setIsCheckoutOpen(false);
+    localStorage.setItem(CHECKOUT_CART_STORAGE_KEY, JSON.stringify(cart));
+    navigate("checkout", {
+      state: { cart },
+    });
   };
 
   const learnMoreCards = [
@@ -510,15 +508,6 @@ export default function HomePage() {
           handleCheckoutStart();
         }}
       />
-
-      {/* Checkout Flow */}
-      {isCheckoutOpen && (
-        <CheckoutFlow
-          cart={cart}
-          onComplete={handleOrderComplete}
-          onClose={() => setIsCheckoutOpen(false)}
-        />
-      )}
     </div>
   );
 }

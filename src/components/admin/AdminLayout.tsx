@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Package, LogOut, Home, LayoutDashboard, FileText, Menu, FileStack, BookOpen, Users, ShoppingCart } from 'lucide-react';
+import { Package, LogOut, Home, LayoutDashboard, FileText, Menu, FileStack, BookOpen, Users, ShoppingCart, PackageCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/context/AuthContext';
 
@@ -10,6 +10,7 @@ interface AdminLayoutProps {
 
 const navItems = [
   { to: '/admin', icon: LayoutDashboard, label: 'Dashboard' },
+  { to: '/admin/orders', icon: PackageCheck, label: 'Orders' },
   { to: '/admin/products', icon: Package, label: 'Products' },
   { to: '/admin/carts', icon: ShoppingCart, label: 'Cart Analytics' },
   { to: '/admin/pages', icon: FileStack, label: 'Pages' },
