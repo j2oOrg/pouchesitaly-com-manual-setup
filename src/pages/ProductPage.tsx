@@ -17,9 +17,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useTranslation } from "@/hooks/useTranslation";
-import { useProduct, toFrontendProduct } from "@/hooks/useProducts";
+import { useProduct, useProducts, toFrontendProduct } from "@/hooks/useProducts";
 import { trackCartEvent } from "@/hooks/useAnalyticsTracking";
-import type { CartItem } from "@/types/product";
+import type { Product, CartItem } from "@/types/product";
 import productImageFallback from "@/assets/product-can.png";
 
 const packOptions = [
@@ -33,6 +33,7 @@ export default function ProductPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { data: dbProduct, isLoading, error } = useProduct(id);
+  const { data: dbProducts } = useProducts();
   const { t, language } = useTranslation();
 
   const product = dbProduct
@@ -43,10 +44,26 @@ export default function ProductPage() {
         image_3: dbProduct.image_3 || null,
       }
     : null;
+  
+  const relatedProducts: Product[] =
+    product && dbProducts
+      ? dbProducts
+          .filter((item) => item.brand === dbProduct?.brand && item.id !== dbProduct.id)
+          .slice(0, 8)
+          .map((item) => ({
+            ...toFrontendProduct(item, language as "en" | "it"),
+            image: item.image || productImageFallback,
+          }))
+      : [];
+  const relatedSectionTitle =
+    language === "it"
+      ? `Altri prodotti ${product?.brand || ""}`.trim()
+      : `More from ${product?.brand || ""}`.trim();
 
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedPack, setSelectedPack] = useState(10);
+  const [relatedPackSelections, setRelatedPackSelections] = useState<Record<string, number>>({});
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState<string | null>(null);
 
@@ -62,12 +79,14 @@ export default function ProductPage() {
      }
   }, []);
 
-  // Update active image when product loads
+  // Update active image and controls when product changes
   useEffect(() => {
-    if (product && !activeImage) {
+    if (product) {
       setActiveImage(product.image);
+      setSelectedPack(10);
+      setQuantity(1);
     }
-  }, [product, activeImage]);
+  }, [product?.id]);
 
 
   const getStrengthColor = (strength: string) => {
@@ -83,29 +102,27 @@ export default function ProductPage() {
     }
   };
 
-  const handleAddToCart = () => {
-    if (!product) return;
-
-    const option = packOptions.find((opt) => opt.size === selectedPack);
+  const addProductToCart = (targetProduct: Product, packSize: number, qty: number) => {
+    const option = packOptions.find((opt) => opt.size === packSize);
     const discount = option?.discount || 0;
-    const calculatedPrice = parseFloat((product.price * selectedPack * (1 - discount)).toFixed(2));
+    const calculatedPrice = parseFloat((targetProduct.price * packSize * (1 - discount)).toFixed(2));
 
-    trackCartEvent("add", String(product.id), selectedPack);
+    trackCartEvent("add", String(targetProduct.id), packSize);
 
     setCart((prevCart) => {
       const existingItem = prevCart.find(
-        (item) => item.id === product.id && item.packSize === selectedPack
+        (item) => item.id === targetProduct.id && item.packSize === packSize
       );
       
       let newCart;
       if (existingItem) {
         newCart = prevCart.map((item) =>
-          item.id === product.id && item.packSize === selectedPack
-            ? { ...item, quantity: item.quantity + quantity }
+          item.id === targetProduct.id && item.packSize === packSize
+            ? { ...item, quantity: item.quantity + qty }
             : item
         );
       } else {
-        newCart = [...prevCart, { ...product, price: calculatedPrice, quantity, packSize: selectedPack }];
+        newCart = [...prevCart, { ...targetProduct, price: calculatedPrice, quantity: qty, packSize }];
       }
       
       localStorage.setItem(CHECKOUT_CART_STORAGE_KEY, JSON.stringify(newCart));
@@ -113,7 +130,27 @@ export default function ProductPage() {
     });
 
     setIsCartOpen(true);
-    setQuantity(1); // Reset quantity after adding
+  };
+
+  const handleAddToCart = () => {
+    if (!product) return;
+    addProductToCart(product, selectedPack, quantity);
+    setQuantity(1);
+  };
+
+  const getRelatedPackSize = (productId: string | number) => {
+    return relatedPackSelections[String(productId)] ?? 10;
+  };
+
+  const handleRelatedPackChange = (productId: string | number, packSize: number) => {
+    setRelatedPackSelections((prev) => ({
+      ...prev,
+      [String(productId)]: packSize,
+    }));
+  };
+
+  const handleAddRelatedToCart = (relatedProduct: Product) => {
+    addProductToCart(relatedProduct, getRelatedPackSize(relatedProduct.id), 1);
   };
 
   const handleUpdateQuantity = (cartId: string | number, packSize: number, newQuantity: number) => {
@@ -314,10 +351,10 @@ export default function ProductPage() {
                             <SelectItem 
                               key={option.size} 
                               value={option.size.toString()} 
-                              className={`cursor-pointer py-5 px-6 rounded-[1.5rem] my-1.5 transition-all duration-300 ${
+                              className={`cursor-pointer py-5 px-6 rounded-[1.5rem] my-1.5 transition-all duration-300 focus:bg-primary/5 focus:text-foreground data-[highlighted]:bg-primary/5 data-[highlighted]:text-foreground ${
                                 isSelected 
-                                ? "bg-primary/10 text-primary border-primary/20 shadow-none" 
-                                : "hover:bg-muted focus:bg-muted"
+                                ? "bg-primary/[0.08] text-primary border-primary/20 shadow-none" 
+                                : "hover:bg-primary/5"
                               } border border-transparent`}>
                               <div className="flex items-center justify-between w-full">
                                 <div className="flex flex-col gap-1">
@@ -458,6 +495,72 @@ export default function ProductPage() {
             </div>
           </div>
         </div>
+
+        {relatedProducts.length > 0 && (
+          <section className="mt-8 md:mt-12">
+            <h2 className="text-xl md:text-2xl font-heading font-bold text-foreground mb-4 md:mb-6">
+              {relatedSectionTitle}
+            </h2>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              {relatedProducts.map((relatedProduct) => {
+                const relatedPackSize = getRelatedPackSize(relatedProduct.id);
+                return (
+                  <article
+                    key={relatedProduct.id}
+                    className="rounded-2xl border border-border bg-card p-3 md:p-4 shadow-sm"
+                  >
+                    <LocalizedLink
+                      to={`/product/${relatedProduct.id}`}
+                      className="block relative aspect-square rounded-xl border border-border/50 bg-muted/20 p-3 overflow-hidden"
+                    >
+                      <img
+                        src={relatedProduct.image}
+                        alt={relatedProduct.name}
+                        className="w-full h-full object-contain"
+                      />
+                    </LocalizedLink>
+                    <div className="mt-3 space-y-3">
+                      <Select
+                        value={String(relatedPackSize)}
+                        onValueChange={(val) => handleRelatedPackChange(relatedProduct.id, parseInt(val, 10))}
+                      >
+                        <SelectTrigger hideIcon className="h-10 rounded-lg border border-border/80 px-3 text-sm">
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent className="rounded-xl border border-border bg-white">
+                          <SelectGroup>
+                            {packOptions.map((option) => {
+                              const isSelected = relatedPackSize === option.size;
+                              return (
+                                <SelectItem
+                                  key={option.size}
+                                  value={String(option.size)}
+                                  className={`focus:bg-primary/5 focus:text-foreground data-[highlighted]:bg-primary/5 data-[highlighted]:text-foreground ${
+                                    isSelected
+                                      ? "bg-primary/[0.08] text-primary border-primary/20 shadow-none"
+                                      : "hover:bg-primary/5"
+                                  } border border-transparent`}
+                                >
+                                  {option.size} {t("cans")}
+                                </SelectItem>
+                              );
+                            })}
+                          </SelectGroup>
+                        </SelectContent>
+                      </Select>
+                      <Button
+                        className="w-full h-10 text-sm font-bold"
+                        onClick={() => handleAddRelatedToCart(relatedProduct)}
+                      >
+                        {t("addToCart")}
+                      </Button>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+        )}
       </main>
 
       <Footer />
