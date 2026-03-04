@@ -368,6 +368,8 @@ export type Database = {
           name: string
           popularity: number | null
           price: number
+          sku: string | null
+          stock_count: number
           strength: string
           strength_mg: number
           updated_at: string
@@ -386,6 +388,8 @@ export type Database = {
           name: string
           popularity?: number | null
           price?: number
+          sku?: string | null
+          stock_count?: number
           strength?: string
           strength_mg?: number
           updated_at?: string
@@ -404,6 +408,8 @@ export type Database = {
           name?: string
           popularity?: number | null
           price?: number
+          sku?: string | null
+          stock_count?: number
           strength?: string
           strength_mg?: number
           updated_at?: string

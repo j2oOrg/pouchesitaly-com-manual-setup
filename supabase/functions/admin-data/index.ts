@@ -15,6 +15,149 @@ const getCorsHeaders = (req: Request) => {
     : { ...corsHeaders, 'Access-Control-Allow-Origin': origin, Vary: 'Origin' }
 }
 
+type ImportConflictStrategy = 'skip' | 'update'
+
+type ImportRowAction = 'inserted' | 'updated' | 'skipped' | 'error'
+
+interface ImportProductRowInput {
+  row_number?: number
+  sku?: string | null
+  name?: string
+  brand?: string
+  strength?: string
+  strength_mg?: number
+  flavor?: string
+  price?: number
+  stock_count?: number
+  is_active?: boolean
+  image?: string | null
+  image_2?: string | null
+  image_3?: string | null
+  description?: string | null
+  description_it?: string | null
+  popularity?: number
+}
+
+interface ExistingProductKey {
+  id: string
+  name: string
+  sku: string | null
+}
+
+interface ImportRowResult {
+  row_number: number
+  action: ImportRowAction
+  id: string | null
+  name: string | null
+  sku: string | null
+  message: string
+}
+
+const normalizeKey = (value: string | null | undefined) =>
+  (value || '').trim().toLowerCase()
+
+const normalizeSku = (value: string | null | undefined) =>
+  (value || '').trim().toUpperCase()
+
+const cleanText = (value: unknown): string => (typeof value === 'string' ? value.trim() : '')
+
+const toOptionalNumber = (value: unknown): number | null => {
+  if (typeof value === 'number' && Number.isFinite(value)) return value
+  if (typeof value !== 'string') return null
+  const normalized = value.replace(/[^0-9,.-]/g, '').replace(',', '.')
+  const parsed = Number(normalized)
+  return Number.isFinite(parsed) ? parsed : null
+}
+
+const toBoolean = (value: unknown, fallback = true): boolean => {
+  if (typeof value === 'boolean') return value
+  if (typeof value !== 'string') return fallback
+  const normalized = value.trim().toLowerCase()
+  if (['true', '1', 'yes', 'y', 'enabled', 'active'].includes(normalized)) return true
+  if (['false', '0', 'no', 'n', 'disabled', 'inactive'].includes(normalized)) return false
+  return fallback
+}
+
+const isHttpUrl = (value: string) => /^https?:\/\//i.test(value)
+
+const extensionFromContentType = (contentType: string | null) => {
+  const normalized = (contentType || '').toLowerCase().split(';')[0].trim()
+  if (normalized === 'image/jpeg') return 'jpg'
+  if (normalized === 'image/png') return 'png'
+  if (normalized === 'image/webp') return 'webp'
+  if (normalized === 'image/gif') return 'gif'
+  if (normalized === 'image/avif') return 'avif'
+  if (normalized === 'image/svg+xml') return 'svg'
+  return ''
+}
+
+const extensionFromUrl = (url: string) => {
+  try {
+    const pathname = new URL(url).pathname
+    const lastSegment = pathname.split('/').pop() || ''
+    const extension = lastSegment.includes('.') ? lastSegment.split('.').pop() || '' : ''
+    return extension.replace(/[^a-z0-9]/gi, '').toLowerCase()
+  } catch {
+    return ''
+  }
+}
+
+const shouldDownloadImage = (imageUrl: string, supabaseUrl: string) => {
+  if (!isHttpUrl(imageUrl)) return false
+  if (imageUrl.startsWith(`${supabaseUrl}/storage/v1/object/public/product-images/`)) {
+    return false
+  }
+  return true
+}
+
+const downloadAndUploadImage = async (
+  supabaseAdmin: ReturnType<typeof createClient>,
+  supabaseUrl: string,
+  imageUrl: string | null,
+): Promise<{ url: string | null; warning: string | null }> => {
+  if (!imageUrl) return { url: null, warning: null }
+  const trimmed = imageUrl.trim()
+  if (!trimmed) return { url: null, warning: null }
+
+  if (!shouldDownloadImage(trimmed, supabaseUrl)) {
+    return { url: trimmed, warning: null }
+  }
+
+  try {
+    const response = await fetch(trimmed, { redirect: 'follow' })
+    if (!response.ok) {
+      return { url: trimmed, warning: `Image download failed with status ${response.status}` }
+    }
+
+    const contentType = response.headers.get('content-type')
+    const contentTypeIsImage = (contentType || '').toLowerCase().startsWith('image/')
+    if (!contentTypeIsImage) {
+      return { url: trimmed, warning: 'Image URL did not return an image content-type' }
+    }
+
+    const extension = extensionFromContentType(contentType) || extensionFromUrl(trimmed) || 'jpg'
+    const filePath = `products/import/${crypto.randomUUID()}.${extension}`
+    const buffer = await response.arrayBuffer()
+
+    const { error: uploadError } = await supabaseAdmin.storage
+      .from('product-images')
+      .upload(filePath, buffer, { contentType: contentType || 'image/jpeg', upsert: false })
+
+    if (uploadError) {
+      return { url: trimmed, warning: `Image upload failed: ${uploadError.message}` }
+    }
+
+    const { data: publicUrlData } = supabaseAdmin.storage
+      .from('product-images')
+      .getPublicUrl(filePath)
+
+    return { url: publicUrlData.publicUrl, warning: null }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown image download error'
+    return { url: trimmed, warning: message }
+  }
+}
+
 Deno.serve(async (req) => {
   const responseCorsHeaders = getCorsHeaders(req)
 
@@ -209,6 +352,232 @@ Deno.serve(async (req) => {
               full_name: u.user_metadata?.full_name || null
             }))
           result = adminUsers
+        } else if (data?.function === 'import_products') {
+          const strategy: ImportConflictStrategy = data?.conflict_strategy === 'update' ? 'update' : 'skip'
+          const rowsInput = Array.isArray(data?.rows) ? data.rows as ImportProductRowInput[] : []
+
+          if (rowsInput.length === 0) {
+            return new Response(
+              JSON.stringify({ error: 'No rows provided for import' }),
+              { status: 400, headers: { ...responseCorsHeaders, 'Content-Type': 'application/json' } }
+            )
+          }
+
+          if (rowsInput.length > 5000) {
+            return new Response(
+              JSON.stringify({ error: 'Too many rows. Maximum 5000 rows per import.' }),
+              { status: 400, headers: { ...responseCorsHeaders, 'Content-Type': 'application/json' } }
+            )
+          }
+
+          const { data: existingProducts, error: existingError } = await supabaseAdmin
+            .from('products')
+            .select('id, name, sku')
+
+          if (existingError) throw existingError
+
+          const existingBySku = new Map<string, ExistingProductKey>()
+          const existingByName = new Map<string, ExistingProductKey>()
+
+          for (const product of existingProducts || []) {
+            const skuKey = normalizeSku(product.sku)
+            const nameKey = normalizeKey(product.name)
+            if (skuKey && !existingBySku.has(skuKey)) {
+              existingBySku.set(skuKey, product as ExistingProductKey)
+            }
+            if (nameKey && !existingByName.has(nameKey)) {
+              existingByName.set(nameKey, product as ExistingProductKey)
+            }
+          }
+
+          const seenSku = new Map<string, number>()
+          const seenName = new Map<string, number>()
+          const rowResults: ImportRowResult[] = []
+          const summary = {
+            total: rowsInput.length,
+            inserted: 0,
+            updated: 0,
+            skipped: 0,
+            errors: 0,
+          }
+
+          for (let index = 0; index < rowsInput.length; index += 1) {
+            const rawRow = rowsInput[index]
+            const rowNumber = Number.isFinite(rawRow.row_number) ? Number(rawRow.row_number) : index + 2
+
+            const name = cleanText(rawRow.name)
+            const brand = cleanText(rawRow.brand)
+            const sku = cleanText(rawRow.sku)
+            const strength = cleanText(rawRow.strength) || 'Regular'
+            const flavor = cleanText(rawRow.flavor) || 'Mint'
+            const price = toOptionalNumber(rawRow.price)
+            const strengthMg = toOptionalNumber(rawRow.strength_mg)
+            const stockCount = toOptionalNumber(rawRow.stock_count)
+            const popularity = toOptionalNumber(rawRow.popularity)
+            const isActive = toBoolean(rawRow.is_active, true)
+            const description = cleanText(rawRow.description) || null
+            const descriptionIt = cleanText(rawRow.description_it) || null
+            const image = cleanText(rawRow.image) || null
+            const image2 = cleanText(rawRow.image_2) || null
+            const image3 = cleanText(rawRow.image_3) || null
+
+            if (!name || !brand || price === null) {
+              summary.errors += 1
+              rowResults.push({
+                row_number: rowNumber,
+                action: 'error',
+                id: null,
+                name: name || null,
+                sku: sku || null,
+                message: 'Missing required fields (name, brand, and valid price are required).',
+              })
+              continue
+            }
+
+            const skuKey = normalizeSku(sku)
+            const nameKey = normalizeKey(name)
+            const duplicateSkuRow = skuKey ? seenSku.get(skuKey) : undefined
+            const duplicateNameRow = nameKey ? seenName.get(nameKey) : undefined
+
+            if (duplicateSkuRow || duplicateNameRow) {
+              summary.skipped += 1
+              rowResults.push({
+                row_number: rowNumber,
+                action: 'skipped',
+                id: null,
+                name,
+                sku: sku || null,
+                message: duplicateSkuRow
+                  ? `Duplicate SKU in CSV (first seen in row ${duplicateSkuRow}).`
+                  : `Duplicate product name in CSV (first seen in row ${duplicateNameRow}).`,
+              })
+              continue
+            }
+
+            if (skuKey) seenSku.set(skuKey, rowNumber)
+            if (nameKey) seenName.set(nameKey, rowNumber)
+
+            const skuMatch = skuKey ? existingBySku.get(skuKey) : undefined
+            const nameMatch = nameKey ? existingByName.get(nameKey) : undefined
+
+            if (skuMatch && nameMatch && skuMatch.id !== nameMatch.id) {
+              summary.skipped += 1
+              rowResults.push({
+                row_number: rowNumber,
+                action: 'skipped',
+                id: null,
+                name,
+                sku: sku || null,
+                message: 'Conflict is ambiguous: SKU matches one product and name matches another.',
+              })
+              continue
+            }
+
+            const existingMatch = skuMatch || nameMatch
+            if (existingMatch && strategy === 'skip') {
+              summary.skipped += 1
+              rowResults.push({
+                row_number: rowNumber,
+                action: 'skipped',
+                id: existingMatch.id,
+                name,
+                sku: sku || null,
+                message: skuMatch
+                  ? `Conflict on SKU with existing product "${existingMatch.name}".`
+                  : `Conflict on name with existing product "${existingMatch.name}".`,
+              })
+              continue
+            }
+
+            const uploadedImage = await downloadAndUploadImage(supabaseAdmin, supabaseUrl, image)
+            const uploadedImage2 = await downloadAndUploadImage(supabaseAdmin, supabaseUrl, image2)
+            const uploadedImage3 = await downloadAndUploadImage(supabaseAdmin, supabaseUrl, image3)
+            const warnings = [uploadedImage.warning, uploadedImage2.warning, uploadedImage3.warning].filter(Boolean)
+
+            const productPayload = {
+              sku: sku || null,
+              name,
+              brand,
+              strength,
+              strength_mg: Math.max(1, Math.round(strengthMg ?? 6)),
+              flavor,
+              price: Number((price ?? 0).toFixed(2)),
+              stock_count: Math.max(0, Math.round(stockCount ?? 0)),
+              is_active: isActive,
+              image: uploadedImage.url,
+              image_2: uploadedImage2.url,
+              image_3: uploadedImage3.url,
+              description,
+              description_it: descriptionIt,
+              popularity: Math.min(100, Math.max(1, Math.round(popularity ?? 50))),
+            }
+
+            try {
+              if (existingMatch && strategy === 'update') {
+                const { data: updatedRow, error: updateError } = await supabaseAdmin
+                  .from('products')
+                  .update(productPayload)
+                  .eq('id', existingMatch.id)
+                  .select('id, name, sku')
+                  .single()
+
+                if (updateError) throw updateError
+
+                const updatedProduct = updatedRow as ExistingProductKey
+                const updatedSkuKey = normalizeSku(updatedProduct.sku)
+                const updatedNameKey = normalizeKey(updatedProduct.name)
+                if (updatedSkuKey) existingBySku.set(updatedSkuKey, updatedProduct)
+                if (updatedNameKey) existingByName.set(updatedNameKey, updatedProduct)
+
+                summary.updated += 1
+                rowResults.push({
+                  row_number: rowNumber,
+                  action: 'updated',
+                  id: updatedProduct.id,
+                  name: updatedProduct.name,
+                  sku: updatedProduct.sku,
+                  message: warnings.length > 0 ? `Updated with image warnings: ${warnings.join(' | ')}` : 'Updated existing product.',
+                })
+              } else {
+                const { data: insertedRow, error: insertError } = await supabaseAdmin
+                  .from('products')
+                  .insert(productPayload)
+                  .select('id, name, sku')
+                  .single()
+
+                if (insertError) throw insertError
+
+                const insertedProduct = insertedRow as ExistingProductKey
+                const insertedSkuKey = normalizeSku(insertedProduct.sku)
+                const insertedNameKey = normalizeKey(insertedProduct.name)
+                if (insertedSkuKey) existingBySku.set(insertedSkuKey, insertedProduct)
+                if (insertedNameKey) existingByName.set(insertedNameKey, insertedProduct)
+
+                summary.inserted += 1
+                rowResults.push({
+                  row_number: rowNumber,
+                  action: 'inserted',
+                  id: insertedProduct.id,
+                  name: insertedProduct.name,
+                  sku: insertedProduct.sku,
+                  message: warnings.length > 0 ? `Inserted with image warnings: ${warnings.join(' | ')}` : 'Inserted new product.',
+                })
+              }
+            } catch (rowError) {
+              summary.errors += 1
+              const message = rowError instanceof Error ? rowError.message : 'Unknown import error'
+              rowResults.push({
+                row_number: rowNumber,
+                action: 'error',
+                id: null,
+                name,
+                sku: sku || null,
+                message,
+              })
+            }
+          }
+
+          result = { summary, rows: rowResults }
         } else {
           return new Response(
             JSON.stringify({ error: 'Unknown RPC function' }),

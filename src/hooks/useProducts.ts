@@ -3,12 +3,14 @@ import { supabase } from '@/integrations/supabase/client';
 
 export interface DbProduct {
   id: string;
+  sku: string | null;
   name: string;
   brand: string;
   strength: string;
   strength_mg: number;
   flavor: string;
   price: number;
+  stock_count: number;
   image: string | null;
   image_2: string | null;
   image_3: string | null;
@@ -21,12 +23,14 @@ export interface DbProduct {
 }
 
 export interface ProductInput {
+  sku?: string | null;
   name: string;
   brand: string;
   strength: string;
   strength_mg: number;
   flavor: string;
   price: number;
+  stock_count?: number;
   image?: string | null;
   image_2?: string | null;
   image_3?: string | null;

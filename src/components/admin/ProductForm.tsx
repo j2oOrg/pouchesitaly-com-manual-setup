@@ -22,12 +22,14 @@ const flavors = ['Mint', 'Citrus', 'Berry', 'Coffee', 'Fruit', 'Tobacco', 'Winte
 
 export function ProductForm({ product, onSubmit, onCancel, isLoading }: ProductFormProps) {
   const [formData, setFormData] = useState<ProductInput>({
+    sku: '',
     name: '',
     brand: 'ZYN',
     strength: 'Regular',
     strength_mg: 6,
     flavor: 'Mint',
     price: 4.99,
+    stock_count: 0,
     image: null,
     image_2: null,
     image_3: null,
@@ -57,12 +59,14 @@ export function ProductForm({ product, onSubmit, onCancel, isLoading }: ProductF
   useEffect(() => {
     if (product) {
       setFormData({
+        sku: product.sku || '',
         name: product.name,
         brand: product.brand,
         strength: product.strength,
         strength_mg: product.strength_mg,
         flavor: product.flavor,
         price: Number(product.price),
+        stock_count: product.stock_count ?? 0,
         image: product.image || null,
         image_2: product.image_2 || null,
         image_3: product.image_3 || null,
@@ -76,7 +80,11 @@ export function ProductForm({ product, onSubmit, onCancel, isLoading }: ProductF
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await onSubmit(formData);
+    await onSubmit({
+      ...formData,
+      sku: formData.sku?.trim() ? formData.sku.trim() : null,
+      stock_count: Math.max(0, Number(formData.stock_count) || 0),
+    });
   };
 
   return (
@@ -95,15 +103,26 @@ export function ProductForm({ product, onSubmit, onCancel, isLoading }: ProductF
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
           {/* Name */}
-          <div className="space-y-2">
-            <Label htmlFor="name">Product Name *</Label>
-            <Input
-              id="name"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              placeholder="e.g., Polar Freeze 10mg"
-              required
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="name">Product Name *</Label>
+              <Input
+                id="name"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                placeholder="e.g., Polar Freeze 10mg"
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="sku">SKU</Label>
+              <Input
+                id="sku"
+                value={formData.sku || ''}
+                onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
+                placeholder="e.g., Z-CWM-6"
+              />
+            </div>
           </div>
 
           {/* Brand & Flavor Row */}
@@ -176,8 +195,8 @@ export function ProductForm({ product, onSubmit, onCancel, isLoading }: ProductF
             </div>
           </div>
 
-          {/* Price & Popularity Row */}
-          <div className="grid grid-cols-2 gap-4">
+          {/* Price, Stock & Popularity Row */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-2">
               <Label htmlFor="price">Price (€) *</Label>
               <Input
@@ -188,6 +207,16 @@ export function ProductForm({ product, onSubmit, onCancel, isLoading }: ProductF
                 value={formData.price}
                 onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) || 0 })}
                 required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="stock_count">Stock Count</Label>
+              <Input
+                id="stock_count"
+                type="number"
+                min="0"
+                value={formData.stock_count ?? 0}
+                onChange={(e) => setFormData({ ...formData, stock_count: Math.max(0, parseInt(e.target.value, 10) || 0) })}
               />
             </div>
 

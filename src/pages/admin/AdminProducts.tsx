@@ -3,8 +3,10 @@ import { Plus, Pencil, Trash2, Search, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { useQueryClient } from '@tanstack/react-query';
 import { AdminLayout } from '@/components/admin/AdminLayout';
 import { ProductForm } from '@/components/admin/ProductForm';
+import { ProductCsvImport } from '@/components/admin/ProductCsvImport';
 import { 
   useProducts, 
   useCreateProduct, 
@@ -30,6 +32,7 @@ export default function AdminProducts() {
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<DbProduct | null>(null);
   const [deletingProduct, setDeletingProduct] = useState<DbProduct | null>(null);
+  const queryClient = useQueryClient();
   
   const { data: products, isLoading } = useProducts(true);
   const createProduct = useCreateProduct();
@@ -40,7 +43,8 @@ export default function AdminProducts() {
   const filteredProducts = products?.filter(product =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     product.brand.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    product.flavor.toLowerCase().includes(searchQuery.toLowerCase())
+    product.flavor.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (product.sku || '').toLowerCase().includes(searchQuery.toLowerCase())
   ) || [];
 
   const handleCreate = async (data: ProductInput) => {
@@ -94,13 +98,21 @@ export default function AdminProducts() {
             <h1 className="text-3xl font-heading font-bold text-foreground">Products</h1>
             <p className="text-muted-foreground mt-1">Manage your product catalog</p>
           </div>
-          <Button 
-            onClick={() => setShowForm(true)}
-            className="bg-primary hover:bg-primary/90"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            Add Product
-          </Button>
+          <div className="flex items-center gap-2">
+            <ProductCsvImport
+              existingProducts={products || []}
+              onImported={() => {
+                queryClient.invalidateQueries({ queryKey: ['products'] });
+              }}
+            />
+            <Button 
+              onClick={() => setShowForm(true)}
+              className="bg-primary hover:bg-primary/90"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Add Product
+            </Button>
+          </div>
         </div>
 
         {/* Search */}
@@ -130,10 +142,12 @@ export default function AdminProducts() {
                 <thead className="bg-muted">
                   <tr>
                     <th className="text-left p-4 font-medium text-muted-foreground">Product</th>
+                    <th className="text-left p-4 font-medium text-muted-foreground">SKU</th>
                     <th className="text-left p-4 font-medium text-muted-foreground">Brand</th>
                     <th className="text-left p-4 font-medium text-muted-foreground">Strength</th>
                     <th className="text-left p-4 font-medium text-muted-foreground">Flavor</th>
                     <th className="text-left p-4 font-medium text-muted-foreground">Price</th>
+                    <th className="text-left p-4 font-medium text-muted-foreground">Stock</th>
                     <th className="text-left p-4 font-medium text-muted-foreground">Status</th>
                     <th className="text-right p-4 font-medium text-muted-foreground">Actions</th>
                   </tr>
@@ -160,6 +174,7 @@ export default function AdminProducts() {
                           </div>
                         </div>
                       </td>
+                      <td className="p-4 text-muted-foreground">{product.sku || '-'}</td>
                       <td className="p-4 text-foreground">{product.brand}</td>
                       <td className="p-4">
                         <Badge className={getStrengthColor(product.strength)}>
@@ -168,6 +183,7 @@ export default function AdminProducts() {
                       </td>
                       <td className="p-4 text-foreground">{product.flavor}</td>
                       <td className="p-4 text-foreground font-medium">€{Number(product.price).toFixed(2)}</td>
+                      <td className="p-4 text-foreground">{product.stock_count ?? 0}</td>
                       <td className="p-4">
                         <Badge variant={product.is_active ? 'default' : 'secondary'}>
                           {product.is_active ? 'Active' : 'Inactive'}
