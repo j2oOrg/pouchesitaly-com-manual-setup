@@ -134,19 +134,19 @@ export default function HomePage() {
   const learnMoreCards = [
     {
       to: "/premium-brands",
-      category: "Information",
+      category: t("information") || "Information",
       title: t("premiumNicotineBrands"),
       description: t("premiumNicotineBrandsDesc"),
     },
     {
       to: "/shipping-info",
-      category: "Delivery",
+      category: t("deliveryTimeframes") || "Delivery",
       title: t("worldwideShippingInfo"),
       description: t("worldwideShippingDesc"),
     },
     {
       to: "/why-choose-us",
-      category: "About",
+      category: t("aboutUs") || "About",
       title: t("whyChooseUs"),
       description: t("whyChooseUsDesc"),
     },
@@ -186,23 +186,23 @@ export default function HomePage() {
           <div className="absolute inset-0 bg-primary/10 mix-blend-overlay" />
           <div className="relative z-10 px-6 max-w-4xl mx-auto flex flex-col items-center">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-black text-white mb-6 drop-shadow-lg tracking-tight leading-tight">
-              Elevate Your <br className="hidden md:block" /> Experience
+              {t("elevateExperience")}
             </h1>
             <p className="text-lg md:text-xl text-white/90 mb-10 font-medium max-w-2xl mx-auto drop-shadow-md">
-              Discover our curated selection of top brands. Fast, discreet worldwide shipping straight to your door, with unbeatable prices.
+              {t("heroDesc")}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
               <a
                 href="#products"
                 className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg px-8 py-4 rounded-full transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-primary/25 flex items-center justify-center gap-2"
               >
-                Shop Now <ArrowRight className="w-5 h-5" />
+                {t("shopNow")} <ArrowRight className="w-5 h-5" />
               </a>
               <LocalizedLink
                 to="/premium-brands"
                 className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white font-bold text-lg px-8 py-4 rounded-full transition-all duration-300 backdrop-blur-md border border-white/20"
               >
-                View Brands
+                {t("viewBrands")}
               </LocalizedLink>
             </div>
           </div>
@@ -240,7 +240,7 @@ export default function HomePage() {
                 }`}
               >
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="font-heading font-bold text-lg">Filters</h3>
+                  <h3 className="font-heading font-bold text-lg">{t("filters")}</h3>
                   {hasActiveFilters && (
                     <button
                       onClick={clearFilters}

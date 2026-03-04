@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { 
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -197,7 +198,7 @@ export default function ProductPage() {
         <div className="mb-4 md:mb-6">
           <LocalizedLink to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors font-medium">
             <ArrowLeft className="w-4 h-4" />
-            Back to Products
+            {t("backToProducts")}
           </LocalizedLink>
         </div>
 
@@ -261,11 +262,10 @@ export default function ProductPage() {
               )}
 
               <div className="space-y-6 flex-1">
-                {/* Pack Size Selection */}
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
-                      {t("selectPackSize") || "Select Pack Size"}
+                    <h3 className="text-[11px] font-bold uppercase tracking-[0.1em] text-muted-foreground/80">
+                      {t("selectPackSize")}
                     </h3>
                   </div>
                   
@@ -273,61 +273,78 @@ export default function ProductPage() {
                     value={selectedPack.toString()} 
                     onValueChange={(val) => setSelectedPack(parseInt(val, 10))}
                   >
-                    <SelectTrigger className="w-full h-16 bg-background border-2 border-border rounded-xl font-medium focus:ring-primary/20 transition-all hover:border-primary/40 text-left relative overflow-hidden">
-                      <div className="flex items-center justify-between w-full pr-1">
-                        <span className="font-bold flex items-center gap-2 text-lg">
-                          {selectedPack} {t("cans")}
-                          {selectedPack === 20 && <span className="bg-destructive/10 text-destructive text-[10px] font-bold uppercase px-1.5 py-0.5 rounded ml-1">Best Value</span>}
-                          {selectedPack === 10 && <span className="bg-secondary/10 text-secondary text-[10px] font-bold uppercase px-1.5 py-0.5 rounded ml-1">Popular</span>}
-                        </span>
-                        <div className="flex flex-col items-end text-right mr-1">
-                          <span className="text-base font-bold text-foreground leading-none">
-                            €{(product.price * (1 - (packOptions.find(o => o.size === selectedPack)?.discount || 0))).toFixed(2)}<span className="text-xs font-normal text-muted-foreground">/can</span>
+                    <SelectTrigger hideIcon className="w-full h-[80px] bg-background border-2 border-border/80 rounded-2xl font-medium focus:ring-primary/20 transition-all hover:border-primary hover:bg-muted/5 text-left relative overflow-hidden px-6 shadow-sm">
+                      <div className="flex items-center justify-between w-full">
+                        <div className="flex flex-col items-start gap-1">
+                          <span className="font-bold text-xl flex items-center gap-3 text-foreground">
+                            {selectedPack} {t("cans")}
+                          </span>
+                          <div className="flex gap-2">
+                            {selectedPack === 20 ? (
+                              <span className="text-[10px] font-black text-destructive uppercase tracking-wider bg-destructive/10 px-2 py-0.5 rounded-md border border-destructive/20">{t("bestValue")}</span>
+                            ) : selectedPack === 10 ? (
+                              <span className="text-[10px] font-black text-indigo-600 uppercase tracking-wider bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-100">{t("popular")}</span>
+                            ) : (
+                              <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">{t("standardPack")}</span>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex flex-col items-end text-right">
+                          <span className="text-xl font-black text-foreground">
+                            €{(product.price * (1 - (packOptions.find(o => o.size === selectedPack)?.discount || 0))).toFixed(2)}
+                            <span className="text-xs font-medium text-muted-foreground ml-1">/{t("cans").replace("lattine", "pz")}</span>
                           </span>
                           {(packOptions.find(o => o.size === selectedPack)?.discount || 0) > 0 && (
-                            <span className="text-[10px] text-emerald-500 font-bold leading-none mt-1 block">
-                              Save {Math.round((packOptions.find(o => o.size === selectedPack)?.discount || 0) * 100)}%
+                            <span className="text-xs text-emerald-600 font-bold mt-1">
+                              {t("save")} {Math.round((packOptions.find(o => o.size === selectedPack)?.discount || 0) * 100)}% {t("today")}
                             </span>
                           )}
                         </div>
                       </div>
                     </SelectTrigger>
-                    <SelectContent className="rounded-xl border-2 border-border shadow-lg p-1">
-                      {packOptions.map((option) => {
-                        const pricePerCan = (product.price * (1 - option.discount)).toFixed(2);
-                        const isBestValue = option.size === 20;
-                        const isPopular = option.size === 10;
-                        
-                        return (
-                          <SelectItem 
-                            key={option.size} 
-                            value={option.size.toString()} 
-                            className="cursor-pointer py-3 px-3 rounded-lg my-0.5 hover:bg-primary/5 focus:bg-primary/5 focus:text-foreground relative group">
-                            <div className="flex items-center justify-between w-full">
-                              <div className="flex flex-col gap-0.5">
-                                <div className="flex items-center gap-2">
-                                  <span className="font-bold text-foreground">{option.size} {t("cans")}</span>
-                                  {isBestValue && (
-                                    <span className="bg-destructive/10 text-destructive text-[10px] font-bold uppercase px-1.5 py-0.5 rounded">Best Value</span>
-                                  )}
-                                  {isPopular && !isBestValue && (
-                                    <span className="bg-secondary/10 text-secondary text-[10px] font-bold uppercase px-1.5 py-0.5 rounded">Popular</span>
+                    <SelectContent className="rounded-[2rem] border-2 border-border shadow-2xl p-2 bg-white">
+                      <SelectGroup>
+                        {packOptions.map((option) => {
+                          const pricePerCan = (product.price * (1 - option.discount)).toFixed(2);
+                          const isBestValue = option.size === 20;
+                          const isPopular = option.size === 10;
+                          const isSelected = selectedPack === option.size;
+                          
+                          return (
+                            <SelectItem 
+                              key={option.size} 
+                              value={option.size.toString()} 
+                              className={`cursor-pointer py-5 px-6 rounded-[1.5rem] my-1.5 transition-all duration-300 ${
+                                isSelected 
+                                ? "bg-primary/10 text-primary border-primary/20 shadow-none" 
+                                : "hover:bg-muted focus:bg-muted"
+                              } border border-transparent`}>
+                              <div className="flex items-center justify-between w-full">
+                                <div className="flex flex-col gap-1">
+                                  <div className="flex items-center gap-3">
+                                    <span className={`font-bold text-lg ${isSelected ? 'text-primary' : 'text-foreground'}`}>{option.size} {t("cans")}</span>
+                                    {isBestValue && (
+                                      <span className={`${isSelected ? 'bg-destructive/10 text-destructive border-destructive/20' : 'bg-destructive text-white'} text-[10px] font-black uppercase px-2 py-0.5 rounded-full border shadow-sm`}>Best Value</span>
+                                    )}
+                                    {isPopular && !isBestValue && (
+                                      <span className={`${isSelected ? 'bg-indigo-50 text-indigo-600 border-indigo-200' : 'bg-indigo-600 text-white'} text-[10px] font-black uppercase px-2 py-0.5 rounded-full border shadow-sm`}>Popular</span>
+                                    )}
+                                  </div>
+                                  {option.discount > 0 && (
+                                    <span className={`text-xs font-bold ${isSelected ? 'text-emerald-700' : 'text-emerald-600'}`}>
+                                      {t("exclusiveDiscount")} {Math.round(option.discount * 100)}%
+                                    </span>
                                   )}
                                 </div>
-                                {option.discount > 0 && (
-                                  <span className="text-[10px] font-medium text-emerald-500">
-                                    Save {Math.round(option.discount * 100)}%
-                                  </span>
-                                )}
+                                <div className="flex flex-col items-end pl-8">
+                                  <span className={`font-black text-xl ${isSelected ? 'text-primary' : 'text-foreground'}`}>€{pricePerCan}</span>
+                                  <span className={`text-[10px] font-bold uppercase tracking-[0.1em] ${isSelected ? 'text-primary/70' : 'text-muted-foreground'}`}>/ {t("cans").replace("lattine", "pz")}</span>
+                                </div>
                               </div>
-                              <div className="flex flex-col items-end pl-4">
-                                <span className="font-bold text-base">€{pricePerCan}</span>
-                                <span className="text-[10px] text-muted-foreground uppercase tracking-wider">/ can</span>
-                              </div>
-                            </div>
-                          </SelectItem>
-                        );
-                      })}
+                            </SelectItem>
+                          );
+                        })}
+                      </SelectGroup>
                     </SelectContent>
                   </Select>
                 </div>
@@ -335,7 +352,7 @@ export default function ProductPage() {
                 {/* Price Summary */}
                 <div className="bg-muted/30 rounded-2xl p-4 md:p-6 border border-border/50">
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-muted-foreground font-medium text-sm md:text-base">Total Price:</span>
+                    <span className="text-muted-foreground font-medium text-sm md:text-base">{t("totalPrice")}:</span>
                     <div className="flex items-center gap-3">
                       {selectedDiscount > 0 && (
                         <span className="text-base md:text-lg text-muted-foreground line-through">
@@ -349,7 +366,7 @@ export default function ProductPage() {
                   </div>
                   {selectedDiscount > 0 && (
                     <p className="text-right text-xs md:text-sm font-medium text-emerald-500 flex items-center justify-end gap-1">
-                      <Info className="w-3 h-3 md:w-4 md:h-4" /> You save €{savingsAmount}
+                      <Info className="w-3 h-3 md:w-4 md:h-4" /> {t("youSave")} €{savingsAmount}
                     </p>
                   )}
                 </div>
@@ -378,7 +395,7 @@ export default function ProductPage() {
                     className="flex-1 h-14 text-lg font-bold rounded-xl shadow-lg hover:shadow-primary/25 transition-all active:scale-95"
                     onClick={handleAddToCart}
                   >
-                    Add {quantity * selectedPack} {t("cans")} to Cart
+                    {t("addToCart")} ({quantity * selectedPack} {t("cans")})
                   </Button>
                 </div>
                 
@@ -388,49 +405,49 @@ export default function ProductPage() {
                     <div className="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center">
                       <ShieldCheck className="w-4 h-4 text-emerald-600" />
                     </div>
-                    <span className="text-xs font-semibold">100% Original</span>
+                    <span className="text-xs font-semibold">{t("originalProduct")}</span>
                   </div>
                   <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/20 border border-border/40">
                     <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center">
                       <Truck className="w-4 h-4 text-blue-600" />
                     </div>
-                    <span className="text-xs font-semibold">Fast Shipping</span>
+                    <span className="text-xs font-semibold">{t("fastShippingBadge")}</span>
                   </div>
                   <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/20 border border-border/40">
                     <div className="flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center">
                       <Star className="w-4 h-4 text-amber-600" />
                     </div>
-                    <span className="text-xs font-semibold">Best Price</span>
+                    <span className="text-xs font-semibold">{t("bestPrice")}</span>
                   </div>
                 </div>
 
                 {/* Product Details Section */}
                 <div className="bg-background rounded-2xl p-6 border border-border mt-4">
                   <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">
-                    Product Specifications
+                    {t("productSpecifications")}
                   </h3>
                   <div className="grid grid-cols-2 gap-y-4 gap-x-6 text-sm">
                     <div>
-                      <span className="text-muted-foreground block mb-1">Brand</span>
+                      <span className="text-muted-foreground block mb-1">{t("brand")}</span>
                       <span className="font-semibold text-foreground">{product.brand}</span>
                     </div>
                     <div>
-                      <span className="text-muted-foreground block mb-1">Format</span>
+                      <span className="text-muted-foreground block mb-1">{t("format")}</span>
                       <span className="font-semibold text-foreground">Slim</span>
                     </div>
                     <div>
-                      <span className="text-muted-foreground block mb-1">Strength</span>
+                      <span className="text-muted-foreground block mb-1">{t("strength")}</span>
                       <span className="font-semibold text-foreground">{product.strength} ({product.strengthMg}mg/g)</span>
                     </div>
                     <div>
-                      <span className="text-muted-foreground block mb-1">Flavor Profile</span>
+                      <span className="text-muted-foreground block mb-1">{t("flavorProfile")}</span>
                       <span className="font-semibold text-foreground capitalize">{product.flavor}</span>
                     </div>
                   </div>
                   
                   {product.ingredients && (
                     <div className="mt-6 pt-6 border-t border-border">
-                      <span className="text-muted-foreground block mb-2 text-sm font-medium">Ingredients</span>
+                      <span className="text-muted-foreground block mb-2 text-sm font-medium">{t("ingredients")}</span>
                       <p className="text-sm text-foreground leading-relaxed">
                         {product.ingredients}
                       </p>
