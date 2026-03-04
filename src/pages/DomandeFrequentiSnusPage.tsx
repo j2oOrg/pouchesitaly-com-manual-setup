@@ -17,12 +17,12 @@ const faqCategories = [
       {
         question: "Quanto tempo ci vuole per ricevere il mio ordine?",
         answer:
-          "I tempi di consegna variano in base alla destinazione. In Italia e in Europa, la consegna avviene generalmente in 7-10 giorni lavorativi. Per Nord America: 10-14 giorni, Asia e Oceania: 12-18 giorni, resto del mondo: 14-21 giorni. Tutti i tempi sono indicativi e possono variare in base allo sdoganamento.",
+          "I tempi di consegna in Italia sono generalmente: Nord 1-2 giorni lavorativi, Centro 1-3 giorni, Sud 2-4 giorni, Isole 3-5 giorni. Tutti i tempi sono indicativi e possono variare per meteo e operatività del corriere.",
       },
       {
         question: "La spedizione è davvero gratuita?",
         answer:
-          "Sì! Offriamo spedizione gratuita su tutti gli ordini in tutto il mondo, senza alcun acquisto minimo richiesto. Il tuo ordine verrà spedito in un imballaggio discreto e non contrassegnato.",
+          "La spedizione è gratuita per ordini pari o superiori a €100 in Italia. Per ordini sotto €100, il costo viene calcolato al checkout in base al corriere selezionato. Il tuo ordine viene sempre spedito in imballaggio discreto e non contrassegnato.",
       },
       {
         question: "Posso tracciare il mio ordine?",

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Minus, Plus, Loader2, Info, Star, ShieldCheck, Truck } from "lucide-react";
+import { ArrowLeft, Minus, Plus, Loader2, Info, ChevronDown } from "lucide-react";
 import { LocalizedLink } from "@/components/LocalizedLink";
 import { PageHeader } from "@/components/PageHeader";
 import { Footer } from "@/components/Footer";
@@ -14,7 +14,6 @@ import {
   SelectGroup,
   SelectItem,
   SelectTrigger,
-  SelectValue,
 } from "@/components/ui/select";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useProduct, useProducts, toFrontendProduct } from "@/hooks/useProducts";
@@ -301,7 +300,7 @@ export default function ProductPage() {
               <div className="space-y-6 flex-1">
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-[11px] font-bold uppercase tracking-[0.1em] text-muted-foreground/80">
+                    <h3 className="text-[11px] font-black uppercase tracking-[0.12em] bg-gradient-to-r from-primary via-emerald-600 to-blue-600 bg-clip-text text-transparent">
                       {t("selectPackSize")}
                     </h3>
                   </div>
@@ -310,8 +309,11 @@ export default function ProductPage() {
                     value={selectedPack.toString()} 
                     onValueChange={(val) => setSelectedPack(parseInt(val, 10))}
                   >
-                    <SelectTrigger hideIcon className="w-full h-[80px] bg-background border-2 border-border/80 rounded-2xl font-medium focus:ring-primary/20 transition-all hover:border-primary hover:bg-muted/5 text-left relative overflow-hidden px-6 shadow-sm">
-                      <div className="flex items-center justify-between w-full">
+                    <SelectTrigger
+                      hideIcon
+                      className="w-full h-[80px] bg-background border-2 border-primary/50 rounded-2xl font-medium transition-all hover:border-primary hover:bg-muted/5 text-left relative overflow-hidden px-6 shadow-[0_0_0_3px_rgba(50,120,93,0.12),0_10px_30px_rgba(50,120,93,0.2)] focus-visible:ring-2 focus-visible:ring-primary/55 focus-visible:ring-offset-2"
+                    >
+                      <div className="flex items-center justify-between w-full gap-4">
                         <div className="flex flex-col items-start gap-1">
                           <span className="font-bold text-xl flex items-center gap-3 text-foreground">
                             {selectedPack} {t("cans")}
@@ -326,16 +328,21 @@ export default function ProductPage() {
                             )}
                           </div>
                         </div>
-                        <div className="flex flex-col items-end text-right">
-                          <span className="text-xl font-black text-foreground">
-                            €{(product.price * (1 - (packOptions.find(o => o.size === selectedPack)?.discount || 0))).toFixed(2)}
-                            <span className="text-xs font-medium text-muted-foreground ml-1">/{t("cans").replace("lattine", "pz")}</span>
-                          </span>
-                          {(packOptions.find(o => o.size === selectedPack)?.discount || 0) > 0 && (
-                            <span className="text-xs text-emerald-600 font-bold mt-1">
-                              {t("save")} {Math.round((packOptions.find(o => o.size === selectedPack)?.discount || 0) * 100)}% {t("today")}
+                        <div className="flex items-center gap-3">
+                          <div className="flex flex-col items-end text-right">
+                            <span className="text-xl font-black text-foreground">
+                              €{(product.price * (1 - (packOptions.find(o => o.size === selectedPack)?.discount || 0))).toFixed(2)}
+                              <span className="text-xs font-medium text-muted-foreground ml-1">/{t("cans").replace("lattine", "pz")}</span>
                             </span>
-                          )}
+                            {(packOptions.find(o => o.size === selectedPack)?.discount || 0) > 0 && (
+                              <span className="text-xs text-emerald-600 font-bold mt-1">
+                                {t("save")} {Math.round((packOptions.find(o => o.size === selectedPack)?.discount || 0) * 100)}% {t("today")}
+                              </span>
+                            )}
+                          </div>
+                          <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-blue-300/90 bg-blue-100 text-blue-700 shadow-[0_0_0_2px_rgba(59,130,246,0.14)]">
+                            <ChevronDown className="h-4 w-4" />
+                          </span>
                         </div>
                       </div>
                     </SelectTrigger>
@@ -389,7 +396,9 @@ export default function ProductPage() {
                 {/* Price Summary */}
                 <div className="bg-muted/30 rounded-2xl p-4 md:p-6 border border-border/50">
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-muted-foreground font-medium text-sm md:text-base">{t("totalPrice")}:</span>
+                    <span className="font-heading text-sm md:text-base font-semibold tracking-[0.04em] text-foreground/80">
+                      {t("totalPrice")}:
+                    </span>
                     <div className="flex items-center gap-3">
                       {selectedDiscount > 0 && (
                         <span className="text-base md:text-lg text-muted-foreground line-through">
@@ -436,28 +445,6 @@ export default function ProductPage() {
                   </Button>
                 </div>
                 
-                {/* Product Benefits / Trust Badges */}
-                <div className="pt-4 mt-2 grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/20 border border-border/40">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center">
-                      <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                    </div>
-                    <span className="text-xs font-semibold">{t("originalProduct")}</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/20 border border-border/40">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center">
-                      <Truck className="w-4 h-4 text-blue-600" />
-                    </div>
-                    <span className="text-xs font-semibold">{t("fastShippingBadge")}</span>
-                  </div>
-                  <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/20 border border-border/40">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center">
-                      <Star className="w-4 h-4 text-amber-600" />
-                    </div>
-                    <span className="text-xs font-semibold">{t("bestPrice")}</span>
-                  </div>
-                </div>
-
                 {/* Product Details Section */}
                 <div className="bg-background rounded-2xl p-6 border border-border mt-4">
                   <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">
@@ -524,8 +511,16 @@ export default function ProductPage() {
                         value={String(relatedPackSize)}
                         onValueChange={(val) => handleRelatedPackChange(relatedProduct.id, parseInt(val, 10))}
                       >
-                        <SelectTrigger hideIcon className="h-10 rounded-lg border border-border/80 px-3 text-sm">
-                          <SelectValue />
+                        <SelectTrigger
+                          hideIcon
+                          className="h-11 rounded-lg border-2 border-primary/45 px-3 text-sm bg-background transition-all hover:border-primary shadow-[0_0_0_2px_rgba(50,120,93,0.1),0_8px_18px_rgba(50,120,93,0.14)] focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2"
+                        >
+                          <div className="flex items-center justify-between w-full gap-2">
+                            <span className="font-semibold text-foreground">{relatedPackSize} {t("cans")}</span>
+                            <span className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-blue-300/90 bg-blue-100 text-blue-700 shadow-[0_0_0_2px_rgba(59,130,246,0.14)]">
+                              <ChevronDown className="h-3.5 w-3.5" />
+                            </span>
+                          </div>
                         </SelectTrigger>
                         <SelectContent className="rounded-xl border border-border bg-white">
                           <SelectGroup>

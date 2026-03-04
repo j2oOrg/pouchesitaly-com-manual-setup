@@ -16,6 +16,7 @@ interface CheckoutFlowProps {
 }
 
 type CheckoutStep = "details" | "creating" | "payment" | "success" | "error";
+const FREE_SHIPPING_THRESHOLD = 100;
 
 interface KustomSession {
   orderId: string;
@@ -54,7 +55,11 @@ export function CheckoutFlow({ cart, onComplete, onBack }: CheckoutFlowProps) {
   const [shippingMethod, setShippingMethod] = useState<"dhl" | "ups">("dhl");
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const shippingCost = shippingMethod === "dhl" ? 7.5 : 13;
+  const baseShippingCost = shippingMethod === "dhl" ? 7.5 : 13;
+  const hasFreeShipping = total >= FREE_SHIPPING_THRESHOLD;
+  const shippingCost = hasFreeShipping ? 0 : baseShippingCost;
+  const amountUntilFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - total);
+  const freeShippingText = language === "it" ? "Spedizione gratuita" : "Free shipping";
   const finalTotal = total + shippingCost;
 
   const handleSubmit = async (e: FormEvent) => {
@@ -75,7 +80,9 @@ export function CheckoutFlow({ cart, onComplete, onBack }: CheckoutFlowProps) {
       ...cart,
       {
         id: `shipping-${shippingMethod}`,
-        name: `Shipping (${shippingMethod.toUpperCase()})`,
+        name: hasFreeShipping
+          ? `Shipping (${shippingMethod.toUpperCase()} - Free)`
+          : `Shipping (${shippingMethod.toUpperCase()})`,
         price: shippingCost,
         quantity: 1,
         packSize: 1,
@@ -84,7 +91,9 @@ export function CheckoutFlow({ cart, onComplete, onBack }: CheckoutFlowProps) {
         strengthMg: 0,
         flavor: 'N/A',
         image: 'https://via.placeholder.com/150?text=Shipping',
-        description: 'Shipping fee',
+        description: hasFreeShipping
+          ? `Free shipping on orders >= €${FREE_SHIPPING_THRESHOLD}`
+          : 'Shipping fee',
         popularity: 0,
       } as CartItem
     ];
@@ -384,8 +393,23 @@ export function CheckoutFlow({ cart, onComplete, onBack }: CheckoutFlowProps) {
                 </div>
                 <div className="flex justify-between font-heading font-semibold text-sm text-muted-foreground mt-1">
                   <span>Shipping ({shippingMethod.toUpperCase()})</span>
-                  <span>€{shippingCost.toFixed(2)}</span>
+                  {hasFreeShipping ? (
+                    <span className="font-bold text-emerald-600">
+                      {freeShippingText}
+                    </span>
+                  ) : (
+                    <span>€{shippingCost.toFixed(2)}</span>
+                  )}
                 </div>
+                <p className="mt-1 text-xs text-right text-muted-foreground">
+                  {hasFreeShipping
+                    ? (language === "it"
+                        ? `Ordine idoneo: spedizione gratis da €${FREE_SHIPPING_THRESHOLD}.`
+                        : `Eligible order: free shipping from €${FREE_SHIPPING_THRESHOLD}.`)
+                    : (language === "it"
+                        ? `Aggiungi €${amountUntilFreeShipping.toFixed(2)} per ottenere la spedizione gratuita.`
+                        : `Add €${amountUntilFreeShipping.toFixed(2)} to unlock free shipping.`)}
+                </p>
                 <div className="border-t border-border mt-3 pt-3 flex justify-between font-heading font-bold">
                   <span>{t("total")}</span>
                   <span>€{finalTotal.toFixed(2)}</span>
@@ -394,20 +418,29 @@ export function CheckoutFlow({ cart, onComplete, onBack }: CheckoutFlowProps) {
 
               <div>
                 <h3 className="font-heading font-semibold mb-4">Shipping Method</h3>
+                <p className="text-xs text-muted-foreground mb-3">
+                  {language === "it"
+                    ? `Spedizione gratuita per ordini da €${FREE_SHIPPING_THRESHOLD} in su.`
+                    : `Free shipping on orders of €${FREE_SHIPPING_THRESHOLD} or more.`}
+                </p>
                 <div className="grid grid-cols-2 gap-4">
                   <label className={`cursor-pointer flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${shippingMethod === 'dhl' ? 'border-primary bg-primary/5' : 'border-border bg-card hover:bg-muted/30'}`}>
                     <input type="radio" name="shipping" value="dhl" checked={shippingMethod === 'dhl'} onChange={() => setShippingMethod('dhl')} className="sr-only" />
                     <img src={dhlLogo} alt="DHL" className="h-8 object-contain mb-2" />
                     <span className="font-bold text-sm">DHL Service</span>
                     <span className="text-xs text-muted-foreground text-center mb-1">Under 2kg</span>
-                    <span className="font-semibold text-primary">€7.50</span>
+                    <span className={`font-semibold ${hasFreeShipping ? "text-emerald-600" : "text-primary"}`}>
+                      {hasFreeShipping ? freeShippingText : "€7.50"}
+                    </span>
                   </label>
                   <label className={`cursor-pointer flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${shippingMethod === 'ups' ? 'border-primary bg-primary/5' : 'border-border bg-card hover:bg-muted/30'}`}>
                     <input type="radio" name="shipping" value="ups" checked={shippingMethod === 'ups'} onChange={() => setShippingMethod('ups')} className="sr-only" />
                     <img src={upsLogo} alt="UPS" className="h-8 object-contain mb-2" />
                     <span className="font-bold text-sm">UPS</span>
                     <span className="text-xs text-muted-foreground text-center mb-1">Above 2kg</span>
-                    <span className="font-semibold text-primary">€13.00</span>
+                    <span className={`font-semibold ${hasFreeShipping ? "text-emerald-600" : "text-primary"}`}>
+                      {hasFreeShipping ? freeShippingText : "€13.00"}
+                    </span>
                   </label>
                 </div>
               </div>

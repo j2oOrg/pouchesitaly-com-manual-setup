@@ -54,7 +54,7 @@ export default function PercheSceglierePouchesitalyPage() {
                 </div>
                 <h3 className="text-xl font-heading font-bold text-foreground mb-2">Spedizione Gratuita</h3>
                 <p className="text-muted-foreground">
-                  Spediamo gratuitamente in tutto il mondo. Imballaggio discreto per garantire la tua privacy.
+                  Spedizione gratuita in Italia per ordini da €100 in su. Imballaggio discreto per garantire la tua privacy.
                 </p>
               </div>
 
@@ -94,7 +94,7 @@ export default function PercheSceglierePouchesitalyPage() {
                 <li>Nessun account richiesto</li>
                 <li>Checkout in meno di 2 minuti</li>
                 <li>Prezzi trasparenti senza costi nascosti</li>
-                <li>Spedizione gratuita sempre inclusa</li>
+                <li>Spedizione gratuita da €100 in su</li>
               </ul>
             </section>
 
@@ -114,7 +114,7 @@ export default function PercheSceglierePouchesitalyPage() {
               Inizia a Risparmiare Oggi
             </h3>
             <p className="text-primary-foreground/80 mb-6">
-              Prezzi competitivi, spedizione gratuita, nessun account richiesto
+              Prezzi competitivi, spedizione gratuita da €100, nessun account richiesto
             </p>
             <LocalizedLink
               to="/#products"

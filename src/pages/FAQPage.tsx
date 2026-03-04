@@ -57,12 +57,12 @@ const faqCategories = [
       {
         question: "Is shipping really free?",
         answer:
-          "Yes! We offer free worldwide shipping on all orders with no minimum purchase required. Your order will be shipped in discreet, unmarked packaging.",
+          "Shipping is free on orders of €100 or more within Italy. For orders below €100, shipping cost is calculated at checkout based on the selected courier. Every order is shipped in discreet, unmarked packaging.",
       },
       {
         question: "How long does delivery take?",
         answer:
-          "Delivery times vary by location: Europe 7-10 days, North America 10-14 days, Asia & Oceania 12-18 days, Rest of World 14-21 days. Times may vary due to customs processing.",
+          "Delivery times in Italy are typically: North 1-2 days, Central 1-3 days, South 2-4 days, and Islands 3-5 days. Delivery windows can vary due to weather and courier operations.",
       },
       {
         question: "Is the packaging discreet?",

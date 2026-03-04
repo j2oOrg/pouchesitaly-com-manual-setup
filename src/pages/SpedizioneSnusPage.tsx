@@ -29,11 +29,11 @@ export default function SpedizioneSnusPage() {
           
           <div className="prose max-w-none">
             <p className="text-lg text-muted-foreground mb-8">
-              Offriamo spedizione internazionale di snus verso l'Italia e molti altri paesi. Gli ordini vengono preparati rapidamente e spediti in imballaggi discreti e non contrassegnati per garantire la privacy.
+              Spediamo esclusivamente in Italia. Gli ordini vengono preparati rapidamente e spediti in imballaggi discreti e non contrassegnati per garantire la privacy.
             </p>
 
             <p className="text-lg text-muted-foreground mb-8">
-              I tempi di consegna variano in base alla destinazione, ma in genere si attestano tra 7 e 14 giorni.
+              I tempi di consegna variano in base all'area, ma in genere si attestano tra 1 e 5 giorni lavorativi.
             </p>
 
             <section className="mb-12">
@@ -42,23 +42,23 @@ export default function SpedizioneSnusPage() {
               </h2>
               
               <p className="text-muted-foreground mb-3">
-                <strong>Europa e Italia:</strong> 7-10 giorni - Consegna veloce in tutti i paesi dell'UE, inclusa l'Italia
+                <strong>Nord Italia:</strong> 1-2 giorni - Consegna rapida nelle principali aree del nord
               </p>
               
               <p className="text-muted-foreground mb-3">
-                <strong>Nord America:</strong> 10-14 giorni - Spedizione affidabile verso USA e Canada
+                <strong>Centro Italia:</strong> 1-3 giorni - Spedizione affidabile nelle regioni centrali
               </p>
               
               <p className="text-muted-foreground mb-3">
-                <strong>Asia e Oceania:</strong> 12-18 giorni - Consegna verso Australia, Giappone e altri paesi
+                <strong>Sud Italia:</strong> 2-4 giorni - Tempi medi per le regioni del sud
               </p>
               
               <p className="text-muted-foreground mb-6">
-                <strong>Resto del Mondo:</strong> 14-21 giorni - Copertura globale verso tutte le altre regioni
+                <strong>Isole (Sicilia e Sardegna):</strong> 3-5 giorni - Copertura completa per le isole
               </p>
 
               <p className="text-sm text-muted-foreground">
-                *I tempi di consegna possono variare in base allo sdoganamento e ai servizi postali locali.
+                *I tempi di consegna possono variare in base ai servizi postali locali e alle condizioni meteo.
               </p>
             </section>
 
@@ -88,7 +88,7 @@ export default function SpedizioneSnusPage() {
               <ol className="list-decimal pl-6 text-muted-foreground space-y-2">
                 <li>Il tuo ordine viene preparato entro 24-48 ore</li>
                 <li>Ricevi il numero di tracciamento via email</li>
-                <li>Il pacco viene consegnato al corriere internazionale</li>
+                <li>Il pacco viene consegnato al corriere nazionale</li>
                 <li>Traccia il tuo ordine fino alla consegna finale</li>
               </ol>
             </section>
@@ -98,7 +98,7 @@ export default function SpedizioneSnusPage() {
                 Costi di Spedizione
               </h2>
               <p className="text-muted-foreground mb-4">
-                Offriamo spedizione gratuita su tutti gli ordini, ovunque nel mondo. Non ci sono costi nascosti o sorprese al checkout - il prezzo che vedi è il prezzo finale.
+                La spedizione è gratuita in Italia per ordini pari o superiori a €100. Per ordini inferiori a €100, il costo viene calcolato al checkout in base al corriere selezionato.
               </p>
             </section>
           </div>
@@ -106,10 +106,10 @@ export default function SpedizioneSnusPage() {
           {/* CTA */}
           <div className="mt-12 p-8 bg-primary rounded-xl text-center">
             <h3 className="text-2xl font-heading font-bold text-primary-foreground mb-4">
-              Ordina Ora con Spedizione Gratuita
+              Ordina Ora con Spedizione Gratuita da €100
             </h3>
             <p className="text-primary-foreground/80 mb-6">
-              Consegna veloce e discreta in tutto il mondo
+              Consegna veloce e discreta in tutta Italia
             </p>
             <LocalizedLink
               to="/#products"

@@ -40,8 +40,9 @@ const terms = {
         heading: "4. Order Processing & Shipping",
         points: [
           "Orders are processed after payment confirmation.",
-          "We offer worldwide shipping with standard tracking updates.",
-          "Delivery timeframes are estimates and can vary due to customs, weather, and carrier delays.",
+          "We currently ship only within Italy with standard tracking updates.",
+          "Free shipping applies to orders of €100 or more. For lower totals, shipping cost is calculated at checkout.",
+          "Delivery timeframes are estimates and can vary due to weather and carrier delays.",
           "You are responsible for maintaining accurate shipping information.",
         ],
       },
@@ -122,8 +123,9 @@ const terms = {
         heading: "4. Ordini e spedizioni",
         points: [
           "Gli ordini vengono evasi dopo conferma del pagamento.",
-          "Spediamo in tutto il mondo con aggiornamenti di tracciamento standard.",
-          "I tempi di consegna sono indicativi e possono variare per dogana, meteo o ritardi del corriere.",
+          "Attualmente spediamo solo in Italia con aggiornamenti di tracciamento standard.",
+          "La spedizione gratuita si applica per ordini pari o superiori a €100. Sotto questa soglia, il costo viene calcolato al checkout.",
+          "I tempi di consegna sono indicativi e possono variare per meteo o ritardi del corriere.",
           "Sei responsabile di fornire un indirizzo di spedizione corretto e completo.",
         ],
       },

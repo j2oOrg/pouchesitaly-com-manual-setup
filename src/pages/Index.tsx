@@ -359,7 +359,7 @@ export default function HomePage() {
               {t("deliveryTimeframes")}
             </h2>
             <p className="text-lg text-muted-foreground">
-              We ship worldwide. Check below for estimated delivery times to your region.
+              {t("shipWorldwide")} {language === "it" ? "Spedizione gratuita da €100." : "Free shipping from €100."}
             </p>
           </div>
           
