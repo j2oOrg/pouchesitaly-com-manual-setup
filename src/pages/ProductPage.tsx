@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Minus, Plus, Loader2, Info } from "lucide-react";
+import { ArrowLeft, Minus, Plus, Loader2, Info, Star, ShieldCheck, Truck } from "lucide-react";
 import { LocalizedLink } from "@/components/LocalizedLink";
 import { PageHeader } from "@/components/PageHeader";
 import { Footer } from "@/components/Footer";
@@ -8,6 +8,13 @@ import { CartDrawer } from "@/components/CartDrawer";
 import { SEOHead } from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useProduct, toFrontendProduct } from "@/hooks/useProducts";
 import { trackCartEvent } from "@/hooks/useAnalyticsTracking";
@@ -42,9 +49,8 @@ export default function ProductPage() {
   const [quantity, setQuantity] = useState(1);
   const [activeImage, setActiveImage] = useState<string | null>(null);
 
-  // Initialize cart from local storage if needed (or manage global state, but here we keep it local for simplicity and sync later if needed, assuming the same implementation as Index.tsx)
+  // Initialize cart from local storage if needed
   useEffect(() => {
-     // Ideally cart state is global. In this app it seems each page manages it or relies on checkout storage. Let's initialize from checkout storage if possible, otherwise empty.
      try {
        const savedCart = localStorage.getItem(CHECKOUT_CART_STORAGE_KEY);
        if (savedCart) {
@@ -172,7 +178,6 @@ export default function ProductPage() {
 
   const selectedOption = packOptions.find((option) => option.size === selectedPack);
   const selectedDiscount = selectedOption?.discount || 0;
-  const pricePerCan = (product.price * (1 - selectedDiscount)).toFixed(2);
   const totalPackPrice = (product.price * selectedPack * (1 - selectedDiscount)).toFixed(2);
   const originalPackPrice = (product.price * selectedPack).toFixed(2);
   const savingsAmount = (product.price * selectedPack * selectedDiscount).toFixed(2);
@@ -188,20 +193,20 @@ export default function ProductPage() {
       
       <PageHeader cart={cart} onCartClick={() => setIsCartOpen(true)} />
 
-      <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 max-w-7xl">
-        <div className="mb-6">
+      <main className="flex-1 container mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8 max-w-7xl">
+        <div className="mb-4 md:mb-6">
           <LocalizedLink to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors font-medium">
             <ArrowLeft className="w-4 h-4" />
             Back to Products
           </LocalizedLink>
         </div>
 
-        <div className="bg-card rounded-[2rem] border border-border shadow-sm p-6 md:p-10 lg:p-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+        <div className="bg-card rounded-[1.5rem] md:rounded-[2rem] border border-border shadow-sm p-4 md:p-8 lg:p-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
             
             {/* Image Gallery */}
             <div className="flex flex-col gap-4">
-              <div className="relative aspect-square w-full rounded-2xl bg-gradient-to-b from-muted/60 to-background/5 border border-border/50 flex items-center justify-center p-8 overflow-hidden">
+              <div className="relative aspect-square w-full rounded-2xl bg-gradient-to-b from-muted/60 to-background/5 border border-border/50 flex items-center justify-center p-6 md:p-8 overflow-hidden">
                 <span className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-primary/5 blur-3xl" />
                 <span className="pointer-events-none absolute -right-20 -bottom-20 h-64 w-64 rounded-full bg-accent/5 blur-3xl" />
                 
@@ -215,7 +220,7 @@ export default function ProductPage() {
               </div>
               
               {allImages.length > 1 && (
-                <div className="grid grid-cols-4 gap-3">
+                <div className="grid grid-cols-4 gap-2 md:gap-3">
                   {allImages.map((img, idx) => (
                     <button
                       key={idx}
@@ -233,33 +238,176 @@ export default function ProductPage() {
 
             {/* Product Info */}
             <div className="flex flex-col">
-              <div className="mb-6 flex flex-wrap items-center gap-3">
-                <Badge variant="outline" className="px-3 py-1 text-sm bg-background">
+              <div className="mb-4 flex flex-wrap items-center gap-2">
+                <Badge variant="outline" className="px-2 py-0.5 text-xs bg-background">
                   {product.brand}
                 </Badge>
-                <Badge variant="outline" className={`px-3 py-1 text-sm ${getStrengthColor(product.strength)}`}>
+                <Badge variant="outline" className={`px-2 py-0.5 text-xs ${getStrengthColor(product.strength)}`}>
                   {product.strengthMg}mg / {product.strength}
                 </Badge>
-                <Badge variant="outline" className="px-3 py-1 text-sm bg-background capitalize">
+                <Badge variant="outline" className="px-2 py-0.5 text-xs bg-background capitalize">
                   {product.flavor}
                 </Badge>
               </div>
 
-              <h1 className="text-4xl md:text-5xl font-heading font-black text-foreground mb-4 tracking-tight leading-tight">
+              <h1 className="text-3xl md:text-5xl font-heading font-black text-foreground mb-3 md:mb-4 tracking-tight leading-tight">
                 {product.name}
               </h1>
               
               {product.description && (
-                <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
+                <p className="text-base md:text-lg text-muted-foreground mb-6 md:mb-8 leading-relaxed">
                   {product.description}
                 </p>
               )}
 
               <div className="space-y-6 flex-1">
+                {/* Pack Size Selection */}
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+                      {t("selectPackSize") || "Select Pack Size"}
+                    </h3>
+                  </div>
+                  
+                  <Select 
+                    value={selectedPack.toString()} 
+                    onValueChange={(val) => setSelectedPack(parseInt(val, 10))}
+                  >
+                    <SelectTrigger className="w-full h-16 bg-background border-2 border-border rounded-xl font-medium focus:ring-primary/20 transition-all hover:border-primary/40 text-left relative overflow-hidden">
+                      <div className="flex items-center justify-between w-full pr-1">
+                        <span className="font-bold flex items-center gap-2 text-lg">
+                          {selectedPack} {t("cans")}
+                          {selectedPack === 20 && <span className="bg-destructive/10 text-destructive text-[10px] font-bold uppercase px-1.5 py-0.5 rounded ml-1">Best Value</span>}
+                          {selectedPack === 10 && <span className="bg-secondary/10 text-secondary text-[10px] font-bold uppercase px-1.5 py-0.5 rounded ml-1">Popular</span>}
+                        </span>
+                        <div className="flex flex-col items-end text-right mr-1">
+                          <span className="text-base font-bold text-foreground leading-none">
+                            €{(product.price * (1 - (packOptions.find(o => o.size === selectedPack)?.discount || 0))).toFixed(2)}<span className="text-xs font-normal text-muted-foreground">/can</span>
+                          </span>
+                          {(packOptions.find(o => o.size === selectedPack)?.discount || 0) > 0 && (
+                            <span className="text-[10px] text-emerald-500 font-bold leading-none mt-1 block">
+                              Save {Math.round((packOptions.find(o => o.size === selectedPack)?.discount || 0) * 100)}%
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </SelectTrigger>
+                    <SelectContent className="rounded-xl border-2 border-border shadow-lg p-1">
+                      {packOptions.map((option) => {
+                        const pricePerCan = (product.price * (1 - option.discount)).toFixed(2);
+                        const isBestValue = option.size === 20;
+                        const isPopular = option.size === 10;
+                        
+                        return (
+                          <SelectItem 
+                            key={option.size} 
+                            value={option.size.toString()} 
+                            className="cursor-pointer py-3 px-3 rounded-lg my-0.5 hover:bg-primary/5 focus:bg-primary/5 focus:text-foreground relative group">
+                            <div className="flex items-center justify-between w-full">
+                              <div className="flex flex-col gap-0.5">
+                                <div className="flex items-center gap-2">
+                                  <span className="font-bold text-foreground">{option.size} {t("cans")}</span>
+                                  {isBestValue && (
+                                    <span className="bg-destructive/10 text-destructive text-[10px] font-bold uppercase px-1.5 py-0.5 rounded">Best Value</span>
+                                  )}
+                                  {isPopular && !isBestValue && (
+                                    <span className="bg-secondary/10 text-secondary text-[10px] font-bold uppercase px-1.5 py-0.5 rounded">Popular</span>
+                                  )}
+                                </div>
+                                {option.discount > 0 && (
+                                  <span className="text-[10px] font-medium text-emerald-500">
+                                    Save {Math.round(option.discount * 100)}%
+                                  </span>
+                                )}
+                              </div>
+                              <div className="flex flex-col items-end pl-4">
+                                <span className="font-bold text-base">€{pricePerCan}</span>
+                                <span className="text-[10px] text-muted-foreground uppercase tracking-wider">/ can</span>
+                              </div>
+                            </div>
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Price Summary */}
+                <div className="bg-muted/30 rounded-2xl p-4 md:p-6 border border-border/50">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-muted-foreground font-medium text-sm md:text-base">Total Price:</span>
+                    <div className="flex items-center gap-3">
+                      {selectedDiscount > 0 && (
+                        <span className="text-base md:text-lg text-muted-foreground line-through">
+                          €{originalPackPrice}
+                        </span>
+                      )}
+                      <span className="text-3xl md:text-4xl font-heading font-black text-foreground">
+                        €{totalPackPrice}
+                      </span>
+                    </div>
+                  </div>
+                  {selectedDiscount > 0 && (
+                    <p className="text-right text-xs md:text-sm font-medium text-emerald-500 flex items-center justify-end gap-1">
+                      <Info className="w-3 h-3 md:w-4 md:h-4" /> You save €{savingsAmount}
+                    </p>
+                  )}
+                </div>
+
+                {/* Add to Cart Actions */}
+                <div className="flex flex-col sm:flex-row gap-4 pt-2">
+                  <div className="flex items-center justify-between border-2 border-border rounded-xl px-2 h-14 w-full sm:w-32 bg-background">
+                    <button
+                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      className="p-2 text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50"
+                      disabled={quantity <= 1}
+                    >
+                      <Minus className="w-5 h-5" />
+                    </button>
+                    <span className="font-heading font-bold text-xl w-8 text-center">{quantity}</span>
+                    <button
+                      onClick={() => setQuantity(quantity + 1)}
+                      className="p-2 text-muted-foreground hover:text-foreground transition-colors"
+                    >
+                      <Plus className="w-5 h-5" />
+                    </button>
+                  </div>
+                  
+                  <Button
+                    size="lg"
+                    className="flex-1 h-14 text-lg font-bold rounded-xl shadow-lg hover:shadow-primary/25 transition-all active:scale-95"
+                    onClick={handleAddToCart}
+                  >
+                    Add {quantity * selectedPack} {t("cans")} to Cart
+                  </Button>
+                </div>
+                
+                {/* Product Benefits / Trust Badges */}
+                <div className="pt-4 mt-2 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/20 border border-border/40">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center">
+                      <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                    </div>
+                    <span className="text-xs font-semibold">100% Original</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/20 border border-border/40">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-500/10 flex items-center justify-center">
+                      <Truck className="w-4 h-4 text-blue-600" />
+                    </div>
+                    <span className="text-xs font-semibold">Fast Shipping</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 rounded-xl bg-muted/20 border border-border/40">
+                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-amber-500/10 flex items-center justify-center">
+                      <Star className="w-4 h-4 text-amber-600" />
+                    </div>
+                    <span className="text-xs font-semibold">Best Price</span>
+                  </div>
+                </div>
+
                 {/* Product Details Section */}
-                <div className="bg-background rounded-2xl p-6 border border-border">
+                <div className="bg-background rounded-2xl p-6 border border-border mt-4">
                   <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-4">
-                    Product Details
+                    Product Specifications
                   </h3>
                   <div className="grid grid-cols-2 gap-y-4 gap-x-6 text-sm">
                     <div>
@@ -288,123 +436,6 @@ export default function ProductPage() {
                       </p>
                     </div>
                   )}
-                </div>
-
-                {/* Pack Size Selection */}
-                <div>
-                  <h3 className="text-sm font-bold uppercase tracking-wider text-muted-foreground mb-3 flex items-center justify-between">
-                    Select Pack Size
-                  </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    {packOptions.map((option) => {
-                      const isSelected = selectedPack === option.size;
-                      const isBestValue = option.size === 20;
-                      const isPopular = option.size === 10;
-                      const optPricePerCan = (product.price * (1 - option.discount)).toFixed(2);
-
-                      return (
-                        <button
-                          key={option.size}
-                          onClick={() => setSelectedPack(option.size)}
-                          className={`relative flex flex-col items-center justify-center p-4 rounded-2xl border-2 transition-all duration-200 ${
-                            isSelected
-                              ? "border-primary bg-primary/5 shadow-sm"
-                              : "border-border bg-background hover:border-primary/30 hover:bg-muted/30"
-                          }`}
-                        >
-                          {isBestValue && (
-                            <span className="absolute -top-2.5 bg-destructive text-destructive-foreground text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-sm">
-                              Best Value
-                            </span>
-                          )}
-                          {isPopular && !isBestValue && (
-                            <span className="absolute -top-2.5 bg-secondary text-secondary-foreground text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full shadow-sm">
-                              Popular
-                            </span>
-                          )}
-                          
-                          <span className={`text-2xl font-heading font-black mb-1 ${isSelected ? 'text-primary' : 'text-foreground'}`}>
-                            {option.size}
-                          </span>
-                          <span className="text-xs text-muted-foreground mb-2">{t("cans")}</span>
-                          
-                          <div className={`w-full text-center py-1.5 rounded-lg mb-1 ${isSelected ? 'bg-primary/10' : 'bg-muted'}`}>
-                            <span className={`text-sm font-bold ${isSelected ? 'text-primary' : 'text-foreground'}`}>€{optPricePerCan}</span>
-                            <span className="text-[10px] text-muted-foreground ml-1">/can</span>
-                          </div>
-                          
-                          {option.discount > 0 ? (
-                            <span className="text-[11px] font-bold text-emerald-500">
-                              Save {Math.round(option.discount * 100)}%
-                            </span>
-                          ) : (
-                            <span className="text-[11px] text-transparent">No discount</span>
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* Price Summary */}
-                <div className="bg-muted/40 rounded-2xl p-6 border border-border/50">
-                  <div className="flex items-end justify-between mb-2">
-                    <span className="text-muted-foreground font-medium">Total Price:</span>
-                    <div className="flex items-end gap-3">
-                      {selectedDiscount > 0 && (
-                        <span className="text-lg text-muted-foreground line-through mb-0.5">
-                          €{originalPackPrice}
-                        </span>
-                      )}
-                      <span className="text-4xl font-heading font-black text-foreground">
-                        €{totalPackPrice}
-                      </span>
-                    </div>
-                  </div>
-                  {selectedDiscount > 0 && (
-                    <p className="text-right text-sm font-medium text-emerald-500 flex items-center justify-end gap-1">
-                      <Info className="w-4 h-4" /> You are saving €{savingsAmount} with this pack
-                    </p>
-                  )}
-                </div>
-
-                {/* Add to Cart Actions */}
-                <div className="flex gap-4 pt-4">
-                  <div className="flex items-center justify-between border-2 border-border rounded-xl px-2 w-32 bg-background">
-                    <button
-                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="p-2 text-muted-foreground hover:text-foreground transition-colors disabled:opacity-50"
-                      disabled={quantity <= 1}
-                    >
-                      <Minus className="w-5 h-5" />
-                    </button>
-                    <span className="font-heading font-bold text-lg w-8 text-center">{quantity}</span>
-                    <button
-                      onClick={() => setQuantity(quantity + 1)}
-                      className="p-2 text-muted-foreground hover:text-foreground transition-colors"
-                    >
-                      <Plus className="w-5 h-5" />
-                    </button>
-                  </div>
-                  
-                  <Button
-                    size="lg"
-                    className="flex-1 h-14 text-lg font-bold rounded-xl shadow-xl hover:shadow-primary/25 transition-all transform hover:scale-[1.02]"
-                    onClick={handleAddToCart}
-                  >
-                    Add {quantity * selectedPack} Cans to Cart
-                  </Button>
-                </div>
-                
-                <div className="pt-6 mt-6 border-t border-border/50 grid grid-cols-2 gap-4 text-sm text-muted-foreground">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                    In Stock & Ready to Ship
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full bg-primary" />
-                    Discreet Packaging
-                  </div>
                 </div>
               </div>
             </div>

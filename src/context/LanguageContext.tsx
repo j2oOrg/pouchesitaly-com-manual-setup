@@ -43,6 +43,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Pack Options
     cans: 'cans',
     save: 'SAVE',
+    selectPackSize: 'Select Pack Size',
 
     // Delivery
     deliveryTimeframes: 'Delivery Timeframes',
@@ -209,6 +210,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Pack Options
     cans: 'lattine',
     save: 'RISPARMIA',
+    selectPackSize: 'Seleziona Formato Pack',
     
     // Delivery
     deliveryTimeframes: 'Tempi di Consegna',

@@ -36,18 +36,18 @@ export function SEOHead({ defaultTitle, defaultDescription, noindex = false }: S
 
   const fallback = {
     title: isItalian
-      ? 'Pouchesitaly - Pouches da nicotina premium con spedizione mondiale'
-      : 'Pouchesitaly - Premium Nicotine Pouches | Fast Worldwide Shipping',
+      ? 'Pouchesitaly - Pouches da nicotina premium con spedizione in Italia'
+      : 'Pouchesitaly - Premium Nicotine Pouches | Fast Shipping in Italy',
     description: isItalian
-      ? 'Acquista pouches da nicotina premium online: marchi come ZYN, VELO e LYFT, consegna rapida e packaging discreto in tutta Italia e nel mondo.'
-      : 'Shop premium nicotine pouches from trusted brands like ZYN, VELO, and LYFT. Fast delivery and discreet packaging available globally.',
-    keywords: 'pouchesitaly, nicotine pouches, snus, ZYN, VELO, LYFT, tobacco-free pouches, premium nicotine pouches, buy online',
+      ? 'Acquista pouches da nicotina premium online: marchi come ZYN, VELO e LYFT, consegna rapida e packaging discreto in tutta Italia.'
+      : 'Shop premium nicotine pouches from trusted brands like ZYN, VELO, and LYFT. Fast delivery and discreet packaging available across Italy.',
+    keywords: 'pouchesitaly, nicotine pouches, snus, ZYN, VELO, LYFT, tobacco-free pouches, premium nicotine pouches, buy online italy',
     ogTitle: isItalian
       ? 'Pouchesitaly | Pouches premium per una pausa intensa e discreta'
       : 'Pouchesitaly | Premium Nicotine Pouches for Everyday Energy',
     ogDescription: isItalian
-      ? 'Consegna rapida, prodotti autentici e discreti per un\'esperienza pratica.'
-      : 'Authentic nicotine pouches, discreet shopping, and worldwide shipping to bring your favorites to you.',
+      ? 'Consegna rapida in Italia, prodotti autentici e discreti per un\'esperienza pratica.'
+      : 'Authentic nicotine pouches, discreet shopping, and fast shipping across Italy to bring your favorites to you.',
     image: 'https://pouchesitaly.com/socialshare.png',
     twitterSite: '@Pouchesitaly',
   };
@@ -119,6 +119,7 @@ export function SEOHead({ defaultTitle, defaultDescription, noindex = false }: S
         document.head.appendChild(canonicalElement);
       }
       canonicalElement.setAttribute('href', canonicalHref);
+
     } else if (canonicalElement) {
       canonicalElement.remove();
     }

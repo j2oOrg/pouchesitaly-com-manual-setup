@@ -3,6 +3,14 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { LocalizedLink } from "@/components/LocalizedLink";
 import { useTranslation } from "@/hooks/useTranslation";
+import { 
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import type { Product } from "@/types/product";
 
 interface ProductCardRoundedProps {
@@ -83,68 +91,74 @@ export function ProductCardRounded({ product, onAddToCart }: ProductCardRoundedP
           {product.description}
         </p>
 
-        <div className="mt-5">
-          <div className="mb-3 flex items-center justify-between">
+                <div className="mt-5">
+          <div className="mb-2 flex items-center justify-between">
             <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-              Select Quantity
+              {t("selectPackSize")}
             </span>
           </div>
-          <div className="grid grid-cols-1 gap-2.5">
-            {packOptions.map((option) => {
-              const isSelected = selectedPack === option.size;
-              const pricePerCan = (product.price * (1 - option.discount)).toFixed(2);
-              const isBestValue = option.size === 20;
-              const isPopular = option.size === 10;
-
-              return (
-                <button
-                  key={option.size}
-                  onClick={() => setSelectedPack(option.size)}
-                  className={`relative flex items-center justify-between overflow-hidden rounded-xl border p-3 transition-all duration-200 ${
-                    isSelected
-                      ? "border-primary bg-primary/5 shadow-sm ring-1 ring-primary"
-                      : "border-border bg-background hover:border-primary/40 hover:bg-muted/30"
-                  }`}
-                >
-                  {isBestValue && (
-                    <span className="absolute right-0 top-0 rounded-bl-lg rounded-tr-xl bg-destructive px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-destructive-foreground">
-                      Best Value
+          
+          <Select 
+            value={selectedPack.toString()} 
+            onValueChange={(val) => setSelectedPack(parseInt(val, 10))}
+          >
+            <SelectTrigger className="w-full h-14 bg-background border-2 border-border rounded-xl font-medium focus:ring-primary/20 transition-all hover:border-primary/40 text-left relative overflow-hidden">
+              <div className="flex items-center justify-between w-full pr-1">
+                <span className="font-bold flex items-center gap-2">
+                  {selectedPack} {t("cans")}
+                  {selectedPack === 20 && <span className="bg-destructive/10 text-destructive text-[10px] font-bold uppercase px-1.5 py-0.5 rounded ml-1">Best Value</span>}
+                  {selectedPack === 10 && <span className="bg-secondary/10 text-secondary text-[10px] font-bold uppercase px-1.5 py-0.5 rounded ml-1">Popular</span>}
+                </span>
+                <div className="flex flex-col items-end text-right mr-1">
+                  <span className="text-xs font-semibold text-foreground leading-none">
+                    €{(product.price * (1 - (packOptions.find(o => o.size === selectedPack)?.discount || 0))).toFixed(2)}<span className="text-[10px] font-normal text-muted-foreground">/pz</span>
+                  </span>
+                  {(packOptions.find(o => o.size === selectedPack)?.discount || 0) > 0 && (
+                    <span className="text-[9px] text-emerald-500 font-bold leading-none mt-0.5 block">
+                      Save {Math.round((packOptions.find(o => o.size === selectedPack)?.discount || 0) * 100)}%
                     </span>
                   )}
-                  {isPopular && !isSelected && !isBestValue && (
-                    <span className="absolute right-0 top-0 rounded-bl-lg rounded-tr-xl bg-secondary px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-secondary-foreground">
-                      Popular
-                    </span>
-                  )}
-
-                  <div className="flex items-center gap-3">
-                    <div className={`flex h-4 w-4 items-center justify-center rounded-full border ${isSelected ? "border-primary bg-primary" : "border-muted-foreground/30 bg-transparent"}`}>
-                      {isSelected && <span className="h-1.5 w-1.5 rounded-full bg-primary-foreground" />}
+                </div>
+              </div>
+            </SelectTrigger>
+            <SelectContent className="rounded-xl border-2 border-border shadow-lg p-1" style={{ minWidth: 'var(--radix-select-trigger-width)' }}>
+              {packOptions.map((option) => {
+                const pricePerCan = (product.price * (1 - option.discount)).toFixed(2);
+                const isBestValue = option.size === 20;
+                const isPopular = option.size === 10;
+                
+                return (
+                  <SelectItem 
+                    key={option.size} 
+                    value={option.size.toString()} 
+                    className="cursor-pointer py-2.5 px-3 rounded-lg my-0.5 hover:bg-primary/5 focus:bg-primary/5 focus:text-foreground relative group">
+                    <div className="flex items-center justify-between w-full">
+                      <div className="flex flex-col gap-0.5">
+                        <div className="flex items-center gap-2">
+                          <span className="font-bold text-foreground">{option.size} {t("cans")}</span>
+                          {isBestValue && (
+                            <span className="bg-destructive/10 text-destructive text-[10px] font-bold uppercase px-1.5 py-0.5 rounded">Best Value</span>
+                          )}
+                          {isPopular && !isBestValue && (
+                            <span className="bg-secondary/10 text-secondary text-[10px] font-bold uppercase px-1.5 py-0.5 rounded">Popular</span>
+                          )}
+                        </div>
+                        {option.discount > 0 && (
+                          <span className="text-[10px] font-medium text-emerald-500">
+                            Save {Math.round(option.discount * 100)}%
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex flex-col items-end pl-4">
+                        <span className="font-semibold text-sm">€{pricePerCan}</span>
+                        <span className="text-[9px] text-muted-foreground uppercase tracking-wider">/ pz</span>
+                      </div>
                     </div>
-                    <div className="flex flex-col items-start">
-                      <span className={`font-semibold ${isSelected ? "text-foreground" : "text-muted-foreground"}`}>
-                        {option.size} {t("cans")}
-                      </span>
-                      {option.discount > 0 && (
-                        <span className="text-[11px] font-medium text-emerald-500">
-                          Save {Math.round(option.discount * 100)}%
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col items-end pt-1">
-                    <span className={`font-semibold ${isSelected ? "text-primary" : "text-foreground"}`}>
-                      €{pricePerCan}
-                    </span>
-                    <span className="text-[10px] text-muted-foreground">
-                      / pz
-                    </span>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
         </div>
 
         <div className="mt-5 rounded-xl border border-border/70 bg-muted/50 p-4">
