@@ -30,6 +30,7 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminCarts from "./pages/admin/AdminCarts";
 import PageEditor from "./pages/admin/PageEditor";
 import DynamicPage from "./pages/DynamicPage";
+import ProductPage from "./pages/ProductPage";
 // Italian Pages
 import SnusBrandsPage from "./pages/SnusBrandsPage";
 import SnusCoSeItPage from "./pages/SnusCoSeItPage";
@@ -159,6 +160,7 @@ const AppRoutes = (
     } />
     {/* Dynamic Pages */}
     <Route path="p/:slug" element={<DynamicPage />} />
+    <Route path="product/:id" element={<ProductPage />} />
     {/* English Pages */}
     <Route path="premium-brands" element={<PremiumBrandsPage />} />
     <Route path="shipping-info" element={<ShippingInfoPage />} />

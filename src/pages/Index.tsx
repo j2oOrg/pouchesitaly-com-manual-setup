@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Truck, Package, Zap, MapPin, ChevronDown, ArrowRight, Loader2, SlidersHorizontal } from "lucide-react";
+import { Truck, Package, MapPin, ChevronDown, ArrowRight, Loader2, SlidersHorizontal, ShieldCheck, Clock } from "lucide-react";
 import { LocalizedLink } from "@/components/LocalizedLink";
 import { PageHeader } from "@/components/PageHeader";
 import { Footer } from "@/components/Footer";
@@ -13,7 +13,7 @@ import { useProducts, toFrontendProduct } from "@/hooks/useProducts";
 import { trackCartEvent } from "@/hooks/useAnalyticsTracking";
 import type { Product, CartItem } from "@/types/product";
 import productImage from "@/assets/product-can.png";
-import heroBackground from "../../herobackground.jpg";
+import heroBackground from "../../headerbackground.jpg";
 
 const packOptions = [
   { size: 5, discount: 0.05 },
@@ -69,6 +69,7 @@ export default function HomePage() {
     setSelectedBrands([]);
     setSelectedStrengths([]);
     setSelectedFlavors([]);
+    setIsFilterOpen(false);
   };
 
   const hasActiveFilters =
@@ -167,325 +168,272 @@ export default function HomePage() {
       title: t("faqTitle"),
       description: t("faqDesc"),
     },
-    // Italian SEO Pages
-    {
-      to: "/snus-brands",
-      category: "Marchi",
-      title: "Marchi di Snus: ZYN e VELO",
-      description: "Scopri i marchi di snus più popolari come ZYN e VELO, disponibili in diverse intensità.",
-    },
-    {
-      to: "/snus-cose",
-      category: "Informazioni",
-      title: "Snus: cos'è",
-      description: "Lo snus è un prodotto a base di nicotina che si utilizza posizionando una piccola pouch sotto il labbro.",
-    },
-    {
-      to: "/spedizione-snus",
-      category: "Consegna",
-      title: "Spedizione Snus",
-      description: "Offriamo spedizione internazionale di snus verso l'Italia e molti altri paesi.",
-    },
-    {
-      to: "/perche-scegliere-pouchesitaly",
-      category: "Chi Siamo",
-      title: "Perché scegliere Pouchesitaly",
-      description: "Su Pouchesitaly puoi acquistare snus online in modo semplice e sicuro.",
-    },
-    {
-      to: "/guida-intensita-gusti",
-      category: "Guida",
-      title: "Guida alle intensità e ai gusti",
-      description: "Lo snus è disponibile in diverse intensità di nicotina, da opzioni leggere a varianti più forti.",
-    },
-    {
-      to: "/snus-vs-nicotine-pouches",
-      category: "Confronto",
-      title: "Snus vs Nicotine Pouches",
-      description: "Lo snus tradizionale contiene tabacco, mentre le nicotine pouches non contengono tabacco.",
-    },
-    {
-      to: "/domande-frequenti-snus",
-      category: "Supporto",
-      title: "Domande frequenti sullo Snus",
-      description: "Qui trovi le risposte alle domande più comuni sullo snus.",
-    },
   ];
 
   return (
-    <div className="min-h-screen bg-transparent">
+    <div className="min-h-screen bg-background text-foreground selection:bg-primary/20">
       <SEOHead />
       <PageHeader cart={cart} onCartClick={() => setIsCartOpen(true)} />
 
       {/* Hero Banner */}
-      <section className="py-8">
-        <div className="container mx-auto px-4">
-          <div
-            className="relative overflow-hidden rounded-2xl bg-hero-bg bg-cover bg-center bg-no-repeat min-h-[320px] md:min-h-[420px]"
-            style={{
-              backgroundImage: `linear-gradient(180deg, hsl(0 0% 0% / 0.20), hsl(0 0% 0% / 0.18)), url(${heroBackground})`,
-            }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-b from-black/5 to-black/10" />
-          </div>
-        </div>
-      </section>
-
-      {/* Info Banner */}
-      <section className="py-8">
-        <div className="container mx-auto px-4">
-          <div className="bg-primary rounded-2xl p-8 md:p-12">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left">
-              <div className="flex flex-col md:flex-row items-center md:items-start gap-3">
-                <div className="w-12 h-12 rounded-full bg-primary-foreground/20 flex items-center justify-center flex-shrink-0">
-                  <Truck className="w-6 h-6 text-primary-foreground" />
-                </div>
-                <div>
-                  <h3 className="font-heading font-bold text-primary-foreground">{t("freeShipping")}</h3>
-                  <p className="text-sm text-primary-foreground/70">{t("freeShippingDesc")}</p>
-                </div>
-              </div>
-              <div className="flex flex-col md:flex-row items-center md:items-start gap-3">
-                <div className="w-12 h-12 rounded-full bg-primary-foreground/20 flex items-center justify-center flex-shrink-0">
-                  <Package className="w-6 h-6 text-primary-foreground" />
-                </div>
-                <div>
-                  <h3 className="font-heading font-bold text-primary-foreground">{t("discreetPackaging")}</h3>
-                  <p className="text-sm text-primary-foreground/70">{t("discreetPackagingDesc")}</p>
-                </div>
-              </div>
-              <div className="flex flex-col md:flex-row items-center md:items-start gap-3">
-                <div className="w-12 h-12 rounded-full bg-primary-foreground/20 flex items-center justify-center flex-shrink-0">
-                  <Zap className="w-6 h-6 text-primary-foreground" />
-                </div>
-                <div>
-                  <h3 className="font-heading font-bold text-primary-foreground">{t("noSignUp")}</h3>
-                  <p className="text-sm text-primary-foreground/70">{t("noSignUpDesc")}</p>
-                </div>
-              </div>
+      <section className="pt-4 pb-8 md:pt-6 md:pb-10 px-4 sm:px-6 lg:px-8 max-w-[1600px] mx-auto">
+        <div
+          className="relative overflow-hidden rounded-[2.5rem] bg-cover bg-center bg-no-repeat min-h-[480px] md:min-h-[600px] flex items-center justify-center text-center shadow-2xl"
+          style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.7)), url(${heroBackground})`,
+          }}
+        >
+          <div className="absolute inset-0 bg-primary/10 mix-blend-overlay" />
+          <div className="relative z-10 px-6 max-w-4xl mx-auto flex flex-col items-center">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-black text-white mb-6 drop-shadow-lg tracking-tight leading-tight">
+              Elevate Your <br className="hidden md:block" /> Experience
+            </h1>
+            <p className="text-lg md:text-xl text-white/90 mb-10 font-medium max-w-2xl mx-auto drop-shadow-md">
+              Discover our curated selection of top brands. Fast, discreet worldwide shipping straight to your door, with unbeatable prices.
+            </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+              <a
+                href="#products"
+                className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg px-8 py-4 rounded-full transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-primary/25 flex items-center justify-center gap-2"
+              >
+                Shop Now <ArrowRight className="w-5 h-5" />
+              </a>
+              <LocalizedLink
+                to="/premium-brands"
+                className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white font-bold text-lg px-8 py-4 rounded-full transition-all duration-300 backdrop-blur-md border border-white/20"
+              >
+                View Brands
+              </LocalizedLink>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Products */}
-      <section id="products" className="pt-14 pb-10 md:pt-16 md:pb-14">
-        <div className="container mx-auto px-4">
-          <div className="rounded-[2rem] border border-border/75 bg-card/90 p-6 md:p-8">
-            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-              <div className="max-w-xl">
-                <p className="text-xs uppercase tracking-[0.25em] text-muted-foreground">
-                  Pouchesitaly selection
-                </p>
-                <h2 className="mt-2 text-3xl md:text-4xl font-heading font-bold text-foreground">
-                  {t("allProducts")}
-                </h2>
-              </div>
-
-              {/* Filter Dropdown */}
-              <div className="relative">
-                <button
-                  onClick={() => setIsFilterOpen(!isFilterOpen)}
-                  className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-5 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-muted"
-                >
-                  <SlidersHorizontal className="h-4 w-4 text-muted-foreground" />
-                  <span>{t("filters")}</span>
-                  {hasActiveFilters && (
-                    <span className="rounded-full bg-primary px-2 py-0.5 text-[11px] font-bold text-primary-foreground">
-                      {selectedBrands.length + selectedStrengths.length + selectedFlavors.length}
-                    </span>
-                  )}
-                  <ChevronDown className={`h-4 w-4 transition-transform ${isFilterOpen ? "rotate-180" : ""}`} />
-                </button>
-
-                {isFilterOpen && (
-                  <div className="absolute right-0 top-full z-50 mt-3 w-80 rounded-2xl border border-border bg-card p-6 shadow-xl">
-                    {/* Brand Filter */}
-                    <div className="mb-5">
-                      <h4 className="font-heading mb-3 text-sm font-bold text-foreground">{t("brand")}</h4>
-                      <div className="space-y-1.5">
-                        {["ZYN", "LYFT", "VELO"].map((brand) => (
-                          <label
-                            key={brand}
-                            className="flex cursor-pointer items-center gap-2 rounded-xl p-2 text-sm hover:bg-muted"
-                          >
-                            <input
-                              type="checkbox"
-                              checked={selectedBrands.includes(brand)}
-                              onChange={() => toggleBrand(brand)}
-                              className="h-4 w-4 accent-primary"
-                            />
-                            <span>{brand}</span>
-                          </label>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Strength Filter */}
-                    <div className="mb-5">
-                      <h4 className="font-heading mb-3 text-sm font-bold text-foreground">{t("strength")}</h4>
-                      <div className="space-y-1.5">
-                        {[6, 10, 15].map((strength) => (
-                          <label
-                            key={strength}
-                            className="flex cursor-pointer items-center gap-2 rounded-xl p-2 text-sm hover:bg-muted"
-                          >
-                            <input
-                              type="checkbox"
-                              checked={selectedStrengths.includes(strength)}
-                              onChange={() => toggleStrength(strength)}
-                              className="h-4 w-4 accent-primary"
-                            />
-                            <span>{strength}mg</span>
-                          </label>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Flavor Filter */}
-                    <div className="mb-5">
-                      <h4 className="font-heading mb-3 text-sm font-bold text-foreground">{t("flavor")}</h4>
-                      <div className="space-y-1.5">
-                        {["Mint", "Citrus", "Berry", "Coffee", "Fruit"].map((flavor) => (
-                          <label
-                            key={flavor}
-                            className="flex cursor-pointer items-center gap-2 rounded-xl p-2 text-sm hover:bg-muted"
-                          >
-                            <input
-                              type="checkbox"
-                              checked={selectedFlavors.includes(flavor)}
-                              onChange={() => toggleFlavor(flavor)}
-                              className="h-4 w-4 accent-primary"
-                            />
-                            <span>{flavor}</span>
-                          </label>
-                        ))}
-                      </div>
-                    </div>
-
-                    {hasActiveFilters && (
-                      <button
-                        onClick={clearFilters}
-                        className="w-full rounded-full bg-destructive px-4 py-2 text-sm font-semibold text-destructive-foreground transition-colors hover:bg-destructive/90"
-                      >
-                        {t("clearFilters")}
-                      </button>
-                    )}
-                  </div>
+      {/* Products Section */}
+      <section id="products" className="pt-4 pb-16 md:pt-6 md:pb-24 bg-muted/30">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-end mb-6">
+            {/* Filter Toggle Desktop/Mobile */}
+            <div className="relative z-20">
+              <button
+                onClick={() => setIsFilterOpen(!isFilterOpen)}
+                className={`inline-flex items-center gap-2 rounded-xl border px-6 py-3.5 text-sm font-bold transition-all duration-200 ${
+                  isFilterOpen || hasActiveFilters
+                    ? "bg-primary text-primary-foreground border-primary shadow-md shadow-primary/20"
+                    : "bg-card text-foreground border-border hover:bg-muted"
+                }`}
+              >
+                <SlidersHorizontal className="h-4 w-4" />
+                <span>{t("filters")}</span>
+                {hasActiveFilters && (
+                  <span className="ml-1 flex h-5 w-5 items-center justify-center rounded-full bg-background text-[11px] text-foreground">
+                    {selectedBrands.length + selectedStrengths.length + selectedFlavors.length}
+                  </span>
                 )}
+                <ChevronDown className={`h-4 w-4 transition-transform ${isFilterOpen ? "rotate-180" : ""}`} />
+              </button>
+
+              {/* Filter Panel */}
+              <div
+                className={`absolute right-0 top-full mt-3 w-screen max-w-sm rounded-2xl border border-border bg-card p-6 shadow-2xl transition-all duration-300 origin-top-right ${
+                  isFilterOpen ? "opacity-100 scale-100 visible" : "opacity-0 scale-95 invisible"
+                }`}
+              >
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="font-heading font-bold text-lg">Filters</h3>
+                  {hasActiveFilters && (
+                    <button
+                      onClick={clearFilters}
+                      className="text-xs font-semibold text-destructive hover:text-destructive/80 transition-colors"
+                    >
+                      {t("clearFilters")}
+                    </button>
+                  )}
+                </div>
+
+                <div className="space-y-6">
+                  {/* Brand Filter */}
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">{t("brand")}</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {["ZYN", "LYFT", "VELO", "CUBA", "KILLA"].map((brand) => (
+                        <button
+                          key={brand}
+                          onClick={() => toggleBrand(brand)}
+                          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                            selectedBrands.includes(brand)
+                              ? "bg-primary text-primary-foreground"
+                              : "bg-muted text-muted-foreground hover:bg-muted/80"
+                          }`}
+                        >
+                          {brand}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Strength Filter */}
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">{t("strength")}</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {[6, 8, 10, 15, 16].map((strength) => (
+                        <button
+                          key={strength}
+                          onClick={() => toggleStrength(strength)}
+                          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                            selectedStrengths.includes(strength)
+                              ? "bg-accent text-accent-foreground"
+                              : "bg-muted text-muted-foreground hover:bg-muted/80"
+                          }`}
+                        >
+                          {strength}mg
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Flavor Filter */}
+                  <div>
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">{t("flavor")}</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {["Mint", "Citrus", "Berry", "Coffee", "Fruit", "Watermelon"].map((flavor) => (
+                        <button
+                          key={flavor}
+                          onClick={() => toggleFlavor(flavor)}
+                          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                            selectedFlavors.includes(flavor)
+                              ? "bg-secondary text-secondary-foreground"
+                              : "bg-muted text-muted-foreground hover:bg-muted/80"
+                          }`}
+                        >
+                          {flavor}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-
-            {hasActiveFilters && (
-              <div className="mt-6 flex flex-wrap gap-2">
-                {selectedBrands.map((brand) => (
-                  <span
-                    key={`brand-${brand}`}
-                    className="inline-flex items-center rounded-full bg-primary/15 px-3 py-1 text-xs font-semibold text-primary"
-                  >
-                    {t("brand")}: {brand}
-                  </span>
-                ))}
-                {selectedStrengths.map((strength) => (
-                  <span
-                    key={`strength-${strength}`}
-                    className="inline-flex items-center rounded-full bg-primary/15 px-3 py-1 text-xs font-semibold text-primary"
-                  >
-                    {t("strength")}: {strength}mg
-                  </span>
-                ))}
-                {selectedFlavors.map((flavor) => (
-                  <span
-                    key={`flavor-${flavor}`}
-                    className="inline-flex items-center rounded-full bg-primary/15 px-3 py-1 text-xs font-semibold text-primary"
-                  >
-                    {t("flavor")}: {flavor}
-                  </span>
-                ))}
-              </div>
-            )}
-
-            {productsLoading ? (
-              <div className="flex items-center justify-center py-14">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-              </div>
-            ) : filteredProducts.length === 0 ? (
-              <div className="mt-8 rounded-2xl border border-border/70 bg-muted/30 p-10 text-center">
-                <p className="text-muted-foreground">{t("noProductsFound") || "No products match your filters."}</p>
-              </div>
-            ) : (
-              <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-                {filteredProducts.map((product) => (
-                  <ProductCardRounded
-                    key={product.id}
-                    product={product}
-                    onAddToCart={handleAddToCart}
-                  />
-                ))}
-              </div>
-            )}
           </div>
+
+          {productsLoading ? (
+            <div className="flex flex-col items-center justify-center py-24 gap-4">
+              <Loader2 className="h-10 w-10 animate-spin text-primary" />
+              <p className="text-muted-foreground font-medium">Loading products...</p>
+            </div>
+          ) : filteredProducts.length === 0 ? (
+            <div className="rounded-3xl border border-dashed border-border bg-card/50 p-16 text-center">
+              <div className="mx-auto w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
+                <Package className="w-8 h-8 text-muted-foreground" />
+              </div>
+              <h3 className="text-xl font-heading font-bold mb-2">No products found</h3>
+              <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                We couldn't find any products matching your current filters. Try adjusting them or clearing all filters.
+              </p>
+              <button
+                onClick={clearFilters}
+                className="bg-primary text-primary-foreground font-bold px-6 py-3 rounded-xl transition-colors hover:bg-primary/90"
+              >
+                Clear all filters
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {filteredProducts.map((product) => (
+                <ProductCardRounded
+                  key={product.id}
+                  product={product}
+                  onAddToCart={handleAddToCart}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
       {/* Delivery Section */}
-      <section className="pt-12 pb-16 md:pt-16 md:pb-24">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-12">
-            {t("deliveryTimeframes")}
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {[
-              { region: t("europe"), days: t("europeDays"), desc: t("europeDesc") },
-              { region: t("northAmerica"), days: t("northAmericaDays"), desc: t("northAmericaDesc") },
-              { region: t("asiaOceania"), days: t("asiaOceaniaDays"), desc: t("asiaOceaniaDesc") },
-              { region: t("restOfWorld"), days: t("restOfWorldDays"), desc: t("restOfWorldDesc") },
-            ].map((item) => (
-              <div key={item.region} className="flex items-start gap-4 p-6 rounded-xl bg-card">
-                <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center flex-shrink-0">
-                  <MapPin className="w-8 h-8 text-primary-foreground" />
-                </div>
-                <div className="flex-1">
-                  <h4 className="font-heading font-bold text-foreground text-xl mb-1">
-                    {item.region}
-                  </h4>
-                  <p className="text-3xl font-heading font-bold text-primary">{item.days}</p>
-                  <p className="text-sm text-muted-foreground mt-2">{item.desc}</p>
-                </div>
-              </div>
-            ))}
+      <section className="py-20 md:py-32">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl md:text-5xl font-heading font-black text-foreground mb-6">
+              {t("deliveryTimeframes")}
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              We ship worldwide. Check below for estimated delivery times to your region.
+            </p>
           </div>
-          <p className="text-sm text-muted-foreground mt-8">{t("deliveryDisclaimer")}</p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { region: t("europe"), days: t("europeDays"), desc: t("europeDesc"), icon: ShieldCheck },
+              { region: t("northAmerica"), days: t("northAmericaDays"), desc: t("northAmericaDesc"), icon: Clock },
+              { region: t("asiaOceania"), days: t("asiaOceaniaDays"), desc: t("asiaOceaniaDesc"), icon: MapPin },
+              { region: t("restOfWorld"), days: t("restOfWorldDays"), desc: t("restOfWorldDesc"), icon: Truck },
+            ].map((item, index) => {
+              const Icon = item.icon;
+              return (
+                <div key={item.region} className="relative group bg-card rounded-3xl border border-border p-8 hover:border-primary/50 transition-colors shadow-sm hover:shadow-xl">
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl" />
+                  <div className="relative z-10">
+                    <div className="w-14 h-14 rounded-2xl bg-muted group-hover:bg-primary/10 flex items-center justify-center mb-6 transition-colors">
+                      <Icon className="w-7 h-7 text-muted-foreground group-hover:text-primary transition-colors" />
+                    </div>
+                    <h4 className="font-heading font-bold text-foreground text-xl mb-2">
+                      {item.region}
+                    </h4>
+                    <p className="text-3xl font-heading font-black text-primary mb-3">{item.days}</p>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div className="mt-12 text-center">
+            <p className="inline-block bg-muted/50 rounded-lg px-4 py-2 text-sm text-muted-foreground border border-border/50">
+              {t("deliveryDisclaimer")}
+            </p>
+          </div>
         </div>
       </section>
 
       {/* Learn More Section */}
-      <section className="pb-16 md:pb-24">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-12">
-            {t("learnMore")}
-          </h2>
+      <section className="py-20 md:py-32 bg-card border-t border-border">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
+            <div className="max-w-2xl">
+              <h2 className="text-3xl md:text-5xl font-heading font-black text-foreground mb-4">
+                {t("learnMore")}
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                Everything you need to know about our products, shipping, and more.
+              </p>
+            </div>
+          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {learnMoreCards.map((card) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {learnMoreCards.map((card, i) => (
               <LocalizedLink
                 key={card.to}
                 to={card.to}
-                className="bg-card rounded-xl p-6 text-left transition-all group block hover:shadow-lg border border-border"
+                className="group relative flex flex-col justify-between bg-background rounded-3xl p-8 border border-border hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:-translate-y-1 overflow-hidden"
               >
-                <p className="text-sm text-muted-foreground mb-3 uppercase tracking-wide font-normal">
-                  {card.category}
-                </p>
-                <h3 className="text-2xl font-heading font-bold text-foreground mb-3">
-                  {card.title}
-                </h3>
-                <p className="text-muted-foreground text-base mb-12 font-normal">
-                  {card.description}
-                </p>
-                <div className="flex items-center justify-end">
-                  <div className="w-14 h-14 rounded-full bg-foreground flex items-center justify-center group-hover:bg-primary transition-colors">
-                    <ArrowRight className="w-6 h-6 text-background group-hover:text-primary-foreground transition-colors" />
-                  </div>
+                <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-bl-[100px] -z-10 transition-transform duration-500 group-hover:scale-110" />
+                
+                <div>
+                  <span className="inline-block px-3 py-1 bg-muted text-muted-foreground text-xs font-bold uppercase tracking-wider rounded-lg mb-6">
+                    {card.category}
+                  </span>
+                  <h3 className="text-2xl font-heading font-bold text-foreground mb-4 leading-tight">
+                    {card.title}
+                  </h3>
+                  <p className="text-muted-foreground leading-relaxed mb-8">
+                    {card.description}
+                  </p>
+                </div>
+                
+                <div className="flex items-center text-primary font-bold text-sm uppercase tracking-wide">
+                  Read More
+                  <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-2" />
                 </div>
               </LocalizedLink>
             ))}
@@ -511,5 +459,3 @@ export default function HomePage() {
     </div>
   );
 }
-
-

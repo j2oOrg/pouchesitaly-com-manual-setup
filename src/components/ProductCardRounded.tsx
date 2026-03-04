@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { LocalizedLink } from "@/components/LocalizedLink";
 import { useTranslation } from "@/hooks/useTranslation";
 import type { Product } from "@/types/product";
 
@@ -52,7 +53,7 @@ export function ProductCardRounded({ product, onAddToCart }: ProductCardRoundedP
       <span className="pointer-events-none absolute -right-20 -bottom-16 h-44 w-44 rounded-full bg-accent/10 blur-3xl" />
 
       <div className="relative mx-4 mt-4 overflow-hidden rounded-[1.5rem] bg-gradient-to-b from-muted/60 to-background/5 px-4 pt-4 pb-6">
-        <div className="relative mx-auto flex h-56 w-full max-w-[16.5rem] items-center justify-center rounded-[1.25rem] border border-border/25 bg-card/85 p-4 shadow-sm">
+        <LocalizedLink to={`/product/${product.id}`} className="block relative mx-auto flex h-56 w-full max-w-[16.5rem] items-center justify-center rounded-[1.25rem] border border-border/25 bg-card/85 p-4 shadow-sm">
           <img
             src={product.image}
             alt={product.name}
@@ -60,9 +61,9 @@ export function ProductCardRounded({ product, onAddToCart }: ProductCardRoundedP
             className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
           />
           <span className="pointer-events-none absolute inset-0 rounded-[1.25rem] ring-1 ring-border/40" />
-        </div>
+        </LocalizedLink>
 
-        <div className="absolute left-5 top-5 right-5 flex items-start justify-between">
+        <div className="absolute left-5 top-5 right-5 flex items-start justify-between pointer-events-none">
           <span className="inline-flex items-center rounded-full bg-background/90 px-3 py-1.5 text-xs font-medium tracking-wide text-foreground shadow-sm backdrop-blur-sm">
             {product.brand}
           </span>
@@ -73,45 +74,73 @@ export function ProductCardRounded({ product, onAddToCart }: ProductCardRoundedP
       </div>
 
       <div className="relative z-10 flex flex-1 flex-col px-6 pb-6 pt-4">
-        <h3 className="font-heading font-bold text-xl text-foreground">
-          {product.name}
-        </h3>
+        <LocalizedLink to={`/product/${product.id}`} className="hover:text-primary transition-colors block">
+          <h3 className="font-heading font-bold text-xl text-foreground">
+            {product.name}
+          </h3>
+        </LocalizedLink>
         <p className="mt-2 text-sm text-muted-foreground line-clamp-2">
           {product.description}
         </p>
 
         <div className="mt-5">
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
-            Pack size
-          </p>
-          <div className="mt-3 grid grid-cols-3 gap-2">
+          <div className="mb-3 flex items-center justify-between">
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              Select Quantity
+            </span>
+          </div>
+          <div className="grid grid-cols-1 gap-2.5">
             {packOptions.map((option) => {
               const isSelected = selectedPack === option.size;
+              const pricePerCan = (product.price * (1 - option.discount)).toFixed(2);
+              const isBestValue = option.size === 20;
+              const isPopular = option.size === 10;
+
               return (
                 <button
                   key={option.size}
                   onClick={() => setSelectedPack(option.size)}
-                  className={`relative rounded-xl border p-3 text-left transition-all ${
+                  className={`relative flex items-center justify-between overflow-hidden rounded-xl border p-3 transition-all duration-200 ${
                     isSelected
-                      ? "bg-primary text-primary-foreground border-primary shadow-md shadow-primary/25"
-                      : "bg-muted/60 border-border/80 hover:border-primary/35 hover:bg-muted"
+                      ? "border-primary bg-primary/5 shadow-sm ring-1 ring-primary"
+                      : "border-border bg-background hover:border-primary/40 hover:bg-muted/30"
                   }`}
                 >
-                  <span className="font-heading font-bold leading-none text-sm md:text-base">
-                    {option.size}
-                  </span>
-                  <span className="mt-1 block text-[11px] opacity-80">
-                    {t("cans")}
-                  </span>
-                  {option.discount > 0 && (
-                    <span
-                      className={`mt-2 inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-bold ${
-                        isSelected ? "bg-white/20 text-white" : "bg-primary/10 text-primary"
-                      }`}
-                    >
-                      -{Math.round(option.discount * 100)}%
+                  {isBestValue && (
+                    <span className="absolute right-0 top-0 rounded-bl-lg rounded-tr-xl bg-destructive px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-destructive-foreground">
+                      Best Value
                     </span>
                   )}
+                  {isPopular && !isSelected && !isBestValue && (
+                    <span className="absolute right-0 top-0 rounded-bl-lg rounded-tr-xl bg-secondary px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-secondary-foreground">
+                      Popular
+                    </span>
+                  )}
+
+                  <div className="flex items-center gap-3">
+                    <div className={`flex h-4 w-4 items-center justify-center rounded-full border ${isSelected ? "border-primary bg-primary" : "border-muted-foreground/30 bg-transparent"}`}>
+                      {isSelected && <span className="h-1.5 w-1.5 rounded-full bg-primary-foreground" />}
+                    </div>
+                    <div className="flex flex-col items-start">
+                      <span className={`font-semibold ${isSelected ? "text-foreground" : "text-muted-foreground"}`}>
+                        {option.size} {t("cans")}
+                      </span>
+                      {option.discount > 0 && (
+                        <span className="text-[11px] font-medium text-emerald-500">
+                          Save {Math.round(option.discount * 100)}%
+                        </span>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col items-end pt-1">
+                    <span className={`font-semibold ${isSelected ? "text-primary" : "text-foreground"}`}>
+                      €{pricePerCan}
+                    </span>
+                    <span className="text-[10px] text-muted-foreground">
+                      / pz
+                    </span>
+                  </div>
                 </button>
               );
             })}

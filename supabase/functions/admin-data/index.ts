@@ -110,13 +110,28 @@ const shouldDownloadImage = (imageUrl: string, supabaseUrl: string) => {
   return true
 }
 
+const normalizeImageReference = (rawValue: string, supabaseUrl: string) => {
+  const value = rawValue.trim()
+  if (!value) return value
+
+  if (value.startsWith('/product-images/')) {
+    return `${supabaseUrl}/storage/v1/object/public${value}`
+  }
+
+  if (value.startsWith('product-images/')) {
+    return `${supabaseUrl}/storage/v1/object/public/${value}`
+  }
+
+  return value
+}
+
 const downloadAndUploadImage = async (
   supabaseAdmin: ReturnType<typeof createClient>,
   supabaseUrl: string,
   imageUrl: string | null,
 ): Promise<{ url: string | null; warning: string | null }> => {
   if (!imageUrl) return { url: null, warning: null }
-  const trimmed = imageUrl.trim()
+  const trimmed = normalizeImageReference(imageUrl, supabaseUrl)
   if (!trimmed) return { url: null, warning: null }
 
   if (!shouldDownloadImage(trimmed, supabaseUrl)) {

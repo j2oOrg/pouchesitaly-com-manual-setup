@@ -6,6 +6,8 @@ import { Label } from "@/components/ui/label";
 import { useTranslation } from "@/hooks/useTranslation";
 import { supabase } from "@/integrations/supabase/client";
 import type { CartItem } from "@/types/product";
+import upsLogo from "@/assets/United_Parcel_Service_logo_2014.svg";
+import dhlLogo from "@/assets/DHL_Logo.svg";
 
 interface CheckoutFlowProps {
   cart: CartItem[];
@@ -49,7 +51,11 @@ export function CheckoutFlow({ cart, onComplete, onBack }: CheckoutFlowProps) {
     country: "",
   });
 
+  const [shippingMethod, setShippingMethod] = useState<"dhl" | "ups">("dhl");
+
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const shippingCost = shippingMethod === "dhl" ? 7.5 : 13;
+  const finalTotal = total + shippingCost;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -61,9 +67,27 @@ export function CheckoutFlow({ cart, onComplete, onBack }: CheckoutFlowProps) {
     setStatusMessage(null);
     addDebug("handleSubmit.start", {
       cartItems: cart.length,
-      total: Number(total.toFixed(2)),
+      total: Number(finalTotal.toFixed(2)),
       locale: language,
     });
+
+    const finalCart = [
+      ...cart,
+      {
+        id: `shipping-${shippingMethod}`,
+        name: `Shipping (${shippingMethod.toUpperCase()})`,
+        price: shippingCost,
+        quantity: 1,
+        packSize: 1,
+        brand: 'Shipping',
+        strength: 'N/A',
+        strengthMg: 0,
+        flavor: 'N/A',
+        image: 'https://via.placeholder.com/150?text=Shipping',
+        description: 'Shipping fee',
+        popularity: 0,
+      } as CartItem
+    ];
 
     const { data, error } = await supabase.functions.invoke("kustom-checkout", {
       body: {
@@ -71,7 +95,7 @@ export function CheckoutFlow({ cart, onComplete, onBack }: CheckoutFlowProps) {
         locale: language,
         currency: "EUR",
         customer: formData,
-        cart,
+        cart: finalCart,
       },
     });
 
@@ -338,116 +362,148 @@ export function CheckoutFlow({ cart, onComplete, onBack }: CheckoutFlowProps) {
             onSubmit={handleSubmit}
             className="p-6 min-h-0 flex-1 flex flex-col"
           >
-            <div className="bg-muted rounded-xl p-4 mb-6">
-              <h3 className="font-heading font-semibold mb-3">Order Summary</h3>
-              {cart.map((item) => (
-                <div
-                  key={`${item.id}-${item.packSize}`}
-                  className="flex justify-between text-sm py-1"
-                >
-                  <span>
-                    {item.name} ({item.packSize} {t("cans")}) × {item.quantity}
-                  </span>
-                  <span className="font-medium">
-                    €{(item.price * item.quantity).toFixed(2)}
-                  </span>
+            <div className="flex-1 min-h-0 overflow-y-auto pr-2 space-y-6">
+              <div className="bg-muted rounded-xl p-4">
+                <h3 className="font-heading font-semibold mb-3">Order Summary</h3>
+                {cart.map((item) => (
+                  <div
+                    key={`${item.id}-${item.packSize}`}
+                    className="flex justify-between text-sm py-1"
+                  >
+                    <span>
+                      {item.name} ({item.packSize} {t("cans")}) × {item.quantity}
+                    </span>
+                    <span className="font-medium">
+                      €{(item.price * item.quantity).toFixed(2)}
+                    </span>
+                  </div>
+                ))}
+                <div className="border-t border-border mt-3 pt-3 flex justify-between font-heading font-semibold text-sm text-muted-foreground">
+                  <span>Subtotal</span>
+                  <span>€{total.toFixed(2)}</span>
                 </div>
-              ))}
-              <div className="border-t border-border mt-3 pt-3 flex justify-between font-heading font-bold">
-                <span>{t("total")}</span>
-                <span>€{total.toFixed(2)}</span>
+                <div className="flex justify-between font-heading font-semibold text-sm text-muted-foreground mt-1">
+                  <span>Shipping ({shippingMethod.toUpperCase()})</span>
+                  <span>€{shippingCost.toFixed(2)}</span>
+                </div>
+                <div className="border-t border-border mt-3 pt-3 flex justify-between font-heading font-bold">
+                  <span>{t("total")}</span>
+                  <span>€{finalTotal.toFixed(2)}</span>
+                </div>
               </div>
-            </div>
 
-              <h3 className="font-heading font-semibold mb-4">{t("shippingDetails")}</h3>
-            <div className="grid grid-cols-2 gap-4 mb-6 flex-1 min-h-0 overflow-y-auto">
               <div>
-                <Label htmlFor="firstName">{t("firstName")}</Label>
-                <Input
-                  id="firstName"
-                  name="firstName"
-                  value={formData.firstName}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
-                  required
-                />
+                <h3 className="font-heading font-semibold mb-4">Shipping Method</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <label className={`cursor-pointer flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${shippingMethod === 'dhl' ? 'border-primary bg-primary/5' : 'border-border bg-card hover:bg-muted/30'}`}>
+                    <input type="radio" name="shipping" value="dhl" checked={shippingMethod === 'dhl'} onChange={() => setShippingMethod('dhl')} className="sr-only" />
+                    <img src={dhlLogo} alt="DHL" className="h-8 object-contain mb-2" />
+                    <span className="font-bold text-sm">DHL Service</span>
+                    <span className="text-xs text-muted-foreground text-center mb-1">Under 2kg</span>
+                    <span className="font-semibold text-primary">€7.50</span>
+                  </label>
+                  <label className={`cursor-pointer flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${shippingMethod === 'ups' ? 'border-primary bg-primary/5' : 'border-border bg-card hover:bg-muted/30'}`}>
+                    <input type="radio" name="shipping" value="ups" checked={shippingMethod === 'ups'} onChange={() => setShippingMethod('ups')} className="sr-only" />
+                    <img src={upsLogo} alt="UPS" className="h-8 object-contain mb-2" />
+                    <span className="font-bold text-sm">UPS</span>
+                    <span className="text-xs text-muted-foreground text-center mb-1">Above 2kg</span>
+                    <span className="font-semibold text-primary">€13.00</span>
+                  </label>
+                </div>
               </div>
+
               <div>
-                <Label htmlFor="lastName">{t("lastName")}</Label>
-                <Input
-                  id="lastName"
-                  name="lastName"
-                  value={formData.lastName}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
-                  required
-                />
-              </div>
-              <div className="col-span-2">
-                <Label htmlFor="email">{t("email")}</Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
-                  required
-                />
-              </div>
-              <div className="col-span-2">
-                <Label htmlFor="phone">{t("phone")}</Label>
-                <Input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  value={formData.phone}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
-                  required
-                />
-              </div>
-              <div className="col-span-2">
-                <Label htmlFor="address">{t("address")}</Label>
-                <Input
-                  id="address"
-                  name="address"
-                  value={formData.address}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
-                  required
-                />
-              </div>
-              <div>
-                <Label htmlFor="city">{t("city")}</Label>
-                <Input
-                  id="city"
-                  name="city"
-                  value={formData.city}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
-                  required
-                />
-              </div>
-              <div>
-                <Label htmlFor="postalCode">{t("postalCode")}</Label>
-                <Input
-                  id="postalCode"
-                  name="postalCode"
-                  value={formData.postalCode}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
-                  required
-                />
-              </div>
-              <div className="col-span-2">
-                <Label htmlFor="country">{t("country")}</Label>
-                <Input
-                  id="country"
-                  name="country"
-                  value={formData.country}
-                  onChange={(e) => setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
-                  required
-                />
+                <h3 className="font-heading font-semibold mb-4">{t("shippingDetails")}</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="firstName">{t("firstName")}</Label>
+                    <Input
+                      id="firstName"
+                      name="firstName"
+                      value={formData.firstName}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="lastName">{t("lastName")}</Label>
+                    <Input
+                      id="lastName"
+                      name="lastName"
+                      value={formData.lastName}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
+                      required
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <Label htmlFor="email">{t("email")}</Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
+                      required
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <Label htmlFor="phone">{t("phone")}</Label>
+                    <Input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      value={formData.phone}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
+                      required
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <Label htmlFor="address">{t("address")}</Label>
+                    <Input
+                      id="address"
+                      name="address"
+                      value={formData.address}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="city">{t("city")}</Label>
+                    <Input
+                      id="city"
+                      name="city"
+                      value={formData.city}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="postalCode">{t("postalCode")}</Label>
+                    <Input
+                      id="postalCode"
+                      name="postalCode"
+                      value={formData.postalCode}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
+                      required
+                    />
+                  </div>
+                  <div className="col-span-2">
+                    <Label htmlFor="country">{t("country")}</Label>
+                    <Input
+                      id="country"
+                      name="country"
+                      value={formData.country}
+                      onChange={(e) => setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))}
+                      required
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
             <Button
               type="submit"
-              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-6 mt-auto"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-6 mt-6 flex-shrink-0"
               disabled={isBusy}
             >
               {isBusy ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : null}

@@ -16,6 +16,7 @@ export interface DbProduct {
   image_3: string | null;
   description: string | null;
   description_it: string | null;
+  ingredients: string | null;
   popularity: number | null;
   is_active: boolean | null;
   created_at: string;
@@ -36,6 +37,7 @@ export interface ProductInput {
   image_3?: string | null;
   description?: string | null;
   description_it?: string | null;
+  ingredients?: string | null;
   popularity?: number;
   is_active?: boolean;
 }
@@ -152,6 +154,7 @@ export function toFrontendProduct(dbProduct: DbProduct, language: 'en' | 'it' = 
     price: Number(dbProduct.price),
     image: dbProduct.image || '/placeholder.svg',
     description,
+    ingredients: dbProduct.ingredients || null,
     popularity: dbProduct.popularity || 50,
   };
 }
