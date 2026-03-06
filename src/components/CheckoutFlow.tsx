@@ -358,12 +358,6 @@ export function CheckoutFlow({ cart, onComplete, onBack }: CheckoutFlowProps) {
               ? t("creatingCheckout")
               : t("checkout")}
         </h2>
-        {onBack ? (
-          <Button variant="outline" size="sm" onClick={handleBack}>
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            {t("back")}
-          </Button>
-        ) : null}
       </div>
 
         {step === "details" && (
