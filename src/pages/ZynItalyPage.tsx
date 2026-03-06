@@ -8,6 +8,49 @@ export default function ZynItalyPage() {
   const { language } = useLanguage();
   const isItalian = language === "it";
 
+  const faqs = isItalian
+    ? [
+        {
+          q: "Quale intensità ZYN scegliere se sono all'inizio?",
+          a: "Se sei all'inizio, scegli una gradazione più bassa e aumenta gradualmente solo se necessario.",
+        },
+        {
+          q: "ZYN è disponibile con spedizione in tutta Italia?",
+          a: "Sì, spediamo in tutta Italia con tracking. Spedizione gratuita da €100.",
+        },
+        {
+          q: "Quanto tempo impiega la consegna ZYN?",
+          a: "In media 1-5 giorni lavorativi in base alla zona (Nord/Centro/Sud/Isole).",
+        },
+      ]
+    : [
+        {
+          q: "Which ZYN strength is best for beginners?",
+          a: "If you are new, start with a lower strength and only move up if needed.",
+        },
+        {
+          q: "Is ZYN shipped across all of Italy?",
+          a: "Yes, we ship across Italy with tracking. Free shipping from €100.",
+        },
+        {
+          q: "How long does ZYN delivery take?",
+          a: "Usually 1-5 business days depending on region (North/Central/South/Islands).",
+        },
+      ];
+
+  const faqStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.a,
+      },
+    })),
+  };
+
   return (
     <div className="min-h-screen bg-transparent">
       <SEOHead
@@ -17,6 +60,7 @@ export default function ZynItalyPage() {
             ? "Acquista ZYN in Italia con consegna rapida e spedizione gratuita da €100. Confronta intensità e formati pack."
             : "Shop ZYN in Italy with fast delivery and free shipping from €100. Compare strengths and pack sizes."
         }
+        structuredData={faqStructuredData}
       />
       <PageHeader />
 
@@ -40,6 +84,20 @@ export default function ZynItalyPage() {
             <li>{isItalian ? "Spedizione veloce in Italia" : "Fast shipping in Italy"}</li>
           </ul>
         </div>
+
+        <section className="mt-8 rounded-2xl border border-border bg-card p-6">
+          <h2 className="text-2xl font-heading font-bold text-foreground mb-4">
+            {isItalian ? "FAQ ZYN Italia" : "ZYN Italy FAQ"}
+          </h2>
+          <div className="space-y-4">
+            {faqs.map((item) => (
+              <div key={item.q}>
+                <h3 className="font-semibold text-foreground">{item.q}</h3>
+                <p className="text-sm text-muted-foreground mt-1">{item.a}</p>
+              </div>
+            ))}
+          </div>
+        </section>
 
         <div className="mt-8 flex flex-wrap gap-3">
           <LocalizedLink to="/#products" className="rounded-full bg-primary px-5 py-2.5 text-primary-foreground font-bold">

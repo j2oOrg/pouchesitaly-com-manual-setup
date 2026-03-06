@@ -8,6 +8,49 @@ export default function VeloItalyPage() {
   const { language } = useLanguage();
   const isItalian = language === "it";
 
+  const faqs = isItalian
+    ? [
+        {
+          q: "VELO è adatto a utenti nuovi?",
+          a: "Sì, consigliamo di partire con livelli di nicotina più bassi e passare gradualmente a intensità superiori.",
+        },
+        {
+          q: "Qual è la differenza tra VELO e ZYN?",
+          a: "Entrambi sono marchi premium; variano soprattutto per gusti, sensazione e profilo di intensità disponibile.",
+        },
+        {
+          q: "Quanto costa la spedizione per VELO in Italia?",
+          a: "€6,90 sotto €100 e gratuita da €100 in su.",
+        },
+      ]
+    : [
+        {
+          q: "Is VELO suitable for new users?",
+          a: "Yes, we recommend starting with lower nicotine strengths and moving up only if needed.",
+        },
+        {
+          q: "What is the difference between VELO and ZYN?",
+          a: "Both are premium brands; differences are mainly flavor profiles, sensation, and available strength ranges.",
+        },
+        {
+          q: "What is shipping cost for VELO in Italy?",
+          a: "€6.90 below €100 and free from €100 and above.",
+        },
+      ];
+
+  const faqStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.a,
+      },
+    })),
+  };
+
   return (
     <div className="min-h-screen bg-transparent">
       <SEOHead
@@ -17,6 +60,7 @@ export default function VeloItalyPage() {
             ? "Scopri VELO in Italia: gusti popolari, livelli di nicotina e spedizione rapida con tracking."
             : "Discover VELO in Italy: popular flavors, nicotine strengths, and fast tracked delivery."
         }
+        structuredData={faqStructuredData}
       />
       <PageHeader />
 
@@ -40,6 +84,20 @@ export default function VeloItalyPage() {
             <li>{isItalian ? "Consegna rapida in Italia" : "Fast delivery across Italy"}</li>
           </ul>
         </div>
+
+        <section className="mt-8 rounded-2xl border border-border bg-card p-6">
+          <h2 className="text-2xl font-heading font-bold text-foreground mb-4">
+            {isItalian ? "FAQ VELO Italia" : "VELO Italy FAQ"}
+          </h2>
+          <div className="space-y-4">
+            {faqs.map((item) => (
+              <div key={item.q}>
+                <h3 className="font-semibold text-foreground">{item.q}</h3>
+                <p className="text-sm text-muted-foreground mt-1">{item.a}</p>
+              </div>
+            ))}
+          </div>
+        </section>
 
         <div className="mt-8 flex flex-wrap gap-3">
           <LocalizedLink to="/#products" className="rounded-full bg-primary px-5 py-2.5 text-primary-foreground font-bold">

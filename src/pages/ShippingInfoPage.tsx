@@ -123,9 +123,52 @@ export default function ShippingInfoPage() {
     ? "Ordina ora per ricevere consegna rapida in tutta Italia e spedizione gratuita da €100."
     : "Place your order now for fast delivery across Italy and free shipping from €100.";
 
+  const shippingFaqs = isItalian
+    ? [
+        {
+          q: "Quando vengono elaborati gli ordini?",
+          a: "Gli ordini vengono elaborati alle 09:00 dal lunedì al venerdì, esclusi i festivi aziendali.",
+        },
+        {
+          q: "Quanto costa la spedizione in Italia?",
+          a: "€6,90 per ordini sotto €100. Da €100 in su la spedizione è gratuita.",
+        },
+        {
+          q: "In quanto tempo arriva il pacco?",
+          a: "Generalmente 1-5 giorni lavorativi in base alla zona di consegna.",
+        },
+      ]
+    : [
+        {
+          q: "When are orders processed?",
+          a: "Orders are processed at 9:00 AM Monday to Friday, excluding company holidays.",
+        },
+        {
+          q: "How much is shipping in Italy?",
+          a: "€6.90 for orders below €100. Shipping is free from €100 and above.",
+        },
+        {
+          q: "How long does delivery take?",
+          a: "Usually 1-5 business days depending on delivery area.",
+        },
+      ];
+
+  const shippingFaqStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: shippingFaqs.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.a,
+      },
+    })),
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-muted/20 to-background">
-      <SEOHead defaultTitle={`${pageTitle} | Pouchesitaly`} defaultDescription={pageDescription} />
+      <SEOHead defaultTitle={`${pageTitle} | Pouchesitaly`} defaultDescription={pageDescription} structuredData={shippingFaqStructuredData} />
       <PageHeader />
 
       <main className="container mx-auto px-4 pb-16 pt-4 md:pt-6">
@@ -245,6 +288,20 @@ export default function ShippingInfoPage() {
               ))}
             </ul>
           </article>
+        </section>
+
+        <section className="mt-8 rounded-2xl border border-border/70 bg-card p-6 md:p-7 shadow-sm">
+          <h2 className="text-2xl font-heading font-bold text-foreground">
+            {isItalian ? "FAQ Spedizione Italia" : "Italy Shipping FAQ"}
+          </h2>
+          <div className="mt-4 space-y-4">
+            {shippingFaqs.map((item) => (
+              <div key={item.q}>
+                <h3 className="font-semibold text-foreground">{item.q}</h3>
+                <p className="text-sm text-muted-foreground mt-1">{item.a}</p>
+              </div>
+            ))}
+          </div>
         </section>
 
         <section className="mt-8 rounded-[1.75rem] border border-primary/25 bg-gradient-to-r from-primary to-primary/85 p-7 md:p-9 text-center shadow-lg shadow-primary/20">
