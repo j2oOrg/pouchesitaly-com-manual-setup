@@ -412,10 +412,15 @@ export function CheckoutFlow({ cart, onComplete, onBack }: CheckoutFlowProps) {
 
               <div>
                 <h3 className="font-heading font-semibold mb-4">Shipping Method</h3>
-                <p className="text-xs text-muted-foreground mb-3">
+                <p className="text-xs text-muted-foreground mb-2">
                   {language === "it"
                     ? `Spedizione gratuita per ordini da €${FREE_SHIPPING_THRESHOLD} in su.`
                     : `Free shipping on orders of €${FREE_SHIPPING_THRESHOLD} or more.`}
+                </p>
+                <p className="text-xs text-muted-foreground mb-3">
+                  {language === "it"
+                    ? "18+ · Contiene nicotina · Pagamento sicuro · Imballaggio discreto"
+                    : "18+ · Contains nicotine · Secure payment · Discreet packaging"}
                 </p>
                 <div className="grid grid-cols-2 gap-4">
                   <label

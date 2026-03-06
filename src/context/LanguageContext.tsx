@@ -147,7 +147,6 @@ const translations: Record<Language, Record<string, string>> = {
     fastDelivery: 'Fast Delivery',
     fastDeliveryDesc: 'Most orders are processed within 24 hours and shipped via reliable domestic couriers.',
     freeShippingTitle: 'Free Shipping',
-    freeShippingLong: 'Free shipping applies in Italy on orders of €100 or more.',
     deliveryTimeframesTitle: 'Delivery Timeframes',
     region: 'Region',
     estimatedDelivery: 'Estimated Delivery',
@@ -156,7 +155,6 @@ const translations: Record<Language, Record<string, string>> = {
     trackingDesc: 'Once your order ships, you\'ll receive a tracking number via email. You can use this number to monitor your shipment\'s progress on the carrier\'s website.',
     readyToOrder: 'Ready to Order?',
     shopNowCta: 'Shop now with free shipping from €100 in Italy',
-    shopNow: 'Shop Now',
     
     // Quick FAQ
     faqQuestion1: 'How do nicotine pouches work?',
@@ -304,7 +302,6 @@ const translations: Record<Language, Record<string, string>> = {
     whyChooseUsIntro: 'Su Pouchesitaly, rendiamo l\'acquisto di nicotine pouches semplice, veloce e senza problemi. Ecco perché migliaia di clienti ci scelgono.',
     noSignUpTitle: 'Nessuna Registrazione Richiesta',
     noSignUpLong: 'Salta la creazione dell\'account. Fai il checkout come ospite in pochi minuti senza creare un account.',
-    freeShippingLong: 'La spedizione gratuita in Italia è disponibile per ordini pari o superiori a €100. Imballaggio anonimo per la massima privacy.',
     authenticProductsTitle: 'Prodotti Autentici',
     authenticProductsLong: 'Prodotti genuini al 100% da marchi affidabili. Niente falsi, niente imitazioni, garantito.',
     commitmentTitle: 'Il Nostro Impegno per la Qualità',
@@ -319,11 +316,6 @@ const translations: Record<Language, Record<string, string>> = {
     experienceDifference: 'Sperimenta la Differenza',
     joinThousands: 'Unisciti a migliaia di clienti soddisfatti in tutta Italia',
     startShopping: 'Inizia a Comprare',
-    shippingInfoIntro: 'Consegniamo nicotine pouches premium a clienti in tutta Italia con spedizione veloce, discreta e affidabile.',
-    globalCoverage: 'Copertura in tutta Italia',
-    globalCoverageDesc: 'Spediamo in tutte le regioni d\'Italia, dalle grandi città ai piccoli centri abitati.',
-    trackingDesc: 'Una volta spedito il tuo ordine, riceverai un numero di tracciamento via email. Puoi usare questo numero per monitorare l\'avanzamento della spedizione.',
-    shopNowCta: 'Acquista ora con spedizione gratuita da €100 in Italia',
     
     // Learn More
     learnMore: 'Scopri di Più',
@@ -384,7 +376,6 @@ const translations: Record<Language, Record<string, string>> = {
     trackingDesc: 'Una volta spedito il tuo ordine, riceverai un numero di tracciamento via email. Puoi usare questo numero per monitorare l\'avanzamento della spedizione sul sito del corriere.',
     readyToOrder: 'Pronto per Ordinare?',
     shopNowCta: 'Acquista ora con spedizione gratuita da €100 in Italia',
-    shopNow: 'Acquista Ora',
     
     // Quick FAQ
     faqQuestion1: 'Come funzionano le nicotine pouches?',
