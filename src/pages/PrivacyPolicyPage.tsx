@@ -9,57 +9,92 @@ const policy = {
     title: "Privacy Policy",
     subtitle:
       "We value your privacy and are committed to protecting your personal information.",
-    lastUpdated: "Last updated: September 1, 2025",
+    lastUpdated: "Last updated: March 6, 2026",
     sectionTitle: "Your Data & Privacy",
     sections: [
       {
-        heading: "1. Information We Collect",
+        heading: "1. Data Controller & Contact",
         items: [
-          "Contact details you provide when contacting support or placing an order (name, email, phone, address).",
-          "Order and payment-related information to process delivery and invoices.",
-          "Usage data, device details, and cookies for website analytics and security.",
+          "Pouchesitaly acts as data controller for personal data processed through this website.",
+          "For privacy requests: legal@pouchesitaly.com.",
         ],
       },
       {
-        heading: "2. How We Use Your Information",
+        heading: "2. Information We Collect",
         items: [
-          "To fulfill orders and provide customer support.",
-          "To send shipping notifications and legal service emails.",
-          "To improve website experience, performance, and security.",
-          "To comply with legal obligations and prevent fraud.",
+          "Identity and contact data (name, email, phone, shipping/billing address).",
+          "Order data (products purchased, order value, delivery status).",
+          "Payment-related metadata from payment providers (we do not store full card details).",
+          "Technical and usage data (IP, browser, device information, and event analytics).",
         ],
       },
       {
-        heading: "3. Legal Basis & Retention",
+        heading: "3. Why We Process Your Data",
         items: [
-          "We process data based on contract necessity, legitimate interests, consent, and legal requirements.",
-          "We keep order-related records as required by commercial and tax regulations.",
-          "You may request deletion or correction of personal data, unless we are required by law to retain it.",
+          "To process and deliver your orders.",
+          "To provide customer support and send service communications.",
+          "To detect fraud, secure our systems, and comply with legal obligations.",
+          "To improve site performance and marketing effectiveness where lawful.",
         ],
       },
       {
-        heading: "4. Third-Party Services",
+        heading: "4. Legal Bases (GDPR)",
         items: [
-          "We use secure payment and logistics providers only for order fulfillment.",
-          "These providers handle limited data necessary to complete their service.",
-          "They are required to maintain confidentiality and security standards.",
+          "Contract performance (order management and delivery).",
+          "Legal obligation (tax, accounting, anti-fraud, and consumer law duties).",
+          "Legitimate interest (service quality, security, fraud prevention).",
+          "Consent (optional cookies/marketing where required).",
         ],
       },
       {
-        heading: "5. Cookies & Analytics",
+        heading: "5. Cookies, Tracking & Consent",
         items: [
-          "We may use cookies for essential site functionality and analytics.",
-          "You can manage cookie preferences through your browser settings.",
-          "Disabling some cookies can impact certain features of the site.",
+          "Essential cookies are used for cart, checkout, and security.",
+          "Optional analytics/marketing cookies are used only where consent is required and provided.",
+          "You can manage cookie settings through the cookie banner and browser settings.",
         ],
       },
       {
-        heading: "6. Your Rights",
+        heading: "6. Third-Party Processors",
         items: [
-          "Access, update, or correct your data.",
-          "Request deletion or objection where applicable.",
-          "Withdraw consent for optional communications at any time.",
-          "Contact our support team for a privacy request.",
+          "We use payment, shipping, hosting, and analytics providers to operate our services.",
+          "These providers only process data needed for their task and must apply appropriate safeguards.",
+        ],
+      },
+      {
+        heading: "7. Data Retention",
+        items: [
+          "Order and invoicing data are kept as required by applicable tax/accounting law.",
+          "Support and operational data are retained only as long as reasonably necessary.",
+          "Where possible, data are anonymized or deleted when no longer needed.",
+        ],
+      },
+      {
+        heading: "8. International Transfers",
+        items: [
+          "If data are transferred outside the EEA, we use appropriate safeguards (e.g., SCCs) where required.",
+        ],
+      },
+      {
+        heading: "9. Your Rights",
+        items: [
+          "Right of access, rectification, erasure, and restriction.",
+          "Right to object to processing based on legitimate interests.",
+          "Right to data portability where applicable.",
+          "Right to withdraw consent at any time (without affecting prior lawful processing).",
+          "Right to lodge a complaint with the competent supervisory authority.",
+        ],
+      },
+      {
+        heading: "10. Minors",
+        items: [
+          "Our products are for adults only (18+). We do not intentionally collect personal data from minors.",
+        ],
+      },
+      {
+        heading: "11. Policy Updates",
+        items: [
+          "We may update this policy periodically. The latest version is always published on this page.",
         ],
       },
     ],
@@ -69,57 +104,92 @@ const policy = {
     title: "Informativa sulla Privacy",
     subtitle:
       "Proteggiamo la tua privacy e ci impegniamo a tutelare i tuoi dati personali.",
-    lastUpdated: "Ultimo aggiornamento: 1 settembre 2025",
+    lastUpdated: "Ultimo aggiornamento: 6 marzo 2026",
     sectionTitle: "Dati personali e privacy",
     sections: [
       {
-        heading: "1. Dati che raccogliamo",
+        heading: "1. Titolare del trattamento e contatti",
         items: [
-          "Dati di contatto che fornisci durante supporto o ordini (nome, email, telefono, indirizzo).",
-          "Informazioni su ordini e pagamento necessarie per la gestione della spedizione e della fatturazione.",
-          "Dati di utilizzo del sito, dispositivo e cookie per analisi e sicurezza.",
+          "Pouchesitaly agisce come titolare del trattamento dei dati personali raccolti tramite questo sito.",
+          "Per richieste privacy: legal@pouchesitaly.com.",
         ],
       },
       {
-        heading: "2. Come utilizziamo i dati",
+        heading: "2. Dati che raccogliamo",
         items: [
-          "Per evadere gli ordini e fornirti assistenza clienti.",
-          "Per inviare conferme, notifiche di spedizione e comunicazioni di servizio.",
-          "Per migliorare performance, esperienza utente e sicurezza del sito.",
-          "Per adempiere obblighi legali e prevenire frodi.",
+          "Dati identificativi e di contatto (nome, email, telefono, indirizzo di spedizione/fatturazione).",
+          "Dati d'ordine (prodotti acquistati, valore ordine, stato consegna).",
+          "Metadati di pagamento dai provider di pagamento (non memorizziamo i dati completi della carta).",
+          "Dati tecnici e di utilizzo (IP, browser, dispositivo, eventi analytics).",
         ],
       },
       {
-        heading: "3. Base giuridica e conservazione",
+        heading: "3. Finalità del trattamento",
         items: [
-          "Trattiamo i dati per l’esecuzione del contratto, interessi legittimi, consenso e obblighi di legge.",
-          "Conserviamo i dati relativi agli ordini secondo le normative fiscali e commerciali.",
-          "Puoi richiedere la cancellazione o la correzione dei tuoi dati, salvo obblighi normativi contrari.",
+          "Gestire ordini, pagamenti e consegne.",
+          "Fornire assistenza clienti e comunicazioni di servizio.",
+          "Prevenire frodi, proteggere i sistemi e rispettare obblighi legali.",
+          "Migliorare prestazioni del sito ed efficacia marketing, ove consentito.",
         ],
       },
       {
-        heading: "4. Servizi di terze parti",
+        heading: "4. Basi giuridiche (GDPR)",
         items: [
-          "Utilizziamo fornitori di pagamento e spedizione per completare gli ordini.",
-          "Essi trattano solo i dati necessari al loro servizio.",
-          "Devono rispettare standard di sicurezza e riservatezza.",
+          "Esecuzione del contratto (gestione ordine e consegna).",
+          "Obbligo legale (adempimenti fiscali, contabili, antifrode e consumer law).",
+          "Legittimo interesse (qualità del servizio, sicurezza, prevenzione frodi).",
+          "Consenso (cookie/marketing opzionali quando richiesto).",
         ],
       },
       {
-        heading: "5. Cookie e analytics",
+        heading: "5. Cookie, tracciamento e consenso",
         items: [
-          "Possiamo utilizzare cookie per funzioni essenziali e analisi statistiche.",
-          "Puoi gestire le preferenze cookie dalle impostazioni del browser.",
-          "La disattivazione di alcuni cookie può limitare alcune funzionalità.",
+          "I cookie essenziali sono usati per carrello, checkout e sicurezza.",
+          "Cookie analytics/marketing opzionali sono usati solo quando richiesto e con consenso valido.",
+          "Puoi gestire le preferenze dal banner cookie e dalle impostazioni del browser.",
         ],
       },
       {
-        heading: "6. I tuoi diritti",
+        heading: "6. Responsabili esterni del trattamento",
         items: [
-          "Accedere, aggiornare o correggere i tuoi dati.",
-          "Richiedere cancellazione o opposizione quando applicabile.",
-          "Revocare il consenso alle comunicazioni non essenziali in qualsiasi momento.",
-          "Scrivere al supporto per qualsiasi richiesta privacy.",
+          "Utilizziamo provider terzi per pagamenti, spedizioni, hosting e analytics.",
+          "Questi soggetti trattano solo i dati necessari al servizio e con adeguate misure di sicurezza.",
+        ],
+      },
+      {
+        heading: "7. Conservazione dei dati",
+        items: [
+          "I dati di ordine e fatturazione sono conservati secondo i termini previsti dalla normativa fiscale/contabile.",
+          "I dati di supporto e operativi sono conservati solo per il tempo necessario alle finalità indicate.",
+          "Quando possibile, i dati vengono anonimizzati o cancellati al termine del periodo utile.",
+        ],
+      },
+      {
+        heading: "8. Trasferimenti internazionali",
+        items: [
+          "Se i dati vengono trasferiti fuori dallo SEE, adottiamo garanzie adeguate (es. Clausole Contrattuali Standard), quando richiesto.",
+        ],
+      },
+      {
+        heading: "9. I tuoi diritti",
+        items: [
+          "Diritto di accesso, rettifica, cancellazione e limitazione.",
+          "Diritto di opposizione ai trattamenti basati su legittimo interesse.",
+          "Diritto alla portabilità dei dati, quando applicabile.",
+          "Diritto di revocare il consenso in qualsiasi momento (senza pregiudicare la liceità precedente).",
+          "Diritto di proporre reclamo all'Autorità Garante competente.",
+        ],
+      },
+      {
+        heading: "10. Minori",
+        items: [
+          "I prodotti sono destinati esclusivamente ad adulti (18+). Non raccogliamo intenzionalmente dati personali di minori.",
+        ],
+      },
+      {
+        heading: "11. Aggiornamenti dell'informativa",
+        items: [
+          "Possiamo aggiornare periodicamente questa informativa. La versione più recente è sempre disponibile su questa pagina.",
         ],
       },
     ],
@@ -148,16 +218,14 @@ export default function PrivacyPolicyPage() {
 
       <main className="container mx-auto px-4 pb-12">
         <div className="bg-card rounded-2xl p-8 md:p-12 max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-3">
-            {copy.title}
-          </h1>
+          <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-3">{copy.title}</h1>
           <p className="text-sm text-muted-foreground mb-3">{copy.subtitle}</p>
           <p className="text-sm text-muted-foreground mb-8">{copy.lastUpdated}</p>
 
           <p className="text-muted-foreground mb-10">
             {language === "it"
-              ? "La presente informativa descrive come raccogliamo, utilizziamo e proteggiamo i tuoi dati quando acquisti sul sito Pouchesitaly."
-              : "This policy explains how we collect, use, and protect your data when you shop on Pouchesitaly."}
+              ? "La presente informativa descrive come raccogliamo, utilizziamo e proteggiamo i dati personali durante l'uso del sito e l'acquisto dei prodotti."
+              : "This policy explains how we collect, use, and protect personal data when you use our website and purchase products."}
           </p>
 
           <h2 className="text-2xl font-heading font-bold text-foreground mb-6">{copy.sectionTitle}</h2>
@@ -165,9 +233,7 @@ export default function PrivacyPolicyPage() {
           <div className="space-y-6">
             {copy.sections.map((section) => (
               <section key={section.heading} className="bg-muted/55 rounded-xl p-6 border border-border/70">
-                <h3 className="text-xl font-heading font-bold text-foreground mb-3">
-                  {section.heading}
-                </h3>
+                <h3 className="text-xl font-heading font-bold text-foreground mb-3">{section.heading}</h3>
                 <ul className="list-disc pl-6 text-muted-foreground space-y-2">
                   {section.items.map((item) => (
                     <li key={item}>{item}</li>
@@ -178,7 +244,11 @@ export default function PrivacyPolicyPage() {
           </div>
 
           <p className="mt-10 text-muted-foreground">
-            {copy.contact} <a href="mailto:legal@pouchesitaly.com" className="text-primary underline hover:opacity-80">legal@pouchesitaly.com</a>.
+            {copy.contact}{" "}
+            <a href="mailto:legal@pouchesitaly.com" className="text-primary underline hover:opacity-80">
+              legal@pouchesitaly.com
+            </a>
+            .
           </p>
         </div>
       </main>
@@ -187,5 +257,3 @@ export default function PrivacyPolicyPage() {
     </div>
   );
 }
-
-

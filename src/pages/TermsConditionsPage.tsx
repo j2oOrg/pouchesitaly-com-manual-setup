@@ -9,167 +9,193 @@ const terms = {
     title: "Terms & Conditions",
     subtitle:
       "By accessing and placing an order on this website, you agree to the following terms.",
-    lastUpdated: "Last updated: September 1, 2025",
+    lastUpdated: "Last updated: March 6, 2026",
     sectionTitle: "General Terms",
     sections: [
       {
-        heading: "1. Eligibility",
+        heading: "1. Seller Information",
+        points: [
+          "Pouchesitaly is the seller for all products offered on this website.",
+          "For legal or support requests, contact: legal@pouchesitaly.com.",
+          "These terms apply to sales delivered in Italy.",
+        ],
+      },
+      {
+        heading: "2. Age Restriction & Product Use",
         points: [
           "You must be 18 years or older to purchase nicotine products.",
-          "You are responsible for ensuring all orders comply with local laws in your country.",
-          "Do not use the website for unlawful purposes.",
+          "By ordering, you confirm you are legally allowed to purchase nicotine products in your jurisdiction.",
+          "Products contain nicotine, an addictive substance, and are intended for adult consumers only.",
         ],
       },
       {
-        heading: "2. Products & Availability",
+        heading: "3. Products & Availability",
         points: [
-          "We make every effort to keep product information up to date.",
-          "All nicotine pouch products are sold as tobacco-free alternatives.",
-          "Products are sold in original sealed packaging as provided by the manufacturer.",
+          "Product descriptions, strengths, and images are provided in good faith and may be updated.",
+          "Products are sold in original sealed packaging from suppliers.",
+          "Availability may change without notice.",
         ],
       },
       {
-        heading: "3. Pricing & Payment",
+        heading: "4. Pricing & Payment",
         points: [
-          "Prices are shown in EUR and may change without notice.",
-          "Taxes and shipping costs are calculated at checkout when applicable.",
-          "Payment is processed through trusted payment providers; we do not store full card data on our platform.",
+          "Prices are shown in EUR.",
+          "Shipping fees and any applicable charges are shown at checkout before payment.",
+          "Payment is processed through secure third-party providers; we do not store full card details.",
         ],
       },
       {
-        heading: "4. Order Processing & Shipping",
+        heading: "5. Shipping Policy (Italy)",
         points: [
-          "Orders are processed after payment confirmation.",
-          "We currently ship only within Italy with standard tracking updates.",
-          "Free shipping applies to orders of €100 or more. For lower totals, shipping cost is calculated at checkout.",
-          "Delivery timeframes are estimates and can vary due to weather and carrier delays.",
-          "You are responsible for maintaining accurate shipping information.",
+          "We currently ship only to addresses in Italy.",
+          "Shipping fee is €6.90 for orders below €100.",
+          "Shipping is free for orders with subtotal of €100 or more.",
+          "Delivery times are estimated and may vary due to carrier delays or force majeure.",
         ],
       },
       {
-        heading: "5. Returns & Refunds",
+        heading: "6. Returns, Withdrawal & Refunds",
         points: [
-          "Please verify product details before completing your order.",
-          "Returns are accepted where required by law or approved case by case.",
-          "Returns of opened or used nicotine products may be restricted for health and safety reasons.",
+          "Consumers may have statutory rights under applicable Italian/EU consumer law.",
+          "Due to health and hygiene reasons, opened nicotine products may not be eligible for return unless required by law.",
+          "If a package arrives damaged or incorrect, contact support promptly with order details.",
         ],
       },
       {
-        heading: "6. Discrete Packaging",
+        heading: "7. Order Acceptance & Cancellation",
         points: [
-          "Orders are shipped in plain packaging as part of our discretion policy.",
-          "We do not guarantee a specific delivery date once the package leaves the carrier.",
-          "Lost packages should be reported to the courier and then to our support team.",
+          "Orders are accepted once payment is confirmed and processing begins.",
+          "We may cancel orders in cases of fraud risk, stock errors, or compliance concerns.",
+          "If an order is canceled by us, any paid amount will be refunded via the original payment method.",
         ],
       },
       {
-        heading: "7. Limitation of Liability",
+        heading: "8. Liability",
         points: [
-          "Our liability is limited to the maximum extent allowed by law.",
-          "We are not liable for indirect losses or damages caused by misuse of products.",
-          "You are responsible for safe use of nicotine products and for following local regulations.",
+          "Nothing in these terms limits mandatory consumer rights under applicable law.",
+          "To the extent permitted by law, we are not liable for indirect losses.",
+          "You are responsible for lawful and safe use of products after delivery.",
         ],
       },
       {
-        heading: "8. Intellectual Property",
+        heading: "9. Intellectual Property",
         points: [
-          "All site content, logos, and graphics are owned by Pouchesitaly or its licensors.",
-          "Reproduction, scraping, or commercial reuse without written permission is prohibited.",
+          "All site content, logos, text, and graphics are owned by Pouchesitaly or its licensors.",
+          "Unauthorized reproduction, scraping, or commercial reuse is prohibited.",
         ],
       },
       {
-        heading: "9. Changes to Terms",
+        heading: "10. Governing Law & Disputes",
+        points: [
+          "These terms are governed by applicable Italian law, without prejudice to mandatory consumer protections.",
+          "For disputes, contact us first so we can attempt to resolve the issue quickly.",
+        ],
+      },
+      {
+        heading: "11. Changes to Terms",
         points: [
           "We may update these terms from time to time.",
-          "Continued use of the site after updates means you accept the revised terms.",
-          "We will post the new effective date on this page.",
+          "Updated terms become effective when published on this page.",
         ],
       },
     ],
-    contact: "For support or disputes regarding these terms:",
+    contact: "For support or legal requests regarding these terms:",
   },
   it: {
     title: "Termini e Condizioni",
     subtitle:
       "Accedendo e acquistando su questo sito, accetti i seguenti termini.",
-    lastUpdated: "Ultimo aggiornamento: 1 settembre 2025",
+    lastUpdated: "Ultimo aggiornamento: 6 marzo 2026",
     sectionTitle: "Termini Generali",
     sections: [
       {
-        heading: "1. Requisiti di utilizzo",
+        heading: "1. Informazioni sul venditore",
         points: [
-          "È richiesto aver compiuto i 18 anni per acquistare prodotti contenenti nicotina.",
-          "È tua responsabilità assicurarti che l'acquisto sia conforme alle leggi locali.",
-          "Non utilizzare il sito per scopi illeciti.",
+          "Pouchesitaly è il venditore dei prodotti offerti su questo sito.",
+          "Per richieste legali o di supporto: legal@pouchesitaly.com.",
+          "I presenti termini si applicano alle vendite con consegna in Italia.",
         ],
       },
       {
-        heading: "2. Prodotti e disponibilità",
+        heading: "2. Limiti di età e uso del prodotto",
         points: [
-          "Ci impegniamo a mantenere aggiornate le informazioni sui prodotti.",
-          "I prodotti venduti sono pouches senza tabacco da nostro fornitore certificato.",
-          "I prodotti sono venduti nella confezione originale sigillata del produttore.",
+          "Per acquistare prodotti contenenti nicotina devi avere almeno 18 anni.",
+          "Effettuando un ordine dichiari di poter acquistare legalmente prodotti con nicotina.",
+          "I prodotti contengono nicotina, sostanza che crea dipendenza, e sono destinati esclusivamente ad adulti.",
         ],
       },
       {
-        heading: "3. Prezzi e pagamento",
+        heading: "3. Prodotti e disponibilità",
         points: [
-          "I prezzi sono espressi in EUR e possono essere aggiornati senza preavviso.",
-          "Tasse e costi di spedizione sono calcolati al checkout, quando applicabili.",
-          "I pagamenti sono elaborati da fornitori certificati; non conserviamo i dati completi delle carte di pagamento.",
+          "Descrizioni, gradazioni e immagini prodotto sono fornite in buona fede e possono essere aggiornate.",
+          "I prodotti sono venduti in confezione originale sigillata dei fornitori.",
+          "La disponibilità può variare senza preavviso.",
         ],
       },
       {
-        heading: "4. Ordini e spedizioni",
+        heading: "4. Prezzi e pagamento",
         points: [
-          "Gli ordini vengono evasi dopo conferma del pagamento.",
-          "Attualmente spediamo solo in Italia con aggiornamenti di tracciamento standard.",
-          "La spedizione gratuita si applica per ordini pari o superiori a €100. Sotto questa soglia, il costo viene calcolato al checkout.",
-          "I tempi di consegna sono indicativi e possono variare per meteo o ritardi del corriere.",
-          "Sei responsabile di fornire un indirizzo di spedizione corretto e completo.",
+          "I prezzi sono espressi in EUR.",
+          "Spese di spedizione e altri eventuali costi sono mostrati al checkout prima del pagamento.",
+          "I pagamenti sono elaborati da provider terzi sicuri; non memorizziamo i dati completi della carta.",
         ],
       },
       {
-        heading: "5. Resi e rimborsi",
+        heading: "5. Politica di spedizione (Italia)",
         points: [
-          "Verifica attentamente i dettagli dell'ordine prima di confermare.",
-          "I resi sono gestiti nei limiti previsti dalla legge o su eccezionale valutazione caso per caso.",
-          "I prodotti aperti o utilizzati possono essere non idonei al reso per motivi sanitari.",
+          "Attualmente spediamo solo a indirizzi in Italia.",
+          "Spedizione €6,90 per ordini sotto €100.",
+          "Spedizione gratuita per ordini con subtotale pari o superiore a €100.",
+          "I tempi di consegna sono indicativi e possono variare per ritardi del corriere o cause di forza maggiore.",
         ],
       },
       {
-        heading: "6. Imballaggio discreto",
+        heading: "6. Resi, recesso e rimborsi",
         points: [
-          "Gli ordini vengono spediti in confezioni anonime in accordo con la policy di discrezione.",
-          "Non possiamo garantire una data di consegna certa dopo la partenza dal corriere.",
-          "Segnala pacchi smarriti prima con il corriere, poi al nostro supporto.",
+          "Il consumatore mantiene i diritti previsti dalla normativa italiana/europea applicabile.",
+          "Per motivi igienico-sanitari, i prodotti con nicotina aperti possono non essere idonei al reso salvo obblighi di legge.",
+          "In caso di pacco danneggiato o ordine errato, contatta subito il supporto indicando i dettagli dell'ordine.",
         ],
       },
       {
-        heading: "7. Limitazione di responsabilità",
+        heading: "7. Accettazione e annullamento ordini",
         points: [
-          "La nostra responsabilità è limitata al massimo consentito dalla legge.",
-          "Non siamo responsabili per danni indiretti o danni derivanti da uso improprio.",
-          "L'uso sicuro dei prodotti nicotine è di tua responsabilità.",
+          "Gli ordini sono accettati dopo conferma pagamento e avvio elaborazione.",
+          "Possiamo annullare ordini in caso di rischio frode, errori di stock o esigenze di conformità.",
+          "In caso di annullamento da parte nostra, l'importo pagato viene rimborsato sul metodo originale.",
         ],
       },
       {
-        heading: "8. Proprietà intellettuale",
+        heading: "8. Responsabilità",
         points: [
-          "Tutti i contenuti del sito, loghi e grafiche sono di proprietà di Pouchesitaly o licenziatari.",
-          "È vietata la riproduzione, lo scraping o l'uso commerciale senza autorizzazione scritta.",
+          "Nulla in questi termini limita i diritti inderogabili del consumatore previsti dalla legge.",
+          "Nei limiti consentiti dalla legge, non rispondiamo di danni indiretti.",
+          "L'uso corretto e conforme dei prodotti dopo la consegna è responsabilità dell'acquirente.",
         ],
       },
       {
-        heading: "9. Modifiche ai termini",
+        heading: "9. Proprietà intellettuale",
         points: [
-          "Potremmo aggiornare questi termini in qualsiasi momento.",
-          "L'uso continuato del sito dopo gli aggiornamenti implica accettazione dei nuovi termini.",
-          "La nuova data di entrata in vigore sarà indicata in questa pagina.",
+          "Contenuti, loghi, testi e grafiche del sito sono di proprietà di Pouchesitaly o dei relativi licenzianti.",
+          "È vietata la riproduzione, lo scraping o il riutilizzo commerciale senza autorizzazione.",
+        ],
+      },
+      {
+        heading: "10. Legge applicabile e controversie",
+        points: [
+          "I presenti termini sono regolati dalla legge italiana, fatti salvi i diritti inderogabili del consumatore.",
+          "Per eventuali controversie, contattaci prima per tentare una risoluzione rapida.",
+        ],
+      },
+      {
+        heading: "11. Modifiche ai termini",
+        points: [
+          "Possiamo aggiornare i presenti termini periodicamente.",
+          "Le modifiche hanno effetto dalla pubblicazione su questa pagina.",
         ],
       },
     ],
-    contact: "Per supporto o eventuali controversie sui termini:",
+    contact: "Per supporto o richieste legali relative a questi termini:",
   },
 };
 
@@ -194,9 +220,7 @@ export default function TermsConditionsPage() {
 
       <main className="container mx-auto px-4 pb-12">
         <div className="bg-card rounded-2xl p-8 md:p-12 max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-3">
-            {copy.title}
-          </h1>
+          <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-3">{copy.title}</h1>
           <p className="text-sm text-muted-foreground mb-3">{copy.subtitle}</p>
           <p className="text-sm text-muted-foreground mb-8">{copy.lastUpdated}</p>
 
@@ -205,9 +229,7 @@ export default function TermsConditionsPage() {
           <div className="space-y-6">
             {copy.sections.map((section) => (
               <section key={section.heading} className="bg-muted/55 rounded-xl p-6 border border-border/70">
-                <h3 className="text-xl font-heading font-bold text-foreground mb-3">
-                  {section.heading}
-                </h3>
+                <h3 className="text-xl font-heading font-bold text-foreground mb-3">{section.heading}</h3>
                 <ul className="list-disc pl-6 text-muted-foreground space-y-2">
                   {section.points.map((item) => (
                     <li key={item}>{item}</li>
@@ -218,7 +240,11 @@ export default function TermsConditionsPage() {
           </div>
 
           <p className="mt-10 text-muted-foreground">
-            {copy.contact} <a href="mailto:legal@pouchesitaly.com" className="text-primary underline hover:opacity-80">legal@pouchesitaly.com</a>.
+            {copy.contact}{" "}
+            <a href="mailto:legal@pouchesitaly.com" className="text-primary underline hover:opacity-80">
+              legal@pouchesitaly.com
+            </a>
+            .
           </p>
         </div>
       </main>
@@ -227,5 +253,3 @@ export default function TermsConditionsPage() {
     </div>
   );
 }
-
-
