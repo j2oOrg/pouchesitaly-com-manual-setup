@@ -18,6 +18,8 @@ import WhyChooseUsPage from "./pages/WhyChooseUsPage";
 import StrengthsGuidePage from "./pages/StrengthsGuidePage";
 import TobaccoFreePage from "./pages/TobaccoFreePage";
 import FAQPage from "./pages/FAQPage";
+import ZynItalyPage from "./pages/ZynItalyPage";
+import VeloItalyPage from "./pages/VeloItalyPage";
 import LoginPage from "./pages/LoginPage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProducts from "./pages/admin/AdminProducts";
@@ -168,6 +170,8 @@ const AppRoutes = (
     <Route path="strengths-guide" element={<StrengthsGuidePage />} />
     <Route path="tobacco-free" element={<TobaccoFreePage />} />
     <Route path="faq" element={<FAQPage />} />
+    <Route path="zyn-italy" element={<ZynItalyPage />} />
+    <Route path="velo-italy" element={<VeloItalyPage />} />
     <Route path="privacy" element={<PrivacyPolicyPage />} />
     <Route path="terms" element={<TermsConditionsPage />} />
     {/* Italian Pages */}

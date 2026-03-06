@@ -8,7 +8,10 @@ import { SEOHead } from "@/components/SEOHead";
 export default function StrengthsGuidePage() {
   return (
     <div className="min-h-screen bg-transparent">
-      <SEOHead />
+      <SEOHead
+        defaultTitle="Nicotine Strength Guide Italy | Choose the Right mg | Pouchesitaly"
+        defaultDescription="Understand nicotine pouch strengths from light to extra strong. Find the best level for your needs in Italy."
+      />
       <PageHeader />
 
       {/* Breadcrumb */}

@@ -102,6 +102,26 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://pouchesitaly.com/zyn-italy</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pouchesitaly.com/velo-italy</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pouchesitaly.com/en/zyn-italy</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://pouchesitaly.com/en/velo-italy</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://pouchesitaly.com/en/privacy</loc>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>

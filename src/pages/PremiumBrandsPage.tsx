@@ -11,7 +11,12 @@ export default function PremiumBrandsPage() {
 
   return (
     <div className="min-h-screen bg-transparent">
-      <SEOHead />
+      <SEOHead
+        defaultTitle={t('premiumNicotineBrands') + ' | ZYN, VELO & More in Italy | Pouchesitaly'}
+        defaultDescription={
+          'Compare premium nicotine pouch brands in Italy including ZYN and VELO. Fast shipping and discreet checkout.'
+        }
+      />
       <PageHeader />
 
       {/* Breadcrumb */}
@@ -96,6 +101,14 @@ export default function PremiumBrandsPage() {
               {t('viewAllProducts')}
               <ArrowRight className="w-4 h-4" />
             </LocalizedLink>
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+              <LocalizedLink to="/zyn-italy" className="rounded-full border border-primary-foreground/40 px-4 py-2 text-sm text-primary-foreground hover:bg-white/10">
+                ZYN Italy
+              </LocalizedLink>
+              <LocalizedLink to="/velo-italy" className="rounded-full border border-primary-foreground/40 px-4 py-2 text-sm text-primary-foreground hover:bg-white/10">
+                VELO Italy
+              </LocalizedLink>
+            </div>
           </div>
         </div>
       </main>

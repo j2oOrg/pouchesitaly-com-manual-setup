@@ -8,7 +8,10 @@ import { SEOHead } from "@/components/SEOHead";
 export default function SnusBrandsPage() {
   return (
     <div className="min-h-screen bg-transparent">
-      <SEOHead />
+      <SEOHead
+        defaultTitle="Marchi Snus e Nicotine Pouches in Italia | ZYN & VELO | Pouchesitaly"
+        defaultDescription="Confronta i principali marchi di nicotine pouches in Italia, tra cui ZYN e VELO, con spedizione rapida."
+      />
       <PageHeader />
 
       {/* Breadcrumb */}
