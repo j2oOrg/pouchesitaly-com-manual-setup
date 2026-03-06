@@ -424,20 +424,30 @@ export function CheckoutFlow({ cart, onComplete, onBack }: CheckoutFlowProps) {
                     : `Free shipping on orders of €${FREE_SHIPPING_THRESHOLD} or more.`}
                 </p>
                 <div className="grid grid-cols-2 gap-4">
-                  <label className={`cursor-pointer flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${shippingMethod === 'dhl' ? 'border-primary bg-primary/5' : 'border-border bg-card hover:bg-muted/30'}`}>
+                  <label
+                    className={`cursor-pointer flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${
+                      shippingMethod === 'dhl'
+                        ? 'border-primary bg-primary/5 shadow-sm'
+                        : 'border-border bg-muted/40 opacity-70 hover:opacity-90'
+                    }`}
+                  >
                     <input type="radio" name="shipping" value="dhl" checked={shippingMethod === 'dhl'} onChange={() => setShippingMethod('dhl')} className="sr-only" />
-                    <img src={dhlLogo} alt="DHL" className="h-8 object-contain mb-2" />
+                    <img src={dhlLogo} alt="DHL" className={`h-8 object-contain mb-2 ${shippingMethod === 'dhl' ? '' : 'grayscale'}`} />
                     <span className="font-bold text-sm">DHL Service</span>
-                    <span className="text-xs text-muted-foreground text-center mb-1">Under 2kg</span>
                     <span className={`font-semibold ${hasFreeShipping ? "text-emerald-600" : "text-primary"}`}>
                       {hasFreeShipping ? freeShippingText : "€7.50"}
                     </span>
                   </label>
-                  <label className={`cursor-pointer flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${shippingMethod === 'ups' ? 'border-primary bg-primary/5' : 'border-border bg-card hover:bg-muted/30'}`}>
+                  <label
+                    className={`cursor-pointer flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${
+                      shippingMethod === 'ups'
+                        ? 'border-primary bg-primary/5 shadow-sm'
+                        : 'border-border bg-muted/40 opacity-70 hover:opacity-90'
+                    }`}
+                  >
                     <input type="radio" name="shipping" value="ups" checked={shippingMethod === 'ups'} onChange={() => setShippingMethod('ups')} className="sr-only" />
-                    <img src={upsLogo} alt="UPS" className="h-8 object-contain mb-2" />
+                    <img src={upsLogo} alt="UPS" className={`h-8 object-contain mb-2 ${shippingMethod === 'ups' ? '' : 'grayscale'}`} />
                     <span className="font-bold text-sm">UPS</span>
-                    <span className="text-xs text-muted-foreground text-center mb-1">Above 2kg</span>
                     <span className={`font-semibold ${hasFreeShipping ? "text-emerald-600" : "text-primary"}`}>
                       {hasFreeShipping ? freeShippingText : "€13.00"}
                     </span>
