@@ -305,7 +305,7 @@ export default function ProductPage() {
                 {activeImage && (
                   <img
                     src={activeImage}
-                    alt={product.name}
+                    alt={`${product.name} ${product.strengthMg}mg ${product.flavor} nicotine pouch`}
                     className="relative z-10 w-full h-full object-contain filter drop-shadow-xl animate-in fade-in zoom-in duration-500"
                   />
                 )}
@@ -321,7 +321,7 @@ export default function ProductPage() {
                         activeImage === img ? 'border-primary ring-2 ring-primary/20' : 'border-transparent hover:border-border'
                       }`}
                     >
-                      <img src={img} alt={`${product.name} view ${idx + 1}`} className="w-full h-full object-contain p-2" />
+                      <img src={img} alt={`${product.name} ${product.brand} image ${idx + 1}`} className="w-full h-full object-contain p-2" />
                     </button>
                   ))}
                 </div>
@@ -538,6 +538,28 @@ export default function ProductPage() {
           </div>
         </div>
 
+        <section className="mt-8 rounded-2xl border border-border bg-card p-5 md:p-6">
+          <h2 className="text-lg md:text-xl font-heading font-bold text-foreground">
+            {language === "it" ? "Informazioni utili prima dell'acquisto" : "Helpful info before you buy"}
+          </h2>
+          <p className="mt-2 text-sm text-muted-foreground">
+            {language === "it"
+              ? `Scopri i tempi di spedizione in Italia, la guida alle intensità e le risposte alle domande frequenti su ${product.brand}.`
+              : `Check shipping times in Italy, strength guidance, and common questions about ${product.brand}.`}
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <LocalizedLink to="/shipping-info" className="rounded-full border border-border px-3 py-1.5 text-sm font-medium hover:bg-muted">
+              {language === "it" ? "Spedizione" : "Shipping"}
+            </LocalizedLink>
+            <LocalizedLink to="/strengths-guide" className="rounded-full border border-border px-3 py-1.5 text-sm font-medium hover:bg-muted">
+              {language === "it" ? "Guida Intensità" : "Strength Guide"}
+            </LocalizedLink>
+            <LocalizedLink to="/faq" className="rounded-full border border-border px-3 py-1.5 text-sm font-medium hover:bg-muted">
+              FAQ
+            </LocalizedLink>
+          </div>
+        </section>
+
         {relatedProducts.length > 0 && (
           <section className="mt-8 md:mt-12">
             <h2 className="text-xl md:text-2xl font-heading font-bold text-foreground mb-4 md:mb-6">
@@ -557,11 +579,16 @@ export default function ProductPage() {
                     >
                       <img
                         src={relatedProduct.image}
-                        alt={relatedProduct.name}
+                        alt={`${relatedProduct.name} ${relatedProduct.strengthMg}mg ${relatedProduct.flavor}`}
                         className="w-full h-full object-contain"
                       />
                     </LocalizedLink>
                     <div className="mt-3 space-y-3">
+                      <LocalizedLink to={`/product/${relatedProduct.id}`} className="block">
+                        <h3 className="line-clamp-2 text-sm font-semibold text-foreground hover:text-primary transition-colors">
+                          {relatedProduct.name}
+                        </h3>
+                      </LocalizedLink>
                       <Select
                         value={String(relatedPackSize)}
                         onValueChange={(val) => handleRelatedPackChange(relatedProduct.id, parseInt(val, 10))}

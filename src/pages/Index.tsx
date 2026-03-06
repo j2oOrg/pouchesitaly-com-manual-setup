@@ -216,6 +216,16 @@ export default function HomePage() {
       {/* Products Section */}
       <section id="products" className="pt-4 pb-16 md:pt-6 md:pb-24 bg-muted/30">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-6">
+            <h2 className="text-2xl md:text-4xl font-heading font-black text-foreground tracking-tight">
+              {language === "it" ? "Acquista Nicotine Pouches in Italia" : "Shop Nicotine Pouches in Italy"}
+            </h2>
+            <p className="mt-2 text-sm md:text-base text-muted-foreground max-w-2xl">
+              {language === "it"
+                ? "Seleziona marca, intensità e formato pack. Spedizione gratuita da €100."
+                : "Choose brand, strength, and pack size. Free shipping from €100."}
+            </p>
+          </div>
           <div className="flex flex-col md:flex-row md:items-end justify-end mb-6">
             {/* Filter Toggle Desktop/Mobile */}
             <div className="relative z-20">
