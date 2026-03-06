@@ -198,7 +198,7 @@ export default function ProductPage() {
   if (error || !product) {
     return (
       <div className="min-h-screen bg-background text-foreground flex flex-col">
-        <SEOHead title="Product Not Found" />
+        <SEOHead defaultTitle="Product Not Found | Pouchesitaly" defaultDescription="The requested product could not be found." noindex />
         <PageHeader cart={cart} onCartClick={() => setIsCartOpen(true)} />
         <div className="flex-1 container mx-auto px-4 py-24 text-center">
           <h1 className="text-4xl font-heading font-bold mb-4">Product Not Found</h1>
@@ -220,12 +220,67 @@ export default function ProductPage() {
   const savingsAmount = (product.price * selectedPack * selectedDiscount).toFixed(2);
   
   const allImages = [product.image, product.image_2, product.image_3].filter(Boolean) as string[];
+  const localePrefix = language === "it" ? "" : "/en";
+  const productUrl = `https://pouchesitaly.com${localePrefix}/product/${product.id}`;
+  const productTitle = `${product.name} | ${product.brand} ${language === "it" ? "Nicotine Pouches" : "Nicotine Pouches"} | Pouchesitaly`;
+  const productDescription =
+    product.description ||
+    (language === "it"
+      ? `Acquista ${product.name} di ${product.brand}. Spedizione in Italia e packaging discreto.`
+      : `Buy ${product.name} by ${product.brand}. Fast shipping in Italy and discreet packaging.`);
+  const structuredData = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: product.name,
+      image: allImages.map((img) => (img.startsWith("http") ? img : `https://pouchesitaly.com${img.startsWith("/") ? "" : "/"}${img}`)),
+      description: productDescription,
+      sku: String(product.id),
+      brand: {
+        "@type": "Brand",
+        name: product.brand,
+      },
+      offers: {
+        "@type": "Offer",
+        url: productUrl,
+        priceCurrency: "EUR",
+        price: Number(totalPackPrice),
+        availability: "https://schema.org/InStock",
+        itemCondition: "https://schema.org/NewCondition",
+      },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: language === "it" ? "Home" : "Home",
+          item: `https://pouchesitaly.com${localePrefix || "/"}`,
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: product.brand,
+          item: `https://pouchesitaly.com${localePrefix}/premium-brands`,
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: product.name,
+          item: productUrl,
+        },
+      ],
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/20 flex flex-col">
-      <SEOHead 
-        title={`${product.name} | ${product.brand} Nicotine Pouches`}
-        description={product.description || `Buy ${product.name} by ${product.brand}. Premium nicotine pouches available now.`}
+      <SEOHead
+        defaultTitle={productTitle}
+        defaultDescription={productDescription}
+        structuredData={structuredData}
       />
       
       <PageHeader cart={cart} onCartClick={() => setIsCartOpen(true)} />

@@ -7,6 +7,7 @@ interface SEOHeadProps {
   defaultTitle?: string;
   defaultDescription?: string;
   noindex?: boolean;
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 type Locale = 'en' | 'it';
@@ -22,7 +23,7 @@ const stripLocalePrefix = (path: string) => {
 const localizedPath = (path: string, locale: Locale) =>
   locale === 'it' ? path : (path === '/' ? '/en' : `/en${path}`);
 
-export function SEOHead({ defaultTitle, defaultDescription, noindex = false }: SEOHeadProps) {
+export function SEOHead({ defaultTitle, defaultDescription, noindex = false, structuredData }: SEOHeadProps) {
   const location = useLocation();
   const { language } = useLanguage();
 
@@ -157,9 +158,24 @@ export function SEOHead({ defaultTitle, defaultDescription, noindex = false }: S
       setAlternateLocale('it_IT');
     }
 
+    const existingSchema = document.getElementById('seo-structured-data');
+    if (existingSchema) {
+      existingSchema.remove();
+    }
+
+    if (structuredData && !noindex) {
+      const script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.id = 'seo-structured-data';
+      script.textContent = JSON.stringify(structuredData);
+      document.head.appendChild(script);
+    }
+
     return () => {
       removeAlternateLinks();
       removeAlternateLocale();
+      const schema = document.getElementById('seo-structured-data');
+      if (schema) schema.remove();
     };
   }, [
     metadata,
@@ -171,6 +187,7 @@ export function SEOHead({ defaultTitle, defaultDescription, noindex = false }: S
     canonicalUrl,
     alternateItalian,
     alternateEnglish,
+    structuredData,
   ]);
 
   return null;

@@ -94,9 +94,28 @@ const faqCategories = [
 ];
 
 export default function FAQPage() {
+  const faqStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqCategories.flatMap((category) =>
+      category.faqs.map((faq) => ({
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: faq.answer,
+        },
+      }))
+    ),
+  };
+
   return (
     <div className="min-h-screen bg-transparent">
-      <SEOHead />
+      <SEOHead
+        defaultTitle="FAQ | Pouchesitaly"
+        defaultDescription="Frequently asked questions about nicotine pouches, shipping in Italy, payment, and product use."
+        structuredData={faqStructuredData}
+      />
       <PageHeader />
 
       {/* Breadcrumb */}
