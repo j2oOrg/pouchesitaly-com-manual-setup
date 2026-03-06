@@ -31,13 +31,13 @@ export default function ShippingInfoPage() {
 
   const dispatchTitle = isItalian ? "Preparazione Rapida" : "Fast Dispatch";
   const dispatchDescription = isItalian
-    ? "Gli ordini confermati entro le 16:00 vengono generalmente affidati al corriere lo stesso giorno lavorativo."
-    : "Orders confirmed by 4:00 PM are usually handed to the courier on the same business day.";
+    ? "Elaboriamo gli ordini alle 09:00 dal lunedì al venerdì, esclusi i giorni festivi aziendali."
+    : "We process all orders at 9:00 AM Monday to Friday, excluding company holidays.";
 
   const pricingTitle = isItalian ? "Regole di Spedizione" : "Shipping Rules";
   const pricingDescription = isItalian
-    ? "Regola semplice: sotto €100 la spedizione costa €6,90. Da €100 in su, è gratuita."
-    : "Simple rule: below €100 shipping is €6.90. From €100 and above, shipping is free.";
+    ? "Regola semplice: sotto €100 la spedizione costa €6,90. Da €100 in su, è gratuita. Gli ordini vengono elaborati alle 09:00 dal lunedì al venerdì (esclusi festivi aziendali)."
+    : "Simple rule: below €100 shipping is €6.90. From €100 and above, shipping is free. Orders are processed at 9:00 AM Monday to Friday (excluding company holidays).";
 
   const deliveryZonesTitle = isItalian ? "Tempi di Consegna in Italia" : "Delivery Times in Italy";
   const deliveryZonesIntro = isItalian

@@ -33,7 +33,7 @@ export default function SpedizioneSnusPage() {
             </p>
 
             <p className="text-lg text-muted-foreground mb-8">
-              I tempi di consegna variano in base all'area, ma in genere si attestano tra 1 e 5 giorni lavorativi.
+              Elaboriamo tutti gli ordini alle 09:00 dal lunedì al venerdì, esclusi i giorni festivi aziendali. I tempi di consegna variano in base all'area, ma in genere si attestano tra 1 e 5 giorni lavorativi.
             </p>
 
             <section className="mb-12">
