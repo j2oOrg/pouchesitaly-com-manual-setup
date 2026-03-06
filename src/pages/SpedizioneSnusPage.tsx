@@ -97,9 +97,13 @@ export default function SpedizioneSnusPage() {
               <h2 className="text-3xl font-heading font-bold text-foreground mb-4">
                 Costi di Spedizione
               </h2>
-              <p className="text-muted-foreground mb-4">
-                La spedizione è gratuita in Italia per ordini pari o superiori a €100. Per ordini inferiori a €100, il costo viene calcolato al checkout in base al corriere selezionato.
+              <p className="text-muted-foreground mb-2">
+                Regola semplice per tutta Italia:
               </p>
+              <ul className="list-disc pl-6 text-muted-foreground space-y-2">
+                <li>Ordini sotto €100: spedizione fissa €6,90</li>
+                <li>Ordini da €100 in su: spedizione gratuita</li>
+              </ul>
             </section>
           </div>
 
