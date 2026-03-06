@@ -31,7 +31,7 @@ export default function SnusBrandsPage() {
           </h1>
           
           <div className="prose max-w-none">
-            <p className="text-lg text-muted-foreground mb-8">
+            <p className="text-base md:text-lg leading-relaxed text-muted-foreground mb-8 max-w-3xl">
               Scopri i marchi di snus più popolari come ZYN e VELO, disponibili in diverse intensità di nicotina e gusti.
             </p>
 

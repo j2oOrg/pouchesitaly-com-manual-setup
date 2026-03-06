@@ -134,7 +134,7 @@ export default function FAQPage() {
             Frequently Asked Questions
           </h1>
           
-          <p className="text-lg text-muted-foreground mb-12">
+          <p className="text-base md:text-lg leading-relaxed text-muted-foreground mb-12 max-w-3xl">
             Find answers to common questions about nicotine pouches, ordering, shipping, and more.
           </p>
 

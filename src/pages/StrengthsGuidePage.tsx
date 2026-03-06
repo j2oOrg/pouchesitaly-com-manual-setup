@@ -31,7 +31,7 @@ export default function StrengthsGuidePage() {
           </h1>
           
           <div className="prose max-w-none">
-            <p className="text-lg text-muted-foreground mb-8">
+            <p className="text-base md:text-lg leading-relaxed text-muted-foreground mb-8 max-w-3xl">
               Choosing the right nicotine strength is essential for a satisfying experience. This guide will help you find the perfect level for your needs.
             </p>
 

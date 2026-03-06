@@ -36,7 +36,7 @@ export default function PremiumBrandsPage() {
           </h1>
           
           <div className="prose max-w-none">
-            <p className="text-lg text-muted-foreground mb-8">
+            <p className="text-base md:text-lg leading-relaxed text-muted-foreground mb-8 max-w-3xl">
               {t('premiumBrandsIntro')}
             </p>
 
