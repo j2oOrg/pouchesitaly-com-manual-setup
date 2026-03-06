@@ -13,7 +13,7 @@ import { useProducts, toFrontendProduct } from "@/hooks/useProducts";
 import { trackCartEvent } from "@/hooks/useAnalyticsTracking";
 import type { Product, CartItem } from "@/types/product";
 import productImage from "@/assets/product-can.png";
-import heroBackground from "../../headerbackground.jpg";
+import heroBackground from "../../headerbackground.webp";
 
 const packOptions = [
   { size: 5, discount: 0.05 },
@@ -38,6 +38,10 @@ export default function HomePage() {
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedStrengths, setSelectedStrengths] = useState<number[]>([]);
   const [selectedFlavors, setSelectedFlavors] = useState<string[]>([]);
+  const FREE_SHIPPING_THRESHOLD = 100;
+  const cartSubtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const amountUntilFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - cartSubtotal);
+  const freeShippingProgress = Math.min((cartSubtotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
 
   // Filter products
   const filteredProducts = products.filter((product) => {
@@ -352,7 +356,7 @@ export default function HomePage() {
       </section>
 
       {/* Delivery Section */}
-      <section className="py-20 md:py-32">
+      <section className="py-20 md:py-32" style={{ contentVisibility: "auto", containIntrinsicSize: "1px 1000px" }}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl md:text-5xl font-heading font-black text-foreground mb-6">
@@ -397,7 +401,7 @@ export default function HomePage() {
       </section>
 
       {/* Learn More Section */}
-      <section className="py-20 md:py-32 bg-card border-t border-border">
+      <section className="py-20 md:py-32 bg-card border-t border-border" style={{ contentVisibility: "auto", containIntrinsicSize: "1px 1000px" }}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16">
             <div className="max-w-2xl">
@@ -440,6 +444,36 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {cart.length > 0 && (
+        <div className="fixed inset-x-0 bottom-4 z-40 px-4">
+          <div className="mx-auto max-w-3xl rounded-2xl border border-border bg-card/95 p-3 shadow-xl backdrop-blur">
+            <div className="mb-2 flex items-center justify-between text-xs">
+              <span className="font-semibold text-foreground">
+                {amountUntilFreeShipping > 0
+                  ? language === "it"
+                    ? `Aggiungi €${amountUntilFreeShipping.toFixed(2)} per la spedizione gratuita`
+                    : `Add €${amountUntilFreeShipping.toFixed(2)} for free shipping`
+                  : language === "it"
+                    ? "Spedizione gratuita sbloccata"
+                    : "Free shipping unlocked"}
+              </span>
+              <span className="text-muted-foreground">€{cartSubtotal.toFixed(2)} / €{FREE_SHIPPING_THRESHOLD}</span>
+            </div>
+            <div className="h-2 rounded-full bg-muted overflow-hidden">
+              <div className="h-full bg-primary transition-all duration-300" style={{ width: `${freeShippingProgress}%` }} />
+            </div>
+            <div className="mt-2 flex justify-end">
+              <button
+                onClick={() => setIsCartOpen(true)}
+                className="text-xs font-bold text-primary hover:opacity-80"
+              >
+                {language === "it" ? "Apri carrello" : "Open cart"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       <QuickFAQ />
       <Footer />

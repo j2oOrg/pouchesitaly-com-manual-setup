@@ -20,9 +20,12 @@ export function CartDrawer({
   onRemove,
   onCheckout,
 }: CartDrawerProps) {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
 
+  const FREE_SHIPPING_THRESHOLD = 100;
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const amountUntilFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - total);
+  const freeShippingProgress = Math.min((total / FREE_SHIPPING_THRESHOLD) * 100, 100);
 
   if (!isOpen) return null;
 
@@ -62,6 +65,8 @@ export function CartDrawer({
                       <img
                         src={item.image}
                         alt={item.name}
+                        loading="lazy"
+                        decoding="async"
                         className="relative z-10 w-14 h-14 object-contain rounded-[10px]"
                       />
                       <div className="pointer-events-none absolute inset-0 rounded-[14px] border border-background/8" />
@@ -115,6 +120,30 @@ export function CartDrawer({
           {/* Footer */}
           {cart.length > 0 && (
             <div className="p-6 border-t border-border">
+              <div className="mb-4 rounded-xl border border-border bg-muted/40 p-3">
+                <div className="mb-2 flex items-center justify-between text-xs">
+                  <span className="font-semibold text-foreground">
+                    {amountUntilFreeShipping > 0
+                      ? language === "it"
+                        ? `Aggiungi €${amountUntilFreeShipping.toFixed(2)} per la spedizione gratuita`
+                        : `Add €${amountUntilFreeShipping.toFixed(2)} for free shipping`
+                      : language === "it"
+                        ? "Spedizione gratuita sbloccata"
+                        : "Free shipping unlocked"}
+                  </span>
+                  <span className="text-muted-foreground">€{total.toFixed(2)} / €{FREE_SHIPPING_THRESHOLD}</span>
+                </div>
+                <div className="h-2 rounded-full bg-background overflow-hidden">
+                  <div className="h-full bg-primary transition-all duration-300" style={{ width: `${freeShippingProgress}%` }} />
+                </div>
+                {amountUntilFreeShipping > 0 && (
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    {language === "it"
+                      ? "Suggerimento: aggiungi 1 pack in più per aumentare il valore ordine e sbloccare la spedizione gratuita."
+                      : "Tip: add 1 more pack to increase order value and unlock free shipping."}
+                  </p>
+                )}
+              </div>
               <div className="flex items-center justify-between mb-4">
                 <span className="text-muted-foreground">{t("total")}</span>
                 <span className="font-heading font-bold text-2xl">
