@@ -29,3 +29,10 @@ For `https://pouchesitaly.com/`, assume:
 - **auto-deploy on repo update**
 - **not Cloudflare Pages**
 - **not manual Pages publishing**
+
+## 2026-03-18 command confirmation (Jack)
+
+Confirmed by Jack (`@devhardfaster`) in ops chat:
+- Hosting/deploy path is **Google Cloud Build + Kubernetes cluster**
+- Not Cloudflare Pages
+- Operational rule: if you need changes live, **commit and push to this repo**
