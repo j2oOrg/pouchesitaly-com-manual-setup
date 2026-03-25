@@ -270,7 +270,7 @@ export default function HomePage() {
                   <div>
                     <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">{t("brand")}</h4>
                     <div className="flex flex-wrap gap-2">
-                      {["ZYN", "LYFT", "VELO", "CUBA", "KILLA"].map((brand) => (
+                      {["ZYN", "VELO", "CUBA", "KILLA"].map((brand) => (
                         <button
                           key={brand}
                           onClick={() => toggleBrand(brand)}

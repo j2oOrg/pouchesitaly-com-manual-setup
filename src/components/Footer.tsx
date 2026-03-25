@@ -52,6 +52,10 @@ export function Footer() {
             <p className="text-background/70 text-sm">
               {t("aboutUsDesc")}
             </p>
+            <div className="mt-4 text-background/50 text-xs space-y-1">
+              <p>Nova Synchronicity AB</p>
+              <p>Stockholm, Sweden</p>
+            </div>
           </div>
 
           {/* Dynamic Footer Sections OR Fallback */}
@@ -150,7 +154,7 @@ export function Footer() {
         <div className="border-t border-background/20 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-background/60 text-sm">
-              © {new Date().getFullYear()} Pouchesitaly. {t("allRightsReserved")}
+              © {new Date().getFullYear()} Nova Synchronicity AB. {t("allRightsReserved")}
             </p>
             <p className="text-background/60 text-xs">
               {t("ageDisclaimer")}

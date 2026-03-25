@@ -64,7 +64,7 @@ export default function PercheSceglierePouchesitalyPage() {
                 </div>
                 <h3 className="text-xl font-heading font-bold text-foreground mb-2">Marchi Affidabili</h3>
                 <p className="text-muted-foreground">
-                  Solo prodotti autentici dai migliori marchi come ZYN, VELO e LYFT.
+                  Solo prodotti autentici dai migliori marchi come ZYN e VELO.
                 </p>
               </div>
             </div>

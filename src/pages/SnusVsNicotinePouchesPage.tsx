@@ -115,7 +115,7 @@ export default function SnusVsNicotinePouchesPage() {
                 Le nicotine pouches rappresentano l'evoluzione moderna dello snus, mantenendo i vantaggi dell'esperienza tradizionale ma eliminando il tabacco e i suoi aspetti negativi.
               </p>
               <p className="text-muted-foreground mb-4">
-                Su Pouchesitaly offriamo solo nicotine pouches moderne dei migliori marchi come ZYN, VELO e LYFT - prodotti tobacco-free di alta qualità per un'esperienza pulita e soddisfacente.
+                Su Pouchesitaly offriamo solo nicotine pouches moderne dei migliori marchi come ZYN e VELO - prodotti tobacco-free di alta qualità per un'esperienza pulita e soddisfacente.
               </p>
             </section>
 
