@@ -205,7 +205,10 @@ export default function TermsConditionsPage() {
 
   return (
     <div className="min-h-screen bg-transparent">
-      <SEOHead />
+      <SEOHead
+        defaultTitle="Termini e Condizioni — Pouchesitaly"
+        defaultDescription="Termini e condizioni di acquisto su Pouchesitaly: ordini, pagamenti, resi, responsabilità e diritti del consumatore. Aggiornati marzo 2026."
+      />
       <PageHeader />
 
       <div className="container mx-auto px-4 py-4">

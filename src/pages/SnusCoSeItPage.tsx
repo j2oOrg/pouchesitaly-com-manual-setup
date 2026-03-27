@@ -8,7 +8,10 @@ import { SEOHead } from "@/components/SEOHead";
 export default function SnusCoSeItPage() {
   return (
     <div className="min-h-screen bg-transparent">
-      <SEOHead />
+      <SEOHead
+        defaultTitle="Cosa Sono le Nicotine Pouches — Guida | Pouchesitaly"
+        defaultDescription="Tutto quello che devi sapere sulle nicotine pouches: cosa sono, come funzionano, quanta nicotina contengono e perché sempre più italiani le scelgono."
+      />
       <PageHeader />
 
       {/* Breadcrumb */}

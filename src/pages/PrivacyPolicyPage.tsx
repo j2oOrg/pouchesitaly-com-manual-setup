@@ -203,7 +203,10 @@ export default function PrivacyPolicyPage() {
 
   return (
     <div className="min-h-screen bg-transparent">
-      <SEOHead />
+      <SEOHead
+        defaultTitle="Privacy Policy — Pouchesitaly"
+        defaultDescription="Informativa sulla privacy di Pouchesitaly: come raccogliamo e utilizziamo i tuoi dati personali in conformità al GDPR italiano ed europeo."
+      />
       <PageHeader />
 
       <div className="container mx-auto px-4 py-4">

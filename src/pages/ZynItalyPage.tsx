@@ -54,10 +54,10 @@ export default function ZynItalyPage() {
   return (
     <div className="min-h-screen bg-transparent">
       <SEOHead
-        defaultTitle={isItalian ? "ZYN Italia: Prezzi e Spedizione | Pouchesitaly" : "ZYN Italy: Prices & Fast Shipping | Pouchesitaly"}
+        defaultTitle={isItalian ? "ZYN Italia — Compra ZYN Online | Pouchesitaly" : "ZYN Italy: Prices & Fast Shipping | Pouchesitaly"}
         defaultDescription={
           isItalian
-            ? "Acquista ZYN in Italia con consegna rapida e spedizione gratuita da €100. Confronta intensità e formati pack."
+            ? "Acquista ZYN nicotine pouches in Italia su Pouchesitaly. Tutti i gusti e le resistenze: Cool Mint, Espressino, Citrus, 3mg–11mg. Spedizione rapida."
             : "Shop ZYN in Italy with fast delivery and free shipping from €100. Compare strengths and pack sizes."
         }
         structuredData={faqStructuredData}

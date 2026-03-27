@@ -54,10 +54,10 @@ export default function VeloItalyPage() {
   return (
     <div className="min-h-screen bg-transparent">
       <SEOHead
-        defaultTitle={isItalian ? "VELO Italia: Gusti, Intensità e Prezzi | Pouchesitaly" : "VELO Italy: Flavors, Strengths & Prices | Pouchesitaly"}
+        defaultTitle={isItalian ? "VELO Italia — Compra VELO Online | Pouchesitaly" : "VELO Italy: Flavors, Strengths & Prices | Pouchesitaly"}
         defaultDescription={
           isItalian
-            ? "Scopri VELO in Italia: gusti popolari, livelli di nicotina e spedizione rapida con tracking."
+            ? "Acquista VELO nicotine pouches in Italia su Pouchesitaly. Tutti i gusti e le resistenze: Ice Cool, Berry Frost, 4mg–14mg. Spedizione in 2–4 giorni."
             : "Discover VELO in Italy: popular flavors, nicotine strengths, and fast tracked delivery."
         }
         structuredData={faqStructuredData}

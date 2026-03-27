@@ -7,11 +7,14 @@ import { SEOHead } from "@/components/SEOHead";
 import { useTranslation } from "@/hooks/useTranslation";
 
 export default function WhyChooseUsPage() {
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
 
   return (
     <div className="min-h-screen bg-transparent">
-      <SEOHead title={t('whyChooseUsTitle')} />
+      <SEOHead
+        defaultTitle={t('whyChooseUsTitle')}
+        defaultDescription={language === 'it' ? "Scopri perché migliaia di clienti scelgono Pouchesitaly: prodotti premium tobacco-free, spedizione in 2–4 giorni, prezzi competitivi e assistenza clienti." : "Discover why customers choose Pouchesitaly for premium nicotine pouches, fast shipping in Italy, competitive pricing, and helpful support."}
+      />
       <PageHeader />
 
       {/* Breadcrumb */}

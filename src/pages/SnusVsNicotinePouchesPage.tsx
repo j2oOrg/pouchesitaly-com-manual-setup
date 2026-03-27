@@ -8,7 +8,10 @@ import { SEOHead } from "@/components/SEOHead";
 export default function SnusVsNicotinePouchesPage() {
   return (
     <div className="min-h-screen bg-transparent">
-      <SEOHead />
+      <SEOHead
+        defaultTitle="Snus vs Nicotine Pouches: Differenze | Pouchesitaly"
+        defaultDescription="Qual è la differenza tra snus e nicotine pouches? Tabacco vs tobacco-free, legalità in Italia, profili di rischio e quale scegliere. Confronto completo."
+      />
       <PageHeader />
 
       {/* Breadcrumb */}

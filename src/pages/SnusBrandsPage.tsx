@@ -9,8 +9,8 @@ export default function SnusBrandsPage() {
   return (
     <div className="min-h-screen bg-transparent">
       <SEOHead
-        defaultTitle="Marchi Snus e Nicotine Pouches in Italia | ZYN & VELO | Pouchesitaly"
-        defaultDescription="Confronta i principali marchi di nicotine pouches in Italia, tra cui ZYN e VELO, con spedizione rapida."
+        defaultTitle="Marchi Premium: ZYN, VELO, CUBA e Altri | Pouchesitaly"
+        defaultDescription="Scopri i migliori marchi di nicotine pouches disponibili su Pouchesitaly: ZYN, VELO, CUBA e altri brand selezionati. Tutti tobacco-free, spedizione in Italia."
       />
       <PageHeader />
 

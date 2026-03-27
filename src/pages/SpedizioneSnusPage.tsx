@@ -8,7 +8,10 @@ import { SEOHead } from "@/components/SEOHead";
 export default function SpedizioneSnusPage() {
   return (
     <div className="min-h-screen bg-transparent">
-      <SEOHead />
+      <SEOHead
+        defaultTitle="Spedizione in Italia — Tempi e Costi | Pouchesitaly"
+        defaultDescription="Spediamo le nicotine pouches in tutta Italia in 2–4 giorni lavorativi. Scopri costi di spedizione, corrieri utilizzati e come tracciare il tuo ordine."
+      />
       <PageHeader />
 
       {/* Breadcrumb */}

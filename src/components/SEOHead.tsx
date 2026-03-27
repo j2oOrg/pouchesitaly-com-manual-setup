@@ -48,13 +48,14 @@ export function SEOHead({ defaultTitle, defaultDescription, noindex = false, str
     '@type': 'Organization',
     name: 'Pouchesitaly',
     url: BASE_URL,
-    email: 'support@pouchesitaly.com',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: 'Stockholm',
-      addressLocality: 'Stockholm',
-      addressCountry: 'SE',
+    logo: 'https://pouchesitaly.com/images/logo.png',
+    description: 'Vendita online di nicotine pouches tobacco-free in Italia. Marchi: ZYN, VELO, CUBA. Spedizione rapida in tutta Italia.',
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer service',
+      availableLanguage: 'Italian',
     },
+    sameAs: ['https://x.com/Pouchesitaly'],
   };
 
   const fallback = {
