@@ -55,6 +55,11 @@ export function Footer() {
             <div className="mt-4 text-background/50 text-xs space-y-1">
               <p>Nova Synchronicity AB</p>
               <p>Stockholm, Sweden</p>
+              <p>
+                <a href="mailto:support@pouchesitaly.com" className="hover:text-background transition-colors">
+                  support@pouchesitaly.com
+                </a>
+              </p>
             </div>
           </div>
 
@@ -156,9 +161,10 @@ export function Footer() {
             <p className="text-background/60 text-sm">
               © {new Date().getFullYear()} Nova Synchronicity AB. {t("allRightsReserved")}
             </p>
-            <p className="text-background/60 text-xs">
-              {t("ageDisclaimer")}
-            </p>
+            <div className="text-background/60 text-xs text-right space-y-1">
+              <p>{t("ageDisclaimer")}</p>
+              <p>Nova Synchronicity AB · support@pouchesitaly.com</p>
+            </div>
           </div>
         </div>
       </div>

@@ -10,6 +10,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { AnalyticsProvider } from "@/components/AnalyticsProvider";
 import { AgeGate } from "@/components/AgeGate";
+import { CookieConsent } from "@/components/CookieConsent";
 import Index from "./pages/Index";
 import CheckoutPage from "./pages/CheckoutPage";
 import PremiumBrandsPage from "./pages/PremiumBrandsPage";
@@ -195,6 +196,7 @@ const App = () => (
           <AnalyticsProvider>
             <TooltipProvider>
               <AgeGate />
+              <CookieConsent />
               <Toaster />
               <Sonner />
               <Routes>

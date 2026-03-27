@@ -61,9 +61,9 @@ export function AgeGate() {
             <span className="text-3xl font-bold text-primary">18+</span>
           </div>
           
-          <h1 className="mb-2 text-2xl font-bold text-foreground">
+          <div className="mb-2 text-2xl font-bold text-foreground" role="heading" aria-level={2}>
             {t.title}
-          </h1>
+          </div>
           
           <p className="mb-6 text-muted-foreground">
             {t.subtitle}

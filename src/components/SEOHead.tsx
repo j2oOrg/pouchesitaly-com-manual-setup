@@ -20,8 +20,13 @@ const stripLocalePrefix = (path: string) => {
   return normalized === '/' ? '/' : normalized.replace(/\/$/, '');
 };
 
-const localizedPath = (path: string, locale: Locale) =>
-  locale === 'it' ? path : (path === '/' ? '/en' : `/en${path}`);
+const localizedPath = (path: string, locale: Locale) => {
+  if (locale === 'it') {
+    return path === '/' ? '/it/' : `/it${path}`;
+  }
+
+  return path === '/' ? '/en' : `/en${path}`;
+};
 
 export function SEOHead({ defaultTitle, defaultDescription, noindex = false, structuredData }: SEOHeadProps) {
   const location = useLocation();
@@ -34,6 +39,23 @@ export function SEOHead({ defaultTitle, defaultDescription, noindex = false, str
   const canonicalUrl = `${BASE_URL}${localizedPath(metadataPath, language)}`;
   const alternateItalian = `${BASE_URL}${localizedPath(metadataPath, 'it')}`;
   const alternateEnglish = `${BASE_URL}${localizedPath(metadataPath, 'en')}`;
+
+  const normalizeBranding = (value?: string | null) =>
+    value?.replace(/NicoXpress/gi, 'Pouchesitaly') ?? null;
+
+  const fallbackOrganizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Pouchesitaly',
+    url: BASE_URL,
+    email: 'support@pouchesitaly.com',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Stockholm',
+      addressLocality: 'Stockholm',
+      addressCountry: 'SE',
+    },
+  };
 
   const fallback = {
     title: isItalian
@@ -54,7 +76,7 @@ export function SEOHead({ defaultTitle, defaultDescription, noindex = false, str
   };
 
   useEffect(() => {
-    const title = metadata?.title || defaultTitle || fallback.title;
+    const title = normalizeBranding(metadata?.title) || normalizeBranding(defaultTitle) || fallback.title;
     document.title = title;
     document.documentElement.setAttribute('lang', isItalian ? 'it' : 'en');
 
@@ -74,17 +96,17 @@ export function SEOHead({ defaultTitle, defaultDescription, noindex = false, str
       }
     };
 
-    const finalDescription = metadata?.meta_description || defaultDescription || fallback.description;
+    const finalDescription = normalizeBranding(metadata?.meta_description) || normalizeBranding(defaultDescription) || fallback.description;
 
     setMetaTag('description', finalDescription);
-    setMetaTag('keywords', metadata?.keywords || fallback.keywords);
+    setMetaTag('keywords', normalizeBranding(metadata?.keywords) || fallback.keywords);
     setMetaTag('robots', noindex ? 'noindex, nofollow' : 'index, follow');
     setMetaTag('author', 'Pouchesitaly');
     setMetaTag('geo.region', 'IT');
     setMetaTag('geo.placename', 'Italy');
 
-    setMetaTag('og:title', metadata?.og_title || metadata?.title || fallback.ogTitle, true);
-    setMetaTag('og:description', metadata?.og_description || metadata?.meta_description || fallback.ogDescription, true);
+    setMetaTag('og:title', normalizeBranding(metadata?.og_title) || normalizeBranding(metadata?.title) || fallback.ogTitle, true);
+    setMetaTag('og:description', normalizeBranding(metadata?.og_description) || normalizeBranding(metadata?.meta_description) || fallback.ogDescription, true);
     setMetaTag('og:image', metadata?.og_image || fallback.image, true);
     setMetaTag('og:url', metadata?.canonical_url || canonicalUrl, true);
     setMetaTag('og:type', 'website', true);
@@ -106,8 +128,8 @@ export function SEOHead({ defaultTitle, defaultDescription, noindex = false, str
     setMetaTag('twitter:card', metadata?.twitter_card || 'summary_large_image');
     setMetaTag('twitter:site', fallback.twitterSite);
     setMetaTag('twitter:creator', fallback.twitterSite);
-    setMetaTag('twitter:title', metadata?.twitter_title || metadata?.og_title || metadata?.title || fallback.ogTitle);
-    setMetaTag('twitter:description', metadata?.twitter_description || metadata?.og_description || metadata?.meta_description || fallback.ogDescription);
+    setMetaTag('twitter:title', normalizeBranding(metadata?.twitter_title) || normalizeBranding(metadata?.og_title) || normalizeBranding(metadata?.title) || fallback.ogTitle);
+    setMetaTag('twitter:description', normalizeBranding(metadata?.twitter_description) || normalizeBranding(metadata?.og_description) || normalizeBranding(metadata?.meta_description) || fallback.ogDescription);
     setMetaTag('twitter:image', metadata?.twitter_image || metadata?.og_image || fallback.image);
 
     let canonicalElement = document.querySelector('link[rel="canonical"]');
@@ -163,11 +185,17 @@ export function SEOHead({ defaultTitle, defaultDescription, noindex = false, str
       existingSchema.remove();
     }
 
-    if (structuredData && !noindex) {
+    if (!noindex) {
       const script = document.createElement('script');
       script.type = 'application/ld+json';
       script.id = 'seo-structured-data';
-      script.textContent = JSON.stringify(structuredData);
+      script.textContent = JSON.stringify(
+        structuredData
+          ? Array.isArray(structuredData)
+            ? [fallbackOrganizationSchema, ...structuredData]
+            : [fallbackOrganizationSchema, structuredData]
+          : fallbackOrganizationSchema
+      );
       document.head.appendChild(script);
     }
 
