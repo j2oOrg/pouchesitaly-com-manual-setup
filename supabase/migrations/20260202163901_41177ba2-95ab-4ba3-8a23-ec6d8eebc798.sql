@@ -53,19 +53,19 @@ EXECUTE FUNCTION public.update_updated_at_column();
 -- Insert default metadata for all existing pages
 INSERT INTO public.page_metadata (page_path, language, title, meta_description) VALUES
 -- English pages
-('/', 'en', 'NicoXpress - Premium Nicotine Pouches', 'Shop the best tobacco-free nicotine pouches from top brands like ZYN, VELO, and LYFT. Fast shipping across Europe.'),
-('/premium-brands', 'en', 'Premium Nicotine Brands | NicoXpress', 'Discover our curated selection of premium nicotine pouch brands including ZYN, VELO, and LYFT.'),
-('/shipping-info', 'en', 'Shipping Information | NicoXpress', 'Fast and reliable shipping across Europe. Learn about our delivery times and shipping policies.'),
-('/why-choose-us', 'en', 'Why Choose NicoXpress', 'Discover why thousands of customers trust NicoXpress for their nicotine pouch needs.'),
-('/strengths-guide', 'en', 'Nicotine Strengths Guide | NicoXpress', 'Find the perfect nicotine strength for your needs with our comprehensive guide.'),
-('/tobacco-free', 'en', 'Tobacco-Free Products | NicoXpress', 'All our products are 100% tobacco-free. Experience clean nicotine satisfaction.'),
-('/faq', 'en', 'Frequently Asked Questions | NicoXpress', 'Get answers to common questions about nicotine pouches and our services.'),
+('/', 'en', 'PouchesItaly - Premium Nicotine Pouches', 'Shop the best tobacco-free nicotine pouches from top brands like ZYN, VELO, and LYFT. Fast shipping across Europe.'),
+('/premium-brands', 'en', 'Premium Nicotine Brands | PouchesItaly', 'Discover our curated selection of premium nicotine pouch brands including ZYN, VELO, and LYFT.'),
+('/shipping-info', 'en', 'Shipping Information | PouchesItaly', 'Fast and reliable shipping across Europe. Learn about our delivery times and shipping policies.'),
+('/why-choose-us', 'en', 'Why Choose PouchesItaly', 'Discover why thousands of customers trust PouchesItaly for their nicotine pouch needs.'),
+('/strengths-guide', 'en', 'Nicotine Strengths Guide | PouchesItaly', 'Find the perfect nicotine strength for your needs with our comprehensive guide.'),
+('/tobacco-free', 'en', 'Tobacco-Free Products | PouchesItaly', 'All our products are 100% tobacco-free. Experience clean nicotine satisfaction.'),
+('/faq', 'en', 'Frequently Asked Questions | PouchesItaly', 'Get answers to common questions about nicotine pouches and our services.'),
 -- Italian pages
-('/', 'it', 'NicoXpress - Bustine di Nicotina Premium', 'Acquista le migliori bustine di nicotina senza tabacco dai migliori marchi come ZYN, VELO e LYFT.'),
-('/snus-brands', 'it', 'Marchi di Snus | NicoXpress', 'Scopri i marchi di snus più popolari come ZYN e VELO disponibili su NicoXpress.'),
-('/snus-cose', 'it', 'Cos''è lo Snus | NicoXpress', 'Scopri tutto sullo snus e le bustine di nicotina senza tabacco.'),
-('/spedizione-snus', 'it', 'Spedizione Snus in Italia | NicoXpress', 'Spedizione veloce e affidabile in tutta Italia. Scopri i nostri tempi di consegna.'),
-('/perche-scegliere-nicoxpress', 'it', 'Perché Scegliere NicoXpress', 'Scopri perché migliaia di clienti si affidano a NicoXpress per le loro bustine di nicotina.'),
-('/guida-intensita-gusti', 'it', 'Guida Intensità e Gusti | NicoXpress', 'Trova l''intensità e il gusto perfetti per le tue esigenze con la nostra guida.'),
-('/snus-vs-nicotine-pouches', 'it', 'Snus vs Nicotine Pouches | NicoXpress', 'Scopri le differenze tra snus tradizionale e le moderne bustine di nicotina.'),
-('/domande-frequenti-snus', 'it', 'Domande Frequenti sullo Snus | NicoXpress', 'Risposte alle domande più comuni sullo snus e le bustine di nicotina.');
+('/', 'it', 'PouchesItaly - Bustine di Nicotina Premium', 'Acquista le migliori bustine di nicotina senza tabacco dai migliori marchi come ZYN, VELO e LYFT.'),
+('/snus-brands', 'it', 'Marchi di Snus | PouchesItaly', 'Scopri i marchi di snus più popolari come ZYN e VELO disponibili su PouchesItaly.'),
+('/snus-cose', 'it', 'Cos''è lo Snus | PouchesItaly', 'Scopri tutto sullo snus e le bustine di nicotina senza tabacco.'),
+('/spedizione-snus', 'it', 'Spedizione Snus in Italia | PouchesItaly', 'Spedizione veloce e affidabile in tutta Italia. Scopri i nostri tempi di consegna.'),
+('/perche-scegliere-PouchesItaly', 'it', 'Perché Scegliere PouchesItaly', 'Scopri perché migliaia di clienti si affidano a PouchesItaly per le loro bustine di nicotina.'),
+('/guida-intensita-gusti', 'it', 'Guida Intensità e Gusti | PouchesItaly', 'Trova l''intensità e il gusto perfetti per le tue esigenze con la nostra guida.'),
+('/snus-vs-nicotine-pouches', 'it', 'Snus vs Nicotine Pouches | PouchesItaly', 'Scopri le differenze tra snus tradizionale e le moderne bustine di nicotina.'),
+('/domande-frequenti-snus', 'it', 'Domande Frequenti sullo Snus | PouchesItaly', 'Risposte alle domande più comuni sullo snus e le bustine di nicotina.');
