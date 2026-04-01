@@ -44,8 +44,8 @@ export function SEOHead({ defaultTitle, defaultDescription, noindex = false, str
     value?.replace(/NicoXpress/gi, 'Pouchesitaly') ?? null;
 
   const fallbackOrganizationSchema = {
-    '@context': 'https://schema.org',
     '@type': 'Organization',
+    '@id': `${BASE_URL}/#organization`,
     name: 'Pouchesitaly',
     url: BASE_URL,
     logo: 'https://pouchesitaly.com/images/logo.png',
@@ -56,6 +56,22 @@ export function SEOHead({ defaultTitle, defaultDescription, noindex = false, str
       availableLanguage: 'Italian',
     },
     sameAs: ['https://x.com/Pouchesitaly'],
+  };
+
+  const fallbackWebsiteSchema = {
+    '@type': 'WebSite',
+    '@id': `${BASE_URL}/#website`,
+    url: BASE_URL,
+    name: 'Pouchesitaly',
+    inLanguage: isItalian ? 'it-IT' : 'en-US',
+    publisher: {
+      '@id': `${BASE_URL}/#organization`,
+    },
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: `${BASE_URL}/?q={search_term_string}`,
+      'query-input': 'required name=search_term_string',
+    },
   };
 
   const fallback = {
@@ -190,13 +206,14 @@ export function SEOHead({ defaultTitle, defaultDescription, noindex = false, str
       const script = document.createElement('script');
       script.type = 'application/ld+json';
       script.id = 'seo-structured-data';
-      script.textContent = JSON.stringify(
-        structuredData
+      script.textContent = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': structuredData
           ? Array.isArray(structuredData)
-            ? [fallbackOrganizationSchema, ...structuredData]
-            : [fallbackOrganizationSchema, structuredData]
-          : fallbackOrganizationSchema
-      );
+            ? [fallbackOrganizationSchema, fallbackWebsiteSchema, ...structuredData]
+            : [fallbackOrganizationSchema, fallbackWebsiteSchema, structuredData]
+          : [fallbackOrganizationSchema, fallbackWebsiteSchema],
+      });
       document.head.appendChild(script);
     }
 
