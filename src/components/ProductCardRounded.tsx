@@ -26,7 +26,7 @@ const packOptions = [
 
 export function ProductCardRounded({ product, onAddToCart }: ProductCardRoundedProps) {
   const [selectedPack, setSelectedPack] = useState(10);
-  const { t } = useTranslation();
+  const { t, language } = useTranslation();
 
   const getStrengthColor = (strength: string) => {
     switch (strength) {
@@ -42,15 +42,18 @@ export function ProductCardRounded({ product, onAddToCart }: ProductCardRoundedP
   };
 
   const formatPrice = (value: number) => value.toFixed(2);
+  const perCanSuffix = language === "it" ? "/lattina" : "/can";
 
   const getPackPricing = (packSize: number) => {
     const option = packOptions.find((opt) => opt.size === packSize);
     const discount = option?.discount || 0;
     const originalTotal = product.price * packSize;
     const discountedTotal = originalTotal * (1 - discount);
+    const pricePerCan = product.price * (1 - discount);
 
     return {
       discountedTotal,
+      pricePerCan,
     };
   };
 
@@ -108,19 +111,24 @@ export function ProductCardRounded({ product, onAddToCart }: ProductCardRoundedP
             >
               <SelectTrigger
                 hideIcon
-                className="h-[70px] rounded-2xl border border-black/[0.06] bg-background px-4 text-left shadow-[0_8px_24px_-20px_rgba(15,23,42,0.4)] transition-colors hover:border-black/[0.1] hover:bg-card focus-visible:ring-2 focus-visible:ring-black/10 focus-visible:ring-offset-2"
+                className="h-[76px] rounded-2xl border border-black/[0.06] bg-background px-4 text-left shadow-[0_8px_24px_-20px_rgba(15,23,42,0.4)] transition-colors hover:border-black/[0.1] hover:bg-card focus-visible:ring-2 focus-visible:ring-black/10 focus-visible:ring-offset-2"
               >
-                <div className="grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
-                  <span className="text-base font-bold text-foreground">
+                <div className="flex w-full flex-col gap-1.5">
+                  <span className="whitespace-nowrap text-sm font-semibold text-foreground">
                     {selectedPack} {t("cans")}
                   </span>
 
-                  <div className="flex items-center gap-2 pl-2">
-                    <span className="text-2xl font-heading font-black tracking-tight text-foreground">
-                      €{formatPrice(selectedPricing.discountedTotal)}
-                    </span>
-                    <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-muted/80 text-muted-foreground">
-                      <ChevronDown className="h-4 w-4" />
+                  <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-baseline gap-2.5 whitespace-nowrap">
+                      <span className="text-2xl font-heading font-black tracking-tight text-foreground">
+                        €{formatPrice(selectedPricing.discountedTotal)}
+                      </span>
+                      <span className="text-[11px] font-medium text-muted-foreground">
+                        €{formatPrice(selectedPricing.pricePerCan)}{perCanSuffix}
+                      </span>
+                    </div>
+                    <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-muted/80 text-muted-foreground">
+                      <ChevronDown className="h-3.5 w-3.5" />
                     </span>
                   </div>
                 </div>
@@ -141,9 +149,14 @@ export function ProductCardRounded({ product, onAddToCart }: ProductCardRoundedP
                           <span className="font-semibold text-foreground">
                             {option.size} {t("cans")}
                           </span>
-                          <span className="text-base font-black text-foreground">
-                            €{formatPrice(pricing.discountedTotal)}
-                          </span>
+                          <div className="flex items-baseline justify-end gap-2.5 whitespace-nowrap">
+                            <span className="text-base font-black text-foreground">
+                              €{formatPrice(pricing.discountedTotal)}
+                            </span>
+                            <span className="text-[11px] font-medium text-muted-foreground">
+                              €{formatPrice(pricing.pricePerCan)}{perCanSuffix}
+                            </span>
+                          </div>
                         </div>
                       </SelectItem>
                     );
