@@ -8,7 +8,7 @@ interface LocalizedLinkProps extends Omit<LinkProps, "to"> {
 
 function getLocalizedTo(to: string, language: "en" | "it"): string {
   if (to === "/") {
-    return `/${language}`;
+    return language === "en" ? "/en" : "/";
   }
 
   if (!to.startsWith("/")) {
@@ -27,7 +27,7 @@ function getLocalizedTo(to: string, language: "en" | "it"): string {
   const hashIndex = to.indexOf("#");
   const base = hashIndex >= 0 ? to.slice(0, hashIndex) : to;
   const hash = hashIndex >= 0 ? to.slice(hashIndex) : "";
-  const localized = `/${language}${base}`;
+  const localized = language === "en" ? `/en${base}` : base;
 
   return `${localized}${hash}`;
 }

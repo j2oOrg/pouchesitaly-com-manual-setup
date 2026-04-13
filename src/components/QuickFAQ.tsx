@@ -7,11 +7,12 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useTranslation } from "@/hooks/useTranslation";
+import { homeFaqEntriesByLocale } from "@/lib/seo-content";
 
-export function QuickFAQ() {
-  const { t } = useTranslation();
+type TranslationGetter = (key: string) => string;
 
-  const faqs = [
+export function getQuickFaqEntries(t: TranslationGetter) {
+  return [
     {
       question: t("faqQuestion1"),
       answer: t("faqAnswer1"),
@@ -25,6 +26,11 @@ export function QuickFAQ() {
       answer: t("faqAnswer3"),
     },
   ];
+}
+
+export function QuickFAQ() {
+  const { t, language } = useTranslation();
+  const faqs = homeFaqEntriesByLocale[language];
 
   return (
     <section className="py-16 bg-card">

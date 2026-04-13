@@ -3,7 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode, useEffect } from "react";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet, Navigate, useLocation } from "react-router-dom";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { AuthProvider } from "@/context/AuthContext";
@@ -72,6 +72,18 @@ const LocaleShell = ({ locale }: { locale: Locale }) => {
   }, [locale, setLanguage]);
 
   return <Outlet />;
+};
+
+const LegacyItalianRedirect = () => {
+  const location = useLocation();
+  const canonicalPath = location.pathname.replace(/^\/it(?=\/|$)/, "") || "/";
+
+  return (
+    <Navigate
+      replace
+      to={`${canonicalPath}${location.search}${location.hash}`}
+    />
+  );
 };
 
 const AppRoutes = (
@@ -212,12 +224,7 @@ const App = () => (
                 >
                   {AppRoutes}
                 </Route>
-                <Route
-                  path="/it"
-                  element={<LocaleShell locale="it" />}
-                >
-                  {AppRoutes}
-                </Route>
+                <Route path="/it/*" element={<LegacyItalianRedirect />} />
               </Routes>
             </TooltipProvider>
           </AnalyticsProvider>

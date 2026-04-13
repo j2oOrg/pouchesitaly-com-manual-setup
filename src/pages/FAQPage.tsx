@@ -4,6 +4,8 @@ import { PageHeader } from "@/components/PageHeader";
 import { Footer } from "@/components/Footer";
 import { SEOHead } from "@/components/SEOHead";
 import { useTranslation } from "@/hooks/useTranslation";
+import { faqPageCategoriesByLocale } from "@/lib/seo-content";
+import { buildFAQPageStructuredData } from "@/lib/structured-data";
 import {
   Accordion,
   AccordionContent,
@@ -15,81 +17,16 @@ export default function FAQPage() {
   const { language } = useTranslation();
   const isItalian = language === "it";
 
-  const faqCategories = isItalian
-    ? [
-        {
-          title: "Ordini e Spedizione",
-          faqs: [
-            { question: "Quanto tempo ci vuole per ricevere l'ordine?", answer: "Spediamo dalla nostra sede in 1–2 giorni lavorativi. La consegna in Italia richiede solitamente altri 1–2 giorni lavorativi. Tempo totale atteso: 2–4 giorni lavorativi." },
-            { question: "Spedite in tutta Italia?", answer: "Sì. Spediamo su tutto il territorio italiano, incluse Sicilia, Sardegna e isole minori. Le spese di spedizione variano in base all'ordine." },
-            { question: "Come posso tracciare il mio ordine?", answer: "Dopo la spedizione riceverai un'email con il codice di tracciamento del corriere." },
-            { question: "Posso modificare o annullare un ordine?", answer: "Contattaci entro 1 ora dall'ordine. Dopo l'avvio della preparazione non è possibile intervenire." },
-          ],
-        },
-        {
-          title: "Prodotti",
-          faqs: [
-            { question: "Le nicotine pouches sono legali in Italia?", answer: "Sì. Le nicotine pouches senza tabacco sono legali in Italia. Non sono classificate come prodotti del tabacco e non rientrano nel divieto EU sullo snus." },
-            { question: "Qual è la differenza tra nicotine pouches e snus?", answer: "Lo snus contiene tabacco. Le nicotine pouches di Pouchesitaly sono tobacco-free: non contengono foglie di tabacco. Questo le rende legali in Italia (lo snus tradizionale è vietato nell'UE eccetto in Svezia)." },
-            { question: "Quali marchi vendete?", answer: "ZYN (Swedish Match/PMI), VELO (British American Tobacco), CUBA e altri marchi selezionati. Tutti i prodotti sono tobacco-free e di provenienza verificata." },
-            { question: "Come scelgo la resistenza giusta?", answer: "Consulta la nostra guida alle resistenze per una guida dettagliata. In breve: se fumi meno di 10 sigarette al giorno, inizia con 6mg. Fumatori regolari: 9mg. Fumatori pesanti: 11–14mg." },
-          ],
-        },
-        {
-          title: "Pagamenti",
-          faqs: [
-            { question: "Quali metodi di pagamento accettate?", answer: "Accettiamo le principali carte di credito e debito (Visa, Mastercard), PayPal e altri metodi di pagamento digitale. Tutti i pagamenti sono gestiti in modo sicuro." },
-            { question: "È sicuro pagare sul vostro sito?", answer: "Sì. Il sito utilizza HTTPS con certificato SSL. I dati della tua carta non vengono conservati sui nostri server." },
-          ],
-        },
-        {
-          title: "Resi e Rimborsi",
-          faqs: [
-            { question: "Posso restituire un prodotto?", answer: "Accettiamo resi entro 14 giorni dall'acquisto per prodotti non aperti e in condizioni originali. Contattaci prima di spedire qualsiasi reso." },
-            { question: "Cosa succede se ricevo un prodotto danneggiato?", answer: "Contattaci entro 48 ore con foto del prodotto danneggiato. Provvederemo a un rimborso o sostituzione senza costi aggiuntivi." },
-          ],
-        },
-        {
-          title: "Altro",
-          faqs: [
-            { question: "Avete un programma fedeltà o sconti?", answer: "Iscriviti alla nostra newsletter per ricevere offerte esclusive e notifiche sui nuovi prodotti." },
-            { question: "Come posso contattarvi?", answer: "Tramite il modulo di contatto sul sito o via email. Rispondiamo entro 24 ore nei giorni lavorativi." },
-          ],
-        },
-      ]
-    : [
-        {
-          title: "General Questions",
-          faqs: [
-            { question: "What are nicotine pouches?", answer: "Nicotine pouches are small, discreet pouches containing nicotine, plant fiber, and flavorings - but no tobacco." },
-            { question: "How do I use nicotine pouches?", answer: "Take one pouch from the container and place it between your upper lip and gum for 20-60 minutes." },
-            { question: "Are nicotine pouches safer than cigarettes?", answer: "They are tobacco-free and smoke-free, but still contain nicotine which is addictive." },
-          ],
-        },
-        {
-          title: "Ordering & Payment",
-          faqs: [
-            { question: "Do I need to create an account to order?", answer: "No. You can complete your purchase as a guest in just a few minutes." },
-            { question: "What payment methods do you accept?", answer: "We accept major cards, PayPal, and local payment methods where available." },
-            { question: "Can I track my order?", answer: "Yes. You will receive an email with a tracking number once your order ships." },
-          ],
-        },
-      ];
+  const faqCategories = faqPageCategoriesByLocale[language];
 
-  const faqStructuredData = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: faqCategories.flatMap((category) =>
+  const faqStructuredData = buildFAQPageStructuredData(
+    faqCategories.flatMap((category) =>
       category.faqs.map((faq) => ({
-        "@type": "Question",
-        name: faq.question,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: faq.answer,
-        },
+        question: faq.question,
+        answer: faq.answer,
       }))
-    ),
-  };
+    )
+  );
 
   return (
     <div className="min-h-screen bg-transparent">

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { usePageMetadata } from '@/hooks/usePageMetadata';
 import { useLanguage } from '@/context/LanguageContext';
+import { buildOrganizationStructuredData } from '@/lib/structured-data';
 
 interface SEOHeadProps {
   defaultTitle?: string;
@@ -22,7 +23,7 @@ const stripLocalePrefix = (path: string) => {
 
 const localizedPath = (path: string, locale: Locale) => {
   if (locale === 'it') {
-    return path === '/' ? '/it/' : `/it${path}`;
+    return path;
   }
 
   return path === '/' ? '/en' : `/en${path}`;
@@ -43,20 +44,7 @@ export function SEOHead({ defaultTitle, defaultDescription, noindex = false, str
   const normalizeBranding = (value?: string | null) =>
     value?.replace(/NicoXpress/gi, 'Pouchesitaly') ?? null;
 
-  const fallbackOrganizationSchema = {
-    '@type': 'Organization',
-    '@id': `${BASE_URL}/#organization`,
-    name: 'Pouchesitaly',
-    url: BASE_URL,
-    logo: 'https://pouchesitaly.com/images/logo.png',
-    description: 'Vendita online di nicotine pouches tobacco-free in Italia. Marchi: ZYN, VELO, CUBA. Spedizione rapida in tutta Italia.',
-    contactPoint: {
-      '@type': 'ContactPoint',
-      contactType: 'customer service',
-      availableLanguage: 'Italian',
-    },
-    sameAs: ['https://x.com/Pouchesitaly'],
-  };
+  const fallbackOrganizationSchema = buildOrganizationStructuredData();
 
   const fallbackWebsiteSchema = {
     '@type': 'WebSite',
@@ -125,7 +113,7 @@ export function SEOHead({ defaultTitle, defaultDescription, noindex = false, str
     setMetaTag('og:title', normalizeBranding(metadata?.og_title) || normalizeBranding(metadata?.title) || fallback.ogTitle, true);
     setMetaTag('og:description', normalizeBranding(metadata?.og_description) || normalizeBranding(metadata?.meta_description) || fallback.ogDescription, true);
     setMetaTag('og:image', metadata?.og_image || fallback.image, true);
-    setMetaTag('og:url', metadata?.canonical_url || canonicalUrl, true);
+    setMetaTag('og:url', canonicalUrl, true);
     setMetaTag('og:type', 'website', true);
     setMetaTag('og:locale', isItalian ? 'it_IT' : 'en_US', true);
     setMetaTag('og:site_name', 'Pouchesitaly', true);
@@ -150,7 +138,7 @@ export function SEOHead({ defaultTitle, defaultDescription, noindex = false, str
     setMetaTag('twitter:image', metadata?.twitter_image || metadata?.og_image || fallback.image);
 
     let canonicalElement = document.querySelector('link[rel="canonical"]');
-    const canonicalHref = metadata?.canonical_url || canonicalUrl;
+    const canonicalHref = canonicalUrl;
 
     if (canonicalHref) {
       if (!canonicalElement) {

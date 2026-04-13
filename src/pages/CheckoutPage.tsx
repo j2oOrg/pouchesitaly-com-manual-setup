@@ -20,9 +20,7 @@ export default function CheckoutPage() {
   const homePath =
     location.pathname === "/en" || location.pathname.startsWith("/en/")
       ? "/en"
-      : location.pathname === "/it" || location.pathname.startsWith("/it/")
-        ? "/it"
-        : "/";
+      : "/";
 
   useEffect(() => {
     const stateCart = (location.state as { cart?: CartItem[] } | null)?.cart;

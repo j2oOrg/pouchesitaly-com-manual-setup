@@ -18,6 +18,7 @@ import {
 import { useTranslation } from "@/hooks/useTranslation";
 import { useProduct, useProducts, toFrontendProduct } from "@/hooks/useProducts";
 import { trackCartEvent } from "@/hooks/useAnalyticsTracking";
+import { buildProductStructuredData } from "@/lib/structured-data";
 import type { Product, CartItem } from "@/types/product";
 import productImageFallback from "@/assets/product-can.png";
 
@@ -240,27 +241,20 @@ export default function ProductPage() {
     (language === "it"
       ? `Acquista ${product.name} di ${product.brand}. Spedizione in Italia e packaging discreto.`
       : `Buy ${product.name} by ${product.brand}. Fast shipping in Italy and discreet packaging.`);
+  const packOfferPrices = packOptions.map(
+    (option) => product.price * option.size * (1 - option.discount)
+  );
   const structuredData = [
-    {
-      "@context": "https://schema.org",
-      "@type": "Product",
+    buildProductStructuredData({
       name: product.name,
-      image: allImages.map((img) => (img.startsWith("http") ? img : `https://pouchesitaly.com${img.startsWith("/") ? "" : "/"}${img}`)),
       description: productDescription,
+      image: allImages.map((img) => (img.startsWith("http") ? img : `https://pouchesitaly.com${img.startsWith("/") ? "" : "/"}${img}`)),
+      brand: product.brand,
+      offerPrices: packOfferPrices,
+      availability: "https://schema.org/InStock",
       sku: String(product.id),
-      brand: {
-        "@type": "Brand",
-        name: product.brand,
-      },
-      offers: {
-        "@type": "Offer",
-        url: productUrl,
-        priceCurrency: "EUR",
-        price: Number(totalPackPrice),
-        availability: "https://schema.org/InStock",
-        itemCondition: "https://schema.org/NewCondition",
-      },
-    },
+      url: productUrl,
+    }),
     {
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",

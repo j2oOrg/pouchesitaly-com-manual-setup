@@ -4,13 +4,14 @@ import { Truck, Package, MapPin, ChevronDown, ArrowRight, Loader2, SlidersHorizo
 import { LocalizedLink } from "@/components/LocalizedLink";
 import { PageHeader } from "@/components/PageHeader";
 import { Footer } from "@/components/Footer";
-import { QuickFAQ } from "@/components/QuickFAQ";
+import { QuickFAQ, getQuickFaqEntries } from "@/components/QuickFAQ";
 import { ProductCardRounded } from "@/components/ProductCardRounded";
 import { CartDrawer } from "@/components/CartDrawer";
 import { SEOHead } from "@/components/SEOHead";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useProducts, toFrontendProduct } from "@/hooks/useProducts";
 import { trackCartEvent } from "@/hooks/useAnalyticsTracking";
+import { buildFAQPageStructuredData } from "@/lib/structured-data";
 import type { Product, CartItem } from "@/types/product";
 import productImage from "@/assets/product-can.png";
 import heroBackground from "../../headerbackground.webp";
@@ -173,12 +174,14 @@ export default function HomePage() {
       description: t("faqDesc"),
     },
   ];
+  const homeFaqStructuredData = buildFAQPageStructuredData(getQuickFaqEntries(t));
 
   return (
     <div className="min-h-screen bg-background text-foreground selection:bg-primary/20">
       <SEOHead
         defaultTitle={language === "it" ? "Bustine di Nicotina Italia — ZYN, VELO, CUBA | Pouchesitaly" : "Nicotine Pouches Italy — ZYN, VELO, CUBA | Pouchesitaly"}
         defaultDescription={language === "it" ? "Acquista le migliori bustine di nicotina in Italia: ZYN, VELO, CUBA e altri marchi premium. Spedizione rapida 2–4 giorni. Tobacco-free, legali in Italia." : "Buy premium nicotine pouches in Italy: ZYN, VELO, CUBA and more. Fast shipping in 2–4 business days. Tobacco-free, legal in Italy. Order online."}
+        structuredData={homeFaqStructuredData}
       />
       <PageHeader cart={cart} onCartClick={() => setIsCartOpen(true)} />
       <section className="w-full bg-black text-white">
