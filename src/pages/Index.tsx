@@ -181,6 +181,13 @@ export default function HomePage() {
         defaultDescription={language === "it" ? "Acquista le migliori bustine di nicotina in Italia: ZYN, VELO, CUBA e altri marchi premium. Spedizione rapida 2–4 giorni. Tobacco-free, legali in Italia." : "Buy premium nicotine pouches in Italy: ZYN, VELO, CUBA and more. Fast shipping in 2–4 business days. Tobacco-free, legal in Italy. Order online."}
       />
       <PageHeader cart={cart} onCartClick={() => setIsCartOpen(true)} />
+      <section className="w-full bg-black text-white">
+        <div className="mx-auto flex max-w-[1600px] items-center justify-center gap-4 px-4 py-3 text-center text-sm font-bold uppercase tracking-[0.18em] sm:gap-6 sm:text-[0.95rem]">
+          <span>100% tobacco free</span>
+          <span className="h-4 w-px bg-white/30" aria-hidden="true" />
+          <span>18+</span>
+        </div>
+      </section>
 
       {/* Hero Banner */}
       <section className="pt-4 pb-8 md:pt-6 md:pb-10 px-4 sm:px-6 lg:px-8 max-w-[1600px] mx-auto">

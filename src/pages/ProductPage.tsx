@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { ArrowLeft, Minus, Plus, Loader2, Info, ChevronDown } from "lucide-react";
+import { ArrowLeft, Minus, Plus, Loader2, ChevronDown } from "lucide-react";
 import { LocalizedLink } from "@/components/LocalizedLink";
 import { PageHeader } from "@/components/PageHeader";
 import { Footer } from "@/components/Footer";
@@ -99,6 +99,18 @@ export default function ProductPage() {
       default:
         return "bg-muted text-muted-foreground border-border";
     }
+  };
+
+  const formatPrice = (value: number) => value.toFixed(2);
+
+  const getPackPricing = (packSize: number) => {
+    const option = packOptions.find((opt) => opt.size === packSize);
+    const discount = option?.discount || 0;
+    const discountedTotal = product ? product.price * packSize * (1 - discount) : 0;
+
+    return {
+      discountedTotal,
+    };
   };
 
   const addProductToCart = (targetProduct: Product, packSize: number, qty: number) => {
@@ -213,11 +225,8 @@ export default function ProductPage() {
     );
   }
 
-  const selectedOption = packOptions.find((option) => option.size === selectedPack);
-  const selectedDiscount = selectedOption?.discount || 0;
-  const totalPackPrice = (product.price * selectedPack * (1 - selectedDiscount)).toFixed(2);
-  const originalPackPrice = (product.price * selectedPack).toFixed(2);
-  const savingsAmount = (product.price * selectedPack * selectedDiscount).toFixed(2);
+  const selectedPricing = getPackPricing(selectedPack);
+  const totalPackPrice = formatPrice(selectedPricing.discountedTotal);
   
   const allImages = [product.image, product.image_2, product.image_3].filter(Boolean) as string[];
   const localePrefix = language === "it" ? "" : "/en";
@@ -355,7 +364,7 @@ export default function ProductPage() {
               <div className="space-y-6 flex-1">
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-[11px] font-black uppercase tracking-[0.12em] bg-gradient-to-r from-primary via-emerald-600 to-blue-600 bg-clip-text text-transparent">
+                    <h3 className="text-[11px] font-black uppercase tracking-[0.08em] text-foreground">
                       {t("selectPackSize")}
                     </h3>
                   </div>
@@ -366,79 +375,40 @@ export default function ProductPage() {
                   >
                     <SelectTrigger
                       hideIcon
-                      className="w-full h-[80px] bg-background border-2 border-primary/50 rounded-2xl font-medium transition-all hover:border-primary hover:bg-muted/5 text-left relative overflow-hidden px-6 shadow-[0_0_0_3px_rgba(50,120,93,0.12),0_10px_30px_rgba(50,120,93,0.2)] focus-visible:ring-2 focus-visible:ring-primary/55 focus-visible:ring-offset-2"
+                      className="w-full h-[70px] rounded-2xl border border-black/[0.06] bg-background px-4 text-left shadow-[0_8px_24px_-20px_rgba(15,23,42,0.4)] transition-colors hover:border-black/[0.1] hover:bg-card focus-visible:ring-2 focus-visible:ring-black/10 focus-visible:ring-offset-2"
                     >
-                      <div className="flex items-center justify-between w-full gap-4">
-                        <div className="flex flex-col items-start gap-1">
-                          <span className="font-bold text-xl flex items-center gap-3 text-foreground">
-                            {selectedPack} {t("cans")}
+                      <div className="grid w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-2">
+                        <span className="text-base font-bold text-foreground">
+                          {selectedPack} {t("cans")}
+                        </span>
+                        <div className="flex items-center gap-2 pl-2">
+                          <span className="text-2xl font-heading font-black tracking-tight text-foreground">
+                            €{formatPrice(selectedPricing.discountedTotal)}
                           </span>
-                          <div className="flex gap-2">
-                            {selectedPack === 20 ? (
-                              <span className="text-[10px] font-black text-destructive uppercase tracking-wider bg-destructive/10 px-2 py-0.5 rounded-md border border-destructive/20">{t("bestValue")}</span>
-                            ) : selectedPack === 10 ? (
-                              <span className="text-[10px] font-black text-indigo-600 uppercase tracking-wider bg-indigo-50 px-2 py-0.5 rounded-md border border-indigo-100">{t("popular")}</span>
-                            ) : (
-                              <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">{t("standardPack")}</span>
-                            )}
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <div className="flex flex-col items-end text-right">
-                            <span className="text-xl font-black text-foreground">
-                              €{(product.price * (1 - (packOptions.find(o => o.size === selectedPack)?.discount || 0))).toFixed(2)}
-                              <span className="text-xs font-medium text-muted-foreground ml-1">/{t("cans").replace("lattine", "pz")}</span>
-                            </span>
-                            {(packOptions.find(o => o.size === selectedPack)?.discount || 0) > 0 && (
-                              <span className="text-xs text-emerald-600 font-bold mt-1">
-                                {t("save")} {Math.round((packOptions.find(o => o.size === selectedPack)?.discount || 0) * 100)}% {t("today")}
-                              </span>
-                            )}
-                          </div>
-                          <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-blue-300/90 bg-blue-100 text-blue-700 shadow-[0_0_0_2px_rgba(59,130,246,0.14)]">
+                          <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-muted/80 text-muted-foreground">
                             <ChevronDown className="h-4 w-4" />
                           </span>
                         </div>
                       </div>
                     </SelectTrigger>
-                    <SelectContent className="rounded-[2rem] border-2 border-border shadow-2xl p-2 bg-white">
+                    <SelectContent className="rounded-2xl border border-black/[0.06] bg-card p-1.5 shadow-[0_20px_40px_-24px_rgba(15,23,42,0.45)]">
                       <SelectGroup>
                         {packOptions.map((option) => {
-                          const pricePerCan = (product.price * (1 - option.discount)).toFixed(2);
-                          const isBestValue = option.size === 20;
-                          const isPopular = option.size === 10;
-                          const isSelected = selectedPack === option.size;
+                          const pricing = getPackPricing(option.size);
                           
                           return (
                             <SelectItem 
                               key={option.size} 
                               value={option.size.toString()} 
-                              className={`cursor-pointer py-5 px-6 rounded-[1.5rem] my-1.5 transition-all duration-300 focus:bg-primary/5 focus:text-foreground data-[highlighted]:bg-primary/5 data-[highlighted]:text-foreground ${
-                                isSelected 
-                                ? "bg-primary/[0.08] text-primary border-primary/20 shadow-none" 
-                                : "hover:bg-primary/5"
-                              } border border-transparent`}>
+                              className="my-1 rounded-xl px-4 py-3.5 data-[highlighted]:bg-muted data-[highlighted]:text-foreground"
+                            >
                               <div className="flex items-center justify-between w-full">
-                                <div className="flex flex-col gap-1">
-                                  <div className="flex items-center gap-3">
-                                    <span className={`font-bold text-lg ${isSelected ? 'text-primary' : 'text-foreground'}`}>{option.size} {t("cans")}</span>
-                                    {isBestValue && (
-                                      <span className={`${isSelected ? 'bg-destructive/10 text-destructive border-destructive/20' : 'bg-destructive text-white'} text-[10px] font-black uppercase px-2 py-0.5 rounded-full border shadow-sm`}>Best Value</span>
-                                    )}
-                                    {isPopular && !isBestValue && (
-                                      <span className={`${isSelected ? 'bg-indigo-50 text-indigo-600 border-indigo-200' : 'bg-indigo-600 text-white'} text-[10px] font-black uppercase px-2 py-0.5 rounded-full border shadow-sm`}>Popular</span>
-                                    )}
-                                  </div>
-                                  {option.discount > 0 && (
-                                    <span className={`text-xs font-bold ${isSelected ? 'text-emerald-700' : 'text-emerald-600'}`}>
-                                      {t("exclusiveDiscount")} {Math.round(option.discount * 100)}%
-                                    </span>
-                                  )}
-                                </div>
-                                <div className="flex flex-col items-end pl-8">
-                                  <span className={`font-black text-xl ${isSelected ? 'text-primary' : 'text-foreground'}`}>€{pricePerCan}</span>
-                                  <span className={`text-[10px] font-bold uppercase tracking-[0.1em] ${isSelected ? 'text-primary/70' : 'text-muted-foreground'}`}>/ {t("cans").replace("lattine", "pz")}</span>
-                                </div>
+                                <span className="font-semibold text-foreground">
+                                  {option.size} {t("cans")}
+                                </span>
+                                <span className="text-base font-black text-foreground">
+                                  €{formatPrice(pricing.discountedTotal)}
+                                </span>
                               </div>
                             </SelectItem>
                           );
@@ -446,30 +416,6 @@ export default function ProductPage() {
                       </SelectGroup>
                     </SelectContent>
                   </Select>
-                </div>
-
-                {/* Price Summary */}
-                <div className="bg-muted/30 rounded-2xl p-4 md:p-6 border border-border/50">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="font-heading text-sm md:text-base font-semibold tracking-[0.04em] text-foreground/80">
-                      {t("totalPrice")}:
-                    </span>
-                    <div className="flex items-center gap-3">
-                      {selectedDiscount > 0 && (
-                        <span className="text-base md:text-lg text-muted-foreground line-through">
-                          €{originalPackPrice}
-                        </span>
-                      )}
-                      <span className="text-3xl md:text-4xl font-heading font-black text-foreground">
-                        €{totalPackPrice}
-                      </span>
-                    </div>
-                  </div>
-                  {selectedDiscount > 0 && (
-                    <p className="text-right text-xs md:text-sm font-medium text-emerald-500 flex items-center justify-end gap-1">
-                      <Info className="w-3 h-3 md:w-4 md:h-4" /> {t("youSave")} €{savingsAmount}
-                    </p>
-                  )}
                 </div>
 
                 {/* Add to Cart Actions */}

@@ -61,6 +61,9 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Pack Options
     cans: 'cans',
+    perCan: 'per can',
+    selectedPack: 'Selected pack',
+    was: 'Was',
     save: 'SAVE',
     selectPackSize: 'Select Pack Size',
 
@@ -272,6 +275,9 @@ const translations: Record<Language, Record<string, string>> = {
     
     // Pack Options
     cans: 'lattine',
+    perCan: 'a lattina',
+    selectedPack: 'Confezione selezionata',
+    was: 'Prima',
     save: 'RISPARMIA',
     selectPackSize: 'Seleziona Formato Pack',
     
