@@ -278,7 +278,7 @@ export default function HomePage() {
             <h1 className="mb-6 text-4xl font-heading font-black leading-tight tracking-tight text-white drop-shadow-[0_12px_28px_rgba(0,0,0,0.28)] md:text-6xl lg:text-7xl">
               {t("elevateExperience")}
             </h1>
-            <p className="mb-10 max-w-2xl text-lg font-medium text-white/90 drop-shadow-[0_10px_22px_rgba(0,0,0,0.24)] md:text-xl lg:mx-0">
+            <p className="mb-10 max-w-[33.6rem] rounded-[1.75rem] bg-black/28 px-6 py-5 text-lg font-medium text-white/95 shadow-[0_18px_34px_-22px_rgba(0,0,0,0.72)] [text-shadow:-1px_-1px_0_rgba(0,0,0,0.9),1px_-1px_0_rgba(0,0,0,0.9),-1px_1px_0_rgba(0,0,0,0.9),1px_1px_0_rgba(0,0,0,0.9),0_10px_22px_rgba(0,0,0,0.28)] md:text-xl lg:mx-0">
               {t("heroDesc")}
             </p>
             <div className="flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row lg:justify-start">
@@ -307,11 +307,9 @@ export default function HomePage() {
             <div className="pointer-events-none absolute bottom-0 right-0 h-28 w-28 rounded-full bg-accent/10 blur-3xl" />
 
             <div className="relative flex flex-col gap-6">
-              <div className="flex flex-wrap items-center justify-end gap-2.5 border-b border-white/10 pb-5">
-                <div className="flex flex-wrap items-center gap-2.5">
-                  <span className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-sm font-semibold text-foreground shadow-[0_12px_30px_-28px_rgba(0,0,0,0.8)]">
-                    {productCountLabel}
-                  </span>
+              {hasActiveFilters && (
+                <div className="flex flex-wrap items-center justify-end gap-2.5 border-b border-white/10 pb-5">
+                  <div className="flex flex-wrap items-center gap-2.5">
                   {hasActiveFilters && (
                     <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/12 px-4 py-2 text-sm font-semibold text-primary">
                       {activeFilterLabel}
@@ -326,7 +324,8 @@ export default function HomePage() {
                     </button>
                   )}
                 </div>
-              </div>
+                </div>
+              )}
 
               <div className="grid gap-5">
                 <div className="grid gap-5 lg:grid-cols-2 lg:gap-8">
@@ -373,18 +372,23 @@ export default function HomePage() {
                   <h4 className="text-[0.72rem] font-bold uppercase tracking-[0.32em] text-[#9ab8ff]">
                     {t("flavor")}
                   </h4>
-                  <div className="flex flex-wrap gap-3">
-                    {availableFlavors.map((flavor) => (
-                      <button
-                        key={flavor}
-                        type="button"
-                        aria-pressed={selectedFlavors.includes(flavor)}
-                        onClick={() => toggleFlavor(flavor)}
-                        className={filterButtonClassName(selectedFlavors.includes(flavor))}
-                      >
-                        {flavor}
-                      </button>
-                    ))}
+                  <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                    <div className="flex flex-1 flex-wrap gap-3">
+                      {availableFlavors.map((flavor) => (
+                        <button
+                          key={flavor}
+                          type="button"
+                          aria-pressed={selectedFlavors.includes(flavor)}
+                          onClick={() => toggleFlavor(flavor)}
+                          className={filterButtonClassName(selectedFlavors.includes(flavor))}
+                        >
+                          {flavor}
+                        </button>
+                      ))}
+                    </div>
+                    <span className="inline-flex shrink-0 items-center self-start rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-sm font-semibold text-foreground shadow-[0_12px_30px_-28px_rgba(0,0,0,0.8)] lg:ml-6 lg:self-center">
+                      {productCountLabel}
+                    </span>
                   </div>
                 </div>
               </div>
