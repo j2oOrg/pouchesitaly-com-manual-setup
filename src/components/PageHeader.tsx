@@ -9,7 +9,6 @@ import { useMenuTree } from "@/hooks/useMenuItems";
 import { usePages } from "@/hooks/usePages";
 import { MenuItem } from "@/types/cms";
 import type { CartItem } from "@/types/product";
-import logoImage from "../../logodarkmode.png";
 
 interface PageHeaderProps {
   cart?: CartItem[];
@@ -172,12 +171,18 @@ export function PageHeader({ cart = [], onCartClick }: PageHeaderProps) {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <LocalizedLink to="/" className="flex items-center gap-2">
-            <img
-              src={logoImage}
-              alt="Pouchesitaly"
-              className="h-10 md:h-12 w-auto object-contain"
-            />
+          <LocalizedLink
+            to="/"
+            className="group relative inline-flex items-center py-1"
+            aria-label="Pouches Italy"
+          >
+            <span className="font-heading text-base font-black uppercase tracking-[0.16em] text-white/95 drop-shadow-[0_12px_22px_rgba(0,0,0,0.4)] transition-opacity duration-300 group-hover:opacity-90 sm:text-lg md:text-[1.4rem]">
+              Pouches
+            </span>
+            <span className="ml-2 font-heading text-base font-black uppercase tracking-[0.2em] text-transparent bg-[linear-gradient(135deg,hsl(var(--primary))_0%,#9cefff_100%)] bg-clip-text drop-shadow-[0_12px_22px_rgba(24,198,255,0.16)] transition-transform duration-300 group-hover:translate-x-0.5 sm:text-lg md:text-[1.4rem]">
+              Italy
+            </span>
+            <span className="absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,transparent,rgba(56,217,255,0.95),transparent)] opacity-80 transition-transform duration-300 group-hover:scale-x-110" />
           </LocalizedLink>
 
           {/* Desktop Navigation */}

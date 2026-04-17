@@ -3,7 +3,6 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { useMenuTree } from "@/hooks/useMenuItems";
 import { usePages } from "@/hooks/usePages";
 import { MenuItem } from "@/types/cms";
-import logodarkmode from "../../logodarkmode.png";
 
 export function Footer() {
   const { t } = useTranslation();
@@ -49,8 +48,13 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
           <div className="md:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <img src={logodarkmode} alt="Pouchesitaly" className="h-10 w-auto" />
+            <div className="mb-4 inline-flex items-center py-1">
+              <span className="font-heading text-base font-black uppercase tracking-[0.16em] text-white/95 drop-shadow-[0_12px_22px_rgba(0,0,0,0.4)] sm:text-lg">
+                Pouches
+              </span>
+              <span className="ml-2 font-heading text-base font-black uppercase tracking-[0.2em] text-transparent bg-[linear-gradient(135deg,hsl(var(--primary))_0%,#9cefff_100%)] bg-clip-text drop-shadow-[0_12px_22px_rgba(24,198,255,0.16)] sm:text-lg">
+                Italy
+              </span>
             </div>
             <p className="text-muted-foreground text-sm">
               {t("aboutUsDesc")}
