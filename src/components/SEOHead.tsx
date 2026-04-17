@@ -76,7 +76,7 @@ export function SEOHead({ defaultTitle, defaultDescription, noindex = false, str
     ogDescription: isItalian
       ? 'Consegna rapida in Italia, prodotti autentici e discreti per un\'esperienza pratica.'
       : 'Authentic nicotine pouches, discreet shopping, and fast shipping across Italy to bring your favorites to you.',
-    image: 'https://pouchesitaly.com/socialshare.png',
+    image: 'https://pouchesitaly.com/socialshare-homepage.png',
     twitterSite: '@Pouchesitaly',
   };
 
