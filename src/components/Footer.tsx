@@ -41,22 +41,25 @@ export function Footer() {
   const footerSections = footerItems.filter(item => !item.parent_id);
 
   return (
-    <footer className="bg-foreground text-background py-16">
-      <div className="container mx-auto px-4">
+    <footer className="relative overflow-hidden border-t border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.96),rgba(4,7,16,0.99))] py-16 text-foreground">
+      <div className="pointer-events-none absolute -left-20 top-0 h-44 w-44 rounded-full bg-primary/12 blur-3xl" />
+      <div className="pointer-events-none absolute bottom-0 right-0 h-52 w-52 rounded-full bg-accent/10 blur-3xl" />
+
+      <div className="relative container mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           {/* Brand */}
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
               <img src={logodarkmode} alt="Pouchesitaly" className="h-10 w-auto" />
             </div>
-            <p className="text-background/70 text-sm">
+            <p className="text-muted-foreground text-sm">
               {t("aboutUsDesc")}
             </p>
-            <div className="mt-4 text-background/50 text-xs space-y-1">
+            <div className="mt-4 text-xs space-y-1 text-foreground/50">
               <p>Nova Synchronicity AB</p>
               <p>Stockholm, Sweden</p>
               <p>
-                <a href="mailto:support@pouchesitaly.com" className="hover:text-background transition-colors">
+                <a href="mailto:support@pouchesitaly.com" className="transition-colors hover:text-primary">
                   support@pouchesitaly.com
                 </a>
               </p>
@@ -81,14 +84,14 @@ export function Footer() {
                             href={url} 
                             target={child.target}
                             rel={child.target === "_blank" ? "noopener noreferrer" : undefined}
-                            className="text-background/70 hover:text-background transition-colors text-sm"
+                            className="text-muted-foreground transition-colors hover:text-primary text-sm"
                           >
                             {child.title}
                           </a>
                         ) : (
                           <LocalizedLink 
                             to={url} 
-                            className="text-background/70 hover:text-background transition-colors text-sm"
+                            className="text-muted-foreground transition-colors hover:text-primary text-sm"
                           >
                             {child.title}
                           </LocalizedLink>
@@ -107,7 +110,7 @@ export function Footer() {
                 <ul className="space-y-2">
                   {defaultQuickLinks.map(link => (
                     <li key={link.to}>
-                      <LocalizedLink to={link.to} className="text-background/70 hover:text-background transition-colors text-sm">
+                      <LocalizedLink to={link.to} className="text-muted-foreground transition-colors hover:text-primary text-sm">
                         {link.label}
                       </LocalizedLink>
                     </li>
@@ -122,11 +125,11 @@ export function Footer() {
                   {defaultServiceLinks.map(link => (
                     <li key={link.to}>
                       {link.isEmail ? (
-                        <a href={link.to} className="text-background/70 hover:text-background transition-colors text-sm">
+                        <a href={link.to} className="text-muted-foreground transition-colors hover:text-primary text-sm">
                           {link.label}
                         </a>
                       ) : (
-                        <LocalizedLink to={link.to} className="text-background/70 hover:text-background transition-colors text-sm">
+                        <LocalizedLink to={link.to} className="text-muted-foreground transition-colors hover:text-primary text-sm">
                           {link.label}
                         </LocalizedLink>
                       )}
@@ -140,12 +143,12 @@ export function Footer() {
                 <h4 className="font-heading font-bold text-lg mb-4">{t("legal")}</h4>
                 <ul className="space-y-2">
                   <li>
-                    <LocalizedLink to="/privacy" className="text-background/70 hover:text-background transition-colors text-sm">
+                    <LocalizedLink to="/privacy" className="text-muted-foreground transition-colors hover:text-primary text-sm">
                       {t("privacyPolicy")}
                     </LocalizedLink>
                   </li>
                   <li>
-                    <LocalizedLink to="/terms" className="text-background/70 hover:text-background transition-colors text-sm">
+                    <LocalizedLink to="/terms" className="text-muted-foreground transition-colors hover:text-primary text-sm">
                       {t("termsConditions")}
                     </LocalizedLink>
                   </li>
@@ -156,12 +159,12 @@ export function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="border-t border-background/20 pt-8">
+        <div className="border-t border-white/10 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-background/60 text-sm">
+            <p className="text-foreground/60 text-sm">
               © {new Date().getFullYear()} Nova Synchronicity AB. {t("allRightsReserved")}
             </p>
-            <div className="text-background/60 text-xs text-right space-y-1">
+            <div className="text-right text-xs space-y-1 text-foreground/60">
               <p>{t("ageDisclaimer")}</p>
               <p>Nova Synchronicity AB · support@pouchesitaly.com</p>
             </div>

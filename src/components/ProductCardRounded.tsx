@@ -60,23 +60,23 @@ export function ProductCardRounded({ product, onAddToCart }: ProductCardRoundedP
   const selectedPricing = getPackPricing(selectedPack);
 
   return (
-    <article className="group relative isolate flex h-full flex-col overflow-hidden rounded-3xl border border-black/[0.06] bg-card shadow-[0_18px_42px_-28px_rgba(15,23,42,0.35)] transition-all duration-300 hover:-translate-y-1 hover:border-black/[0.08] hover:shadow-[0_24px_56px_-30px_rgba(15,23,42,0.4)]">
-      <span className="pointer-events-none absolute -left-20 -top-16 h-44 w-44 rounded-full bg-primary/12 blur-3xl" />
+    <article className="group relative isolate flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-[linear-gradient(180deg,rgba(19,27,46,0.92),rgba(11,17,29,0.98))] shadow-[0_22px_58px_-30px_rgba(0,0,0,0.7)] transition-all duration-300 hover:-translate-y-1 hover:border-white/15 hover:shadow-[0_28px_70px_-32px_rgba(0,0,0,0.78)]">
+      <span className="pointer-events-none absolute -left-20 -top-16 h-44 w-44 rounded-full bg-primary/16 blur-3xl" />
       <span className="pointer-events-none absolute -right-20 -bottom-16 h-44 w-44 rounded-full bg-accent/10 blur-3xl" />
 
-      <div className="relative mx-4 mt-4 overflow-hidden rounded-[1.5rem] bg-gradient-to-b from-muted/60 to-background/5 px-4 pt-4 pb-6">
-        <LocalizedLink to={`/product/${product.id}`} className="block relative mx-auto flex h-56 w-full max-w-[16.5rem] items-center justify-center rounded-[1.25rem] border border-black/[0.04] bg-card p-4 shadow-[0_10px_28px_-20px_rgba(15,23,42,0.28)]">
+      <div className="relative mx-4 mt-4 overflow-hidden rounded-[1.5rem] bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.02))] px-4 pt-4 pb-6">
+        <LocalizedLink to={`/product/${product.id}`} className="block relative mx-auto flex h-56 w-full max-w-[16.5rem] items-center justify-center rounded-[1.25rem] border border-white/10 bg-[linear-gradient(180deg,rgba(20,28,48,0.98),rgba(9,14,24,0.98))] p-4 shadow-[0_18px_34px_-24px_rgba(0,0,0,0.72)]">
           <img
             src={product.image}
             alt={product.name}
             loading="lazy"
             className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
           />
-          <span className="pointer-events-none absolute inset-0 rounded-[1.25rem] ring-1 ring-border/40" />
+          <span className="pointer-events-none absolute inset-0 rounded-[1.25rem] ring-1 ring-white/10" />
         </LocalizedLink>
 
         <div className="absolute left-5 top-5 right-5 flex items-start justify-between pointer-events-none">
-          <span className="inline-flex items-center rounded-full bg-background/90 px-3 py-1.5 text-xs font-medium tracking-wide text-foreground shadow-sm backdrop-blur-sm">
+          <span className="inline-flex items-center rounded-full border border-white/10 bg-background/70 px-3 py-1.5 text-xs font-medium tracking-wide text-foreground shadow-sm backdrop-blur-sm">
             {product.brand}
           </span>
           <Badge className={`${getStrengthColor(product.strength)} rounded-full px-3 py-1 text-xs shadow-sm`}>
@@ -109,9 +109,9 @@ export function ProductCardRounded({ product, onAddToCart }: ProductCardRoundedP
               value={selectedPack.toString()}
               onValueChange={(value) => setSelectedPack(parseInt(value, 10))}
             >
-              <SelectTrigger
-                hideIcon
-                className="h-[76px] rounded-2xl border border-black/[0.06] bg-background px-4 text-left shadow-[0_8px_24px_-20px_rgba(15,23,42,0.4)] transition-colors hover:border-black/[0.1] hover:bg-card focus-visible:ring-2 focus-visible:ring-black/10 focus-visible:ring-offset-2"
+            <SelectTrigger
+              hideIcon
+              className="h-[76px] rounded-2xl border border-white/10 bg-background/70 px-4 text-left shadow-[0_10px_28px_-20px_rgba(0,0,0,0.65)] transition-colors hover:border-white/15 hover:bg-card focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
                 <div className="flex w-full flex-col gap-1.5">
                   <span className="whitespace-nowrap text-sm font-semibold text-foreground">
@@ -127,14 +127,14 @@ export function ProductCardRounded({ product, onAddToCart }: ProductCardRoundedP
                         €{formatPrice(selectedPricing.pricePerCan)}{perCanSuffix}
                       </span>
                     </div>
-                    <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-muted/80 text-muted-foreground">
+                    <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground">
                       <ChevronDown className="h-3.5 w-3.5" />
                     </span>
                   </div>
                 </div>
               </SelectTrigger>
 
-              <SelectContent className="rounded-2xl border border-black/[0.06] bg-card p-1.5 shadow-[0_20px_40px_-24px_rgba(15,23,42,0.45)]">
+              <SelectContent className="rounded-2xl border border-white/10 bg-[linear-gradient(180deg,rgba(19,27,46,0.98),rgba(11,17,29,0.98))] p-1.5 shadow-[0_26px_48px_-24px_rgba(0,0,0,0.82)]">
                 <SelectGroup>
                   {packOptions.map((option) => {
                     const pricing = getPackPricing(option.size);
@@ -143,7 +143,7 @@ export function ProductCardRounded({ product, onAddToCart }: ProductCardRoundedP
                       <SelectItem
                         key={option.size}
                         value={option.size.toString()}
-                        className="my-1 rounded-xl px-4 py-3.5 data-[highlighted]:bg-muted data-[highlighted]:text-foreground"
+                        className="my-1 rounded-xl px-4 py-3.5 data-[highlighted]:bg-white/6 data-[highlighted]:text-foreground"
                       >
                         <div className="flex w-full items-center justify-between gap-4">
                           <span className="font-semibold text-foreground">
@@ -167,7 +167,7 @@ export function ProductCardRounded({ product, onAddToCart }: ProductCardRoundedP
           </div>
 
           <Button
-            className="h-12 w-full bg-primary hover:bg-primary/90 text-primary-foreground font-bold"
+            className="h-12 w-full bg-[linear-gradient(135deg,hsl(var(--primary))_0%,#38d9ff_100%)] text-primary-foreground font-bold shadow-[0_24px_38px_-24px_rgba(24,198,255,0.85)] transition-transform hover:-translate-y-0.5 hover:opacity-95"
             onClick={() => onAddToCart(product, selectedPack)}
           >
             {t("addToCart")}

@@ -9,7 +9,7 @@ import { useMenuTree } from "@/hooks/useMenuItems";
 import { usePages } from "@/hooks/usePages";
 import { MenuItem } from "@/types/cms";
 import type { CartItem } from "@/types/product";
-import logoImage from "../../logo.png";
+import logoImage from "../../logodarkmode.png";
 
 interface PageHeaderProps {
   cart?: CartItem[];
@@ -119,7 +119,7 @@ export function PageHeader({ cart = [], onCartClick }: PageHeaderProps) {
             <div className={`${
               isMobile 
                 ? 'pl-4 border-l border-border ml-2' 
-                : 'bg-card rounded-lg shadow-lg border border-border min-w-[180px] py-2'
+                : 'min-w-[190px] rounded-2xl border border-white/10 bg-[linear-gradient(180deg,rgba(16,23,40,0.98),rgba(11,17,29,0.98))] py-2 shadow-[0_24px_44px_-24px_rgba(0,0,0,0.8)]'
             }`}>
               {item.children?.map(child => {
                 const childUrl = getMenuItemUrl(child);
@@ -132,7 +132,7 @@ export function PageHeader({ cart = [], onCartClick }: PageHeaderProps) {
                       child.id,
                       `block ${isMobile
                         ? 'py-2 text-muted-foreground hover:text-foreground transition-colors'
-                        : 'px-4 py-2 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors'
+                        : 'px-4 py-2 text-muted-foreground hover:bg-white/5 hover:text-foreground transition-colors'
                       }`,
                       () => isMobile && setIsMobileMenuOpen(false),
                       child.target
@@ -168,7 +168,7 @@ export function PageHeader({ cart = [], onCartClick }: PageHeaderProps) {
   const navItems = menuItems.length > 0 ? menuItems : null;
 
   return (
-    <header className="sticky top-0 z-50 bg-card/90 backdrop-blur-sm border-b border-border/80 shadow-sm">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[linear-gradient(180deg,rgba(7,11,22,0.96),rgba(10,16,29,0.84))] backdrop-blur-xl shadow-[0_22px_46px_-34px_rgba(0,0,0,0.82)]">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
@@ -203,7 +203,7 @@ export function PageHeader({ cart = [], onCartClick }: PageHeaderProps) {
             <div className="relative">
               <button
                 onClick={() => setIsLangOpen(!isLangOpen)}
-                className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
+                className="flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.04] px-3 py-2 text-muted-foreground transition-colors hover:bg-white/[0.08] hover:text-foreground"
               >
                 <Globe className="w-5 h-5" />
                 <span className="hidden sm:inline uppercase text-sm font-medium">{language}</span>
@@ -211,16 +211,16 @@ export function PageHeader({ cart = [], onCartClick }: PageHeaderProps) {
               </button>
               
               {isLangOpen && (
-                <div className="absolute right-0 top-full mt-2 bg-card rounded-lg shadow-lg border border-border overflow-hidden">
+                <div className="absolute right-0 top-full mt-2 overflow-hidden rounded-2xl border border-white/10 bg-[linear-gradient(180deg,rgba(16,23,40,0.98),rgba(11,17,29,0.98))] shadow-[0_24px_44px_-24px_rgba(0,0,0,0.8)]">
                   <button
                     onClick={() => { setLanguage("en"); setIsLangOpen(false); }}
-                    className={`block w-full px-4 py-2 text-left hover:bg-muted transition-colors ${language === "en" ? "bg-primary/10 text-primary" : ""}`}
+                    className={`block w-full px-4 py-2 text-left transition-colors hover:bg-white/5 ${language === "en" ? "bg-primary/15 text-primary" : ""}`}
                   >
                     English
                   </button>
                   <button
                     onClick={() => { setLanguage("it"); setIsLangOpen(false); }}
-                    className={`block w-full px-4 py-2 text-left hover:bg-muted transition-colors ${language === "it" ? "bg-primary/10 text-primary" : ""}`}
+                    className={`block w-full px-4 py-2 text-left transition-colors hover:bg-white/5 ${language === "it" ? "bg-primary/15 text-primary" : ""}`}
                   >
                     Italiano
                   </button>
@@ -233,7 +233,7 @@ export function PageHeader({ cart = [], onCartClick }: PageHeaderProps) {
               variant="ghost"
               size="icon"
               onClick={onCartClick}
-              className="relative"
+              className="relative rounded-full border border-white/10 bg-white/[0.04] hover:bg-white/[0.08]"
             >
               <ShoppingCart className="w-5 h-5" />
               {cartItemCount > 0 && (
@@ -247,7 +247,7 @@ export function PageHeader({ cart = [], onCartClick }: PageHeaderProps) {
             <Button
               variant="ghost"
               size="icon"
-              className="md:hidden"
+              className="md:hidden rounded-full border border-white/10 bg-white/[0.04] hover:bg-white/[0.08]"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -257,7 +257,7 @@ export function PageHeader({ cart = [], onCartClick }: PageHeaderProps) {
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <nav className="md:hidden py-4 border-t border-border">
+          <nav className="md:hidden py-4 border-t border-white/10">
             {navItems ? (
               navItems.map(item => renderMenuItem(item, true))
             ) : (

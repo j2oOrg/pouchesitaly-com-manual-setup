@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Truck, Package, MapPin, ChevronDown, ArrowRight, Loader2, SlidersHorizontal, ShieldCheck, Clock } from "lucide-react";
+import { Truck, Package, MapPin, ArrowRight, Loader2, ShieldCheck, Clock } from "lucide-react";
 import { LocalizedLink } from "@/components/LocalizedLink";
 import { PageHeader } from "@/components/PageHeader";
 import { Footer } from "@/components/Footer";
@@ -12,9 +12,9 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { useProducts, toFrontendProduct } from "@/hooks/useProducts";
 import { trackCartEvent } from "@/hooks/useAnalyticsTracking";
 import { buildFAQPageStructuredData } from "@/lib/structured-data";
+import { cn } from "@/lib/utils";
 import type { Product, CartItem } from "@/types/product";
 import productImage from "@/assets/product-can.png";
-import heroBackground from "../../headerbackground.webp";
 
 const packOptions = [
   { size: 5, discount: 0.05 },
@@ -35,7 +35,6 @@ export default function HomePage() {
   })) || [];
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedStrengths, setSelectedStrengths] = useState<number[]>([]);
   const [selectedFlavors, setSelectedFlavors] = useState<string[]>([]);
@@ -44,11 +43,46 @@ export default function HomePage() {
   const amountUntilFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD - cartSubtotal);
   const freeShippingProgress = Math.min((cartSubtotal / FREE_SHIPPING_THRESHOLD) * 100, 100);
 
+  const getFlavorTokens = (flavor: string) =>
+    flavor
+      .split(",")
+      .map((token) => token.trim())
+      .filter(Boolean);
+
+  const availableBrands = Array.from(
+    new Set(products.map((product) => product.brand).filter(Boolean))
+  ).sort((a, b) => a.localeCompare(b));
+  const availableStrengths = Array.from(
+    new Set(
+      products
+        .map((product) => product.strengthMg)
+        .filter((strength): strength is number => Number.isFinite(strength))
+    )
+  ).sort((a, b) => a - b);
+  const availableFlavors = Array.from(
+    new Set(products.flatMap((product) => getFlavorTokens(product.flavor)))
+  ).sort((a, b) => a.localeCompare(b));
+
+  const nicotineLevelLabel =
+    language === "it" ? "Livello di nicotina" : "Nicotine level";
+  const formatStrengthLabel = (strength: number) =>
+    `${Number.isInteger(strength) ? strength.toFixed(0) : strength.toFixed(1).replace(/\.0$/, "")}MG`;
+  const filterButtonClassName = (selected: boolean) =>
+    cn(
+      "inline-flex min-h-11 items-center justify-center whitespace-nowrap rounded-full border px-4 py-2.5 text-[0.78rem] font-semibold uppercase tracking-[0.16em] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/30 focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+      selected
+        ? "border-primary/70 bg-[linear-gradient(135deg,hsl(var(--primary))_0%,#38d9ff_100%)] text-[#04141b] shadow-[0_20px_40px_-24px_rgba(24,198,255,0.82)] hover:-translate-y-0.5 hover:shadow-[0_26px_48px_-24px_rgba(24,198,255,0.9)]"
+        : "border-white/10 bg-white/[0.05] text-[#d9e7ff] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] hover:-translate-y-0.5 hover:border-primary/30 hover:bg-white/[0.08] hover:text-white hover:shadow-[0_18px_34px_-28px_rgba(0,0,0,0.68)]"
+    );
+
   // Filter products
   const filteredProducts = products.filter((product) => {
     const brandMatch = selectedBrands.length === 0 || selectedBrands.includes(product.brand);
     const strengthMatch = selectedStrengths.length === 0 || selectedStrengths.includes(product.strengthMg);
-    const flavorMatch = selectedFlavors.length === 0 || selectedFlavors.includes(product.flavor);
+    const flavorTokens = getFlavorTokens(product.flavor);
+    const flavorMatch =
+      selectedFlavors.length === 0 ||
+      selectedFlavors.some((flavor) => flavorTokens.includes(flavor));
     return brandMatch && strengthMatch && flavorMatch;
   });
 
@@ -74,11 +108,19 @@ export default function HomePage() {
     setSelectedBrands([]);
     setSelectedStrengths([]);
     setSelectedFlavors([]);
-    setIsFilterOpen(false);
   };
 
   const hasActiveFilters =
     selectedBrands.length > 0 || selectedStrengths.length > 0 || selectedFlavors.length > 0;
+  const activeFilterCount = selectedBrands.length + selectedStrengths.length + selectedFlavors.length;
+  const productCountLabel =
+    language === "it"
+      ? `${filteredProducts.length} ${filteredProducts.length === 1 ? "prodotto" : "prodotti"}`
+      : `${filteredProducts.length} ${filteredProducts.length === 1 ? "product" : "products"}`;
+  const activeFilterLabel =
+    language === "it"
+      ? `${activeFilterCount} ${activeFilterCount === 1 ? "filtro attivo" : "filtri attivi"}`
+      : `${activeFilterCount} ${activeFilterCount === 1 ? "active filter" : "active filters"}`;
 
   const handleAddToCart = (product: Product, packSize: number) => {
     const option = packOptions.find((opt) => opt.size === packSize);
@@ -184,7 +226,7 @@ export default function HomePage() {
         structuredData={homeFaqStructuredData}
       />
       <PageHeader cart={cart} onCartClick={() => setIsCartOpen(true)} />
-      <section className="w-full bg-black text-white">
+      <section className="w-full border-b border-white/10 bg-[linear-gradient(90deg,rgba(8,12,24,0.98),rgba(11,28,46,0.92))] text-white">
         <div className="mx-auto flex max-w-[1600px] items-center justify-center gap-4 px-4 py-3 text-center text-sm font-bold uppercase tracking-[0.18em] sm:gap-6 sm:text-[0.95rem]">
           <span>100% tobacco free</span>
           <span className="h-4 w-px bg-white/30" aria-hidden="true" />
@@ -194,30 +236,61 @@ export default function HomePage() {
 
       {/* Hero Banner */}
       <section className="pt-4 pb-8 md:pt-6 md:pb-10 px-4 sm:px-6 lg:px-8 max-w-[1600px] mx-auto">
-        <div
-          className="relative overflow-hidden rounded-[2.5rem] bg-cover bg-center bg-no-repeat min-h-[480px] md:min-h-[600px] flex items-center justify-center text-center shadow-2xl"
-          style={{
-            backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.7)), url(${heroBackground})`,
-          }}
-        >
-          <div className="absolute inset-0 bg-primary/10 mix-blend-overlay" />
-          <div className="relative z-10 px-6 max-w-4xl mx-auto flex flex-col items-center">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-heading font-black text-white mb-6 drop-shadow-lg tracking-tight leading-tight">
+        <div className="relative isolate overflow-hidden rounded-[2.75rem] border border-white/10 bg-[linear-gradient(128deg,#07111d_0%,#0b1e32_24%,#0c5a73_58%,#14b7ce_100%)] px-6 py-10 shadow-[0_42px_90px_-46px_rgba(0,0,0,0.82)] min-h-[560px] sm:px-8 lg:min-h-[640px] lg:px-14 lg:py-14">
+          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_18%_20%,rgba(255,255,255,0.16),transparent_24%),radial-gradient(circle_at_84%_10%,rgba(255,255,255,0.14),transparent_22%),linear-gradient(160deg,rgba(1,37,55,0.18),transparent_45%),linear-gradient(0deg,rgba(0,0,0,0.36),rgba(0,0,0,0.06))]" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-full bg-[linear-gradient(90deg,rgba(3,9,19,0.88)_0%,rgba(3,12,22,0.62)_34%,rgba(3,22,31,0.18)_58%,rgba(3,22,31,0)_78%)] lg:w-[60%]" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-36 bg-[radial-gradient(ellipse_at_center,rgba(0,65,89,0.52)_0%,rgba(0,65,89,0)_72%)]" />
+          <div className="pointer-events-none absolute bottom-6 left-[44%] z-[1] h-20 w-[48%] rounded-full bg-[rgba(0,74,95,0.40)] blur-2xl sm:bottom-8" />
+
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 top-[33%] z-[1] lg:left-[34%] lg:right-[-1%] lg:top-[16%]">
+            <div className="absolute bottom-12 left-[1%] w-[37%] max-w-[330px] rotate-[-8deg] opacity-95 lg:bottom-8 lg:left-[2%] lg:w-[34%]">
+              <img
+                src="/product-images/import/velo-icy-cherry-10mg.webp"
+                alt="VELO Icy Cherry nicotine pouch can"
+                loading="eager"
+                className="w-full object-contain drop-shadow-[0_28px_36px_rgba(0,0,0,0.34)]"
+              />
+            </div>
+            <div className="absolute bottom-8 left-[31%] z-[2] w-[39%] max-w-[350px] lg:bottom-4 lg:left-[28%] lg:w-[40%]">
+              <img
+                src="/product-images/import/velo-crispy-peppermint-10mg.png"
+                alt="VELO Crispy Peppermint nicotine pouch can"
+                loading="eager"
+                className="w-full object-contain drop-shadow-[0_32px_42px_rgba(0,0,0,0.38)]"
+              />
+            </div>
+            <div className="absolute bottom-6 right-[0%] z-[3] w-[37%] max-w-[320px] rotate-[8deg] lg:bottom-3 lg:right-[2%] lg:w-[35%]">
+              <img
+                src="/product-images/import/velo-blue-raspberry-8mg.webp"
+                alt="VELO Blue Raspberry nicotine pouch can"
+                loading="eager"
+                className="w-full object-contain drop-shadow-[0_28px_36px_rgba(0,0,0,0.34)]"
+              />
+            </div>
+            <div className="absolute bottom-7 right-[2%] z-[4] flex items-end gap-2 lg:bottom-7 lg:right-[1%]">
+              <span className="block h-8 w-11 rotate-[-15deg] rounded-[0.7rem] bg-white shadow-[0_18px_28px_-16px_rgba(0,0,0,0.45)] sm:h-10 sm:w-14" />
+              <span className="block h-8 w-11 rotate-[8deg] rounded-[0.7rem] bg-white shadow-[0_18px_28px_-16px_rgba(0,0,0,0.45)] sm:h-10 sm:w-14" />
+              <span className="block h-7 w-10 rotate-[22deg] rounded-[0.65rem] bg-white shadow-[0_18px_28px_-16px_rgba(0,0,0,0.45)] sm:h-9 sm:w-12" />
+            </div>
+          </div>
+
+          <div className="relative z-10 flex h-full max-w-3xl flex-col items-center justify-center py-4 text-center lg:max-w-[42rem] lg:items-start lg:justify-center lg:text-left">
+            <h1 className="mb-6 text-4xl font-heading font-black leading-tight tracking-tight text-white drop-shadow-[0_12px_28px_rgba(0,0,0,0.28)] md:text-6xl lg:text-7xl">
               {t("elevateExperience")}
             </h1>
-            <p className="text-lg md:text-xl text-white/90 mb-10 font-medium max-w-2xl mx-auto drop-shadow-md">
+            <p className="mb-10 max-w-2xl text-lg font-medium text-white/90 drop-shadow-[0_10px_22px_rgba(0,0,0,0.24)] md:text-xl lg:mx-0">
               {t("heroDesc")}
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
+            <div className="flex w-full flex-col items-center justify-center gap-4 sm:w-auto sm:flex-row lg:justify-start">
               <a
                 href="#products"
-                className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-lg px-8 py-4 rounded-full transition-all duration-300 transform hover:scale-105 shadow-xl hover:shadow-primary/25 flex items-center justify-center gap-2"
+                className="flex w-full items-center justify-center gap-2 rounded-full bg-[linear-gradient(135deg,hsl(var(--primary))_0%,#38d9ff_100%)] px-8 py-4 text-lg font-bold text-primary-foreground shadow-[0_24px_44px_-24px_rgba(24,198,255,0.88)] transition-all duration-300 hover:-translate-y-0.5 hover:opacity-95 sm:w-auto"
               >
                 {t("shopNow")} <ArrowRight className="w-5 h-5" />
               </a>
               <LocalizedLink
                 to="/premium-brands"
-                className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white font-bold text-lg px-8 py-4 rounded-full transition-all duration-300 backdrop-blur-md border border-white/20"
+                className="w-full rounded-full border border-white/15 bg-white/[0.08] px-8 py-4 text-lg font-bold text-white backdrop-blur-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/[0.14] sm:w-auto"
               >
                 {t("viewBrands")}
               </LocalizedLink>
@@ -227,71 +300,48 @@ export default function HomePage() {
       </section>
 
       {/* Products Section */}
-      <section id="products" className="pt-4 pb-16 md:pt-6 md:pb-24 bg-muted/30">
+      <section id="products" className="pt-4 pb-16 md:pt-6 md:pb-24">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="mb-6">
-            <h2 className="text-2xl md:text-4xl font-heading font-black text-foreground tracking-tight">
-              {language === "it" ? "Acquista Nicotine Pouches in Italia" : "Shop Nicotine Pouches in Italy"}
-            </h2>
-            <p className="mt-2 text-sm md:text-base text-muted-foreground max-w-2xl">
-              {language === "it"
-                ? "Seleziona marca, intensità e formato pack. Spedizione gratuita da €100."
-                : "Choose brand, strength, and pack size. Free shipping from €100."}
-            </p>
-          </div>
-          <div className="flex flex-col md:flex-row md:items-end justify-end mb-6">
-            {/* Filter Toggle Desktop/Mobile */}
-            <div className="relative z-20">
-              <button
-                onClick={() => setIsFilterOpen(!isFilterOpen)}
-                className={`inline-flex items-center gap-2 rounded-xl border px-6 py-3.5 text-sm font-bold transition-all duration-200 ${
-                  isFilterOpen || hasActiveFilters
-                    ? "bg-primary text-primary-foreground border-primary shadow-md shadow-primary/20"
-                    : "bg-card text-foreground border-border hover:bg-muted"
-                }`}
-              >
-                <SlidersHorizontal className="h-4 w-4" />
-                <span>{t("filters")}</span>
-                {hasActiveFilters && (
-                  <span className="ml-1 flex h-5 w-5 items-center justify-center rounded-full bg-background text-[11px] text-foreground">
-                    {selectedBrands.length + selectedStrengths.length + selectedFlavors.length}
-                  </span>
-                )}
-                <ChevronDown className={`h-4 w-4 transition-transform ${isFilterOpen ? "rotate-180" : ""}`} />
-              </button>
+          <div className="relative mb-8 overflow-hidden rounded-[2.25rem] border border-white/10 bg-[linear-gradient(135deg,rgba(18,26,45,0.88)_0%,rgba(10,16,28,0.98)_100%)] p-5 shadow-[0_30px_70px_-50px_rgba(0,0,0,0.82)] ring-1 ring-white/5 sm:p-7">
+            <div className="pointer-events-none absolute -left-10 top-0 h-32 w-32 rounded-full bg-primary/16 blur-3xl" />
+            <div className="pointer-events-none absolute bottom-0 right-0 h-28 w-28 rounded-full bg-accent/10 blur-3xl" />
 
-              {/* Filter Panel */}
-              <div
-                className={`absolute right-0 top-full mt-3 w-screen max-w-sm rounded-2xl border border-border bg-card p-6 shadow-2xl transition-all duration-300 origin-top-right ${
-                  isFilterOpen ? "opacity-100 scale-100 visible" : "opacity-0 scale-95 invisible"
-                }`}
-              >
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="font-heading font-bold text-lg">{t("filters")}</h3>
+            <div className="relative flex flex-col gap-6">
+              <div className="flex flex-wrap items-center justify-end gap-2.5 border-b border-white/10 pb-5">
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <span className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-sm font-semibold text-foreground shadow-[0_12px_30px_-28px_rgba(0,0,0,0.8)]">
+                    {productCountLabel}
+                  </span>
+                  {hasActiveFilters && (
+                    <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/12 px-4 py-2 text-sm font-semibold text-primary">
+                      {activeFilterLabel}
+                    </span>
+                  )}
                   {hasActiveFilters && (
                     <button
                       onClick={clearFilters}
-                      className="text-xs font-semibold text-destructive hover:text-destructive/80 transition-colors"
+                      className="inline-flex items-center rounded-full border border-transparent px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:border-white/10 hover:bg-white/[0.05] hover:text-foreground"
                     >
                       {t("clearFilters")}
                     </button>
                   )}
                 </div>
+              </div>
 
-                <div className="space-y-6">
-                  {/* Brand Filter */}
-                  <div>
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">{t("brand")}</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {["ZYN", "VELO", "CUBA", "KILLA"].map((brand) => (
+              <div className="grid gap-5">
+                <div className="grid gap-5 lg:grid-cols-2 lg:gap-8">
+                  <div className="grid gap-3 md:grid-cols-[10rem_minmax(0,1fr)] md:items-center">
+                    <h4 className="text-[0.72rem] font-bold uppercase tracking-[0.32em] text-[#9ab8ff]">
+                      {t("brand")}
+                    </h4>
+                    <div className="flex flex-wrap gap-3">
+                      {availableBrands.map((brand) => (
                         <button
                           key={brand}
+                          type="button"
+                          aria-pressed={selectedBrands.includes(brand)}
                           onClick={() => toggleBrand(brand)}
-                          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                            selectedBrands.includes(brand)
-                              ? "bg-primary text-primary-foreground"
-                              : "bg-muted text-muted-foreground hover:bg-muted/80"
-                          }`}
+                          className={filterButtonClassName(selectedBrands.includes(brand))}
                         >
                           {brand}
                         </button>
@@ -299,44 +349,42 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  {/* Strength Filter */}
-                  <div>
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">{t("strength")}</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {[6, 8, 10, 15, 16].map((strength) => (
+                  <div className="grid gap-3 border-t border-white/10 pt-5 md:grid-cols-[10rem_minmax(0,1fr)] md:items-center lg:border-l lg:border-t-0 lg:border-white/10 lg:pl-8 lg:pt-0">
+                    <h4 className="text-[0.72rem] font-bold uppercase tracking-[0.32em] text-[#9ab8ff]">
+                      {nicotineLevelLabel}
+                    </h4>
+                    <div className="flex flex-wrap gap-3">
+                      {availableStrengths.map((strength) => (
                         <button
                           key={strength}
+                          type="button"
+                          aria-pressed={selectedStrengths.includes(strength)}
                           onClick={() => toggleStrength(strength)}
-                          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                            selectedStrengths.includes(strength)
-                              ? "bg-accent text-accent-foreground"
-                              : "bg-muted text-muted-foreground hover:bg-muted/80"
-                          }`}
+                          className={filterButtonClassName(selectedStrengths.includes(strength))}
                         >
-                          {strength}mg
+                          {formatStrengthLabel(strength)}
                         </button>
                       ))}
                     </div>
                   </div>
+                </div>
 
-                  {/* Flavor Filter */}
-                  <div>
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-3">{t("flavor")}</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {["Mint", "Citrus", "Berry", "Coffee", "Fruit", "Watermelon"].map((flavor) => (
-                        <button
-                          key={flavor}
-                          onClick={() => toggleFlavor(flavor)}
-                          className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
-                            selectedFlavors.includes(flavor)
-                              ? "bg-secondary text-secondary-foreground"
-                              : "bg-muted text-muted-foreground hover:bg-muted/80"
-                          }`}
-                        >
-                          {flavor}
-                        </button>
-                      ))}
-                    </div>
+                <div className="grid gap-3 border-t border-white/10 pt-5 md:grid-cols-[10rem_minmax(0,1fr)] md:items-center">
+                  <h4 className="text-[0.72rem] font-bold uppercase tracking-[0.32em] text-[#9ab8ff]">
+                    {t("flavor")}
+                  </h4>
+                  <div className="flex flex-wrap gap-3">
+                    {availableFlavors.map((flavor) => (
+                      <button
+                        key={flavor}
+                        type="button"
+                        aria-pressed={selectedFlavors.includes(flavor)}
+                        onClick={() => toggleFlavor(flavor)}
+                        className={filterButtonClassName(selectedFlavors.includes(flavor))}
+                      >
+                        {flavor}
+                      </button>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -349,7 +397,7 @@ export default function HomePage() {
               <p className="text-muted-foreground font-medium">Loading products...</p>
             </div>
           ) : filteredProducts.length === 0 ? (
-            <div className="rounded-3xl border border-dashed border-border bg-card/50 p-16 text-center">
+            <div className="rounded-3xl border border-dashed border-white/10 bg-[linear-gradient(180deg,rgba(19,27,46,0.74),rgba(11,17,29,0.86))] p-16 text-center shadow-[0_24px_54px_-34px_rgba(0,0,0,0.8)]">
               <div className="mx-auto w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
                 <Package className="w-8 h-8 text-muted-foreground" />
               </div>
