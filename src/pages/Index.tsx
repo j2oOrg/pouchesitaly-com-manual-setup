@@ -74,6 +74,9 @@ export default function HomePage() {
         ? "border-primary/70 bg-[linear-gradient(135deg,hsl(var(--primary))_0%,#38d9ff_100%)] text-[#04141b] shadow-[0_20px_40px_-24px_rgba(24,198,255,0.82)] hover:-translate-y-0.5 hover:shadow-[0_26px_48px_-24px_rgba(24,198,255,0.9)]"
         : "border-white/10 bg-white/[0.05] text-[#d9e7ff] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] hover:-translate-y-0.5 hover:border-primary/30 hover:bg-white/[0.08] hover:text-white hover:shadow-[0_18px_34px_-28px_rgba(0,0,0,0.68)]"
     );
+  const filterLabelClassName = "text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-[#9ab8ff]";
+  const filterMetaPillClassName =
+    "inline-flex items-center rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-sm font-semibold text-foreground shadow-[0_12px_30px_-28px_rgba(0,0,0,0.8)]";
 
   // Filter products
   const filteredProducts = products.filter((product) => {
@@ -306,31 +309,11 @@ export default function HomePage() {
             <div className="pointer-events-none absolute -left-10 top-0 h-32 w-32 rounded-full bg-primary/16 blur-3xl" />
             <div className="pointer-events-none absolute bottom-0 right-0 h-28 w-28 rounded-full bg-accent/10 blur-3xl" />
 
-            <div className="relative flex flex-col gap-6">
-              {hasActiveFilters && (
-                <div className="flex flex-wrap items-center justify-end gap-2.5 border-b border-white/10 pb-5">
-                  <div className="flex flex-wrap items-center gap-2.5">
-                  {hasActiveFilters && (
-                    <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/12 px-4 py-2 text-sm font-semibold text-primary">
-                      {activeFilterLabel}
-                    </span>
-                  )}
-                  {hasActiveFilters && (
-                    <button
-                      onClick={clearFilters}
-                      className="inline-flex items-center rounded-full border border-transparent px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-muted-foreground transition-colors hover:border-white/10 hover:bg-white/[0.05] hover:text-foreground"
-                    >
-                      {t("clearFilters")}
-                    </button>
-                  )}
-                </div>
-                </div>
-              )}
-
+            <div className="relative flex flex-col gap-5">
               <div className="grid gap-5">
-                <div className="grid gap-5 lg:grid-cols-2 lg:gap-8">
-                  <div className="grid gap-3 md:grid-cols-[10rem_minmax(0,1fr)] md:items-center">
-                    <h4 className="text-[0.72rem] font-bold uppercase tracking-[0.32em] text-[#9ab8ff]">
+                <div className="grid gap-6 lg:grid-cols-2 lg:gap-10">
+                  <div className="grid gap-3 md:grid-cols-[8.25rem_minmax(0,1fr)] md:items-center">
+                    <h4 className={filterLabelClassName}>
                       {t("brand")}
                     </h4>
                     <div className="flex flex-wrap gap-3">
@@ -348,8 +331,8 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  <div className="grid gap-3 border-t border-white/10 pt-5 md:grid-cols-[10rem_minmax(0,1fr)] md:items-center lg:border-l lg:border-t-0 lg:border-white/10 lg:pl-8 lg:pt-0">
-                    <h4 className="text-[0.72rem] font-bold uppercase tracking-[0.32em] text-[#9ab8ff]">
+                  <div className="grid gap-3 border-t border-white/10 pt-5 md:grid-cols-[8.25rem_minmax(0,1fr)] md:items-center lg:border-l lg:border-t-0 lg:border-white/10 lg:pl-10 lg:pt-0">
+                    <h4 className={filterLabelClassName}>
                       {nicotineLevelLabel}
                     </h4>
                     <div className="flex flex-wrap gap-3">
@@ -368,8 +351,8 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="grid gap-3 border-t border-white/10 pt-5 md:grid-cols-[10rem_minmax(0,1fr)] md:items-center">
-                  <h4 className="text-[0.72rem] font-bold uppercase tracking-[0.32em] text-[#9ab8ff]">
+                <div className="grid gap-3 border-t border-white/10 pt-5 md:grid-cols-[8.25rem_minmax(0,1fr)] md:items-center">
+                  <h4 className={filterLabelClassName}>
                     {t("flavor")}
                   </h4>
                   <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
@@ -386,9 +369,24 @@ export default function HomePage() {
                         </button>
                       ))}
                     </div>
-                    <span className="inline-flex shrink-0 items-center self-start rounded-full border border-white/10 bg-white/[0.05] px-4 py-2 text-sm font-semibold text-foreground shadow-[0_12px_30px_-28px_rgba(0,0,0,0.8)] lg:ml-6 lg:self-center">
-                      {productCountLabel}
-                    </span>
+                    <div className="flex shrink-0 flex-wrap items-center gap-2.5 lg:ml-6 lg:justify-end">
+                      {hasActiveFilters && (
+                        <span className="inline-flex items-center rounded-full border border-primary/20 bg-primary/12 px-4 py-2 text-sm font-semibold text-primary">
+                          {activeFilterLabel}
+                        </span>
+                      )}
+                      {hasActiveFilters && (
+                        <button
+                          onClick={clearFilters}
+                          className="inline-flex items-center rounded-full border border-transparent px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:border-white/10 hover:bg-white/[0.05] hover:text-foreground"
+                        >
+                          {t("clearFilters")}
+                        </button>
+                      )}
+                      <span className={filterMetaPillClassName}>
+                        {productCountLabel}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>

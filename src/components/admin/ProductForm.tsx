@@ -7,6 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { ProductImageUpload } from './ProductImageUpload';
+import { useProducts } from '@/hooks/useProducts';
 import type { DbProduct, ProductInput } from '@/hooks/useProducts';
 
 interface ProductFormProps {
@@ -16,18 +17,31 @@ interface ProductFormProps {
   isLoading?: boolean;
 }
 
-const brands = ['ZYN', 'LYFT', 'VELO', 'NORDIC SPIRIT', 'SKRUF', 'ACE'];
+const defaultBrands = ['ZYN', 'LYFT', 'VELO', 'NORDIC SPIRIT', 'SKRUF', 'ACE'];
 const strengths = ['Light', 'Regular', 'Strong', 'Extra Strong'];
-const flavors = ['Mint', 'Citrus', 'Berry', 'Coffee', 'Fruit', 'Tobacco', 'Wintergreen', 'Spearmint'];
+const defaultFlavors = ['Mint', 'Citrus', 'Berry', 'Coffee', 'Fruit', 'Tobacco', 'Wintergreen', 'Spearmint'];
+
+const normalizeBrandValue = (value: string) =>
+  value
+    .trim()
+    .replace(/\s+/g, ' ');
+
+const normalizeFlavorValue = (value: string) =>
+  value
+    .split(',')
+    .map((token) => token.trim())
+    .filter(Boolean)
+    .join(', ');
 
 export function ProductForm({ product, onSubmit, onCancel, isLoading }: ProductFormProps) {
+  const { data: existingProducts = [] } = useProducts(true);
   const [formData, setFormData] = useState<ProductInput>({
     sku: '',
     name: '',
     brand: 'ZYN',
     strength: 'Regular',
     strength_mg: 6,
-    flavor: 'Mint',
+    flavor: '',
     price: 4.99,
     stock_count: 0,
     image: null,
@@ -78,11 +92,35 @@ export function ProductForm({ product, onSubmit, onCancel, isLoading }: ProductF
     }
   }, [product]);
 
+  const flavorSuggestions = Array.from(
+    new Set([
+      ...defaultFlavors,
+      ...existingProducts.flatMap((item) =>
+        normalizeFlavorValue(item.flavor || '')
+          .split(',')
+          .map((token) => token.trim())
+          .filter(Boolean)
+      ),
+    ])
+  ).sort((a, b) => a.localeCompare(b));
+  const brandSuggestions = Array.from(
+    new Set([
+      ...defaultBrands,
+      ...existingProducts
+        .map((item) => normalizeBrandValue(item.brand || ''))
+        .filter(Boolean),
+    ])
+  ).sort((a, b) => a.localeCompare(b));
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const normalizedBrand = normalizeBrandValue(formData.brand);
+    const normalizedFlavor = normalizeFlavorValue(formData.flavor);
     await onSubmit({
       ...formData,
+      brand: normalizedBrand,
       sku: formData.sku?.trim() ? formData.sku.trim() : null,
+      flavor: normalizedFlavor,
       stock_count: Math.max(0, Number(formData.stock_count) || 0),
     });
   };
@@ -128,37 +166,43 @@ export function ProductForm({ product, onSubmit, onCancel, isLoading }: ProductF
           {/* Brand & Flavor Row */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label>Brand *</Label>
-              <Select
+              <Label htmlFor="brand">Brand *</Label>
+              <Input
+                id="brand"
+                list="product-brand-suggestions"
                 value={formData.brand}
-                onValueChange={(value) => setFormData({ ...formData, brand: value })}
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {brands.map((brand) => (
-                    <SelectItem key={brand} value={brand}>{brand}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
+                placeholder="e.g., VELO"
+                required
+              />
+              <datalist id="product-brand-suggestions">
+                {brandSuggestions.map((brand) => (
+                  <option key={brand} value={brand} />
+                ))}
+              </datalist>
+              <p className="text-xs text-muted-foreground">
+                Type a new brand or pick an existing one.
+              </p>
             </div>
 
             <div className="space-y-2">
-              <Label>Flavor *</Label>
-              <Select
+              <Label htmlFor="flavor">Flavor *</Label>
+              <Input
+                id="flavor"
+                list="product-flavor-suggestions"
                 value={formData.flavor}
-                onValueChange={(value) => setFormData({ ...formData, flavor: value })}
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {flavors.map((flavor) => (
-                    <SelectItem key={flavor} value={flavor}>{flavor}</SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                onChange={(e) => setFormData({ ...formData, flavor: e.target.value })}
+                placeholder="e.g., Mint or Citrus, Lime"
+                required
+              />
+              <datalist id="product-flavor-suggestions">
+                {flavorSuggestions.map((flavor) => (
+                  <option key={flavor} value={flavor} />
+                ))}
+              </datalist>
+              <p className="text-xs text-muted-foreground">
+                Type a new flavor or pick an existing one. Use commas for multi-note flavors.
+              </p>
             </div>
           </div>
 

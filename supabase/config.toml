@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.kustom-checkout]
 verify_jwt = false
+
+[functions.remove-bg]
+verify_jwt = true
