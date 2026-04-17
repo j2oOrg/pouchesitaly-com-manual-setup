@@ -51,10 +51,10 @@ Deno.serve(async (req) => {
 
   try {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')
-    const serviceRoleKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
+    const anonKey = Deno.env.get('SUPABASE_ANON_KEY') || Deno.env.get('SB_PUBLISHABLE_KEY')
     const removeBgApiKey = Deno.env.get('REMOVE_BG_API_KEY')
 
-    if (!supabaseUrl || !serviceRoleKey) {
+    if (!supabaseUrl || !anonKey) {
       return jsonResponse(req, { error: 'Missing Supabase environment variables' }, 500)
     }
 
@@ -69,17 +69,24 @@ Deno.serve(async (req) => {
       return jsonResponse(req, { error: 'Missing access token' }, 401)
     }
 
-    const supabaseAdmin = createClient(supabaseUrl, serviceRoleKey)
+    const supabaseUser = createClient(supabaseUrl, anonKey, {
+      global: {
+        headers: {
+          Authorization: authHeader!,
+        },
+      },
+    })
+
     const {
       data: { user },
       error: userError,
-    } = await supabaseAdmin.auth.getUser(accessToken)
+    } = await supabaseUser.auth.getUser(accessToken)
 
     if (userError || !user) {
       return jsonResponse(req, { error: 'Unauthorized' }, 401)
     }
 
-    const { data: adminRole, error: roleError } = await supabaseAdmin
+    const { data: adminRole, error: roleError } = await supabaseUser
       .from('user_roles')
       .select('role')
       .eq('user_id', user.id)
@@ -129,10 +136,11 @@ Deno.serve(async (req) => {
     const fileExtension = extensionFromContentType(contentType)
     const filePath = `products/processed/${crypto.randomUUID()}.${fileExtension}`
     const imageBuffer = await removeBgResponse.arrayBuffer()
+    const imageBlob = new Blob([imageBuffer], { type: contentType })
 
-    const { error: uploadError } = await supabaseAdmin.storage
+    const { error: uploadError } = await supabaseUser.storage
       .from('product-images')
-      .upload(filePath, imageBuffer, {
+      .upload(filePath, imageBlob, {
         contentType,
         upsert: false,
       })
@@ -141,7 +149,7 @@ Deno.serve(async (req) => {
       return jsonResponse(req, { error: uploadError.message }, 500)
     }
 
-    const { data: publicUrlData } = supabaseAdmin.storage
+    const { data: publicUrlData } = supabaseUser.storage
       .from('product-images')
       .getPublicUrl(filePath)
 

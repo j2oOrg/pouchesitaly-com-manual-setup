@@ -128,7 +128,18 @@ export function ProductImageUpload({
     setRemovingBackground(index);
 
     try {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (!session?.access_token) {
+        throw new Error('Your admin session has expired. Please sign in again.')
+      }
+
       const { data, error } = await supabase.functions.invoke('remove-bg', {
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
         body: {
           imageUrl,
           size: 'auto',
